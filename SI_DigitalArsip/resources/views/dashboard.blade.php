@@ -6,6 +6,106 @@
 @section('rute')
     Dashboard
 @endsection
+@section('select')
+    <aside class="main-sidebar sidebar-dark-primary elevation-4">
+        <!-- Brand Logo -->
+        <a href="#" class="brand-link">
+            <img src="https://e-arsip.kopegtelkp.com/public/logo-fullkpg.png" alt="AdminLTE Logo" class="img-circle "
+                style="opacity: .8;background-color:white" height="60" width="60">
+            <span class="brand-text font-weight-bold">SISTEM INFORMASI
+            </span>
+        </a>
+
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <!-- Sidebar user panel (optional) -->
+            <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+                <span class="brand-text font-weight-bold text-white ml-5">DIGITAL ARSIP
+            </div>
+
+            <!-- SidebarSearch Form -->
+            <div class="form-inline">
+                <div class="input-group" data-widget="sidebar-search">
+                    <input class="form-control form-control-sidebar" type="search" placeholder="Search"
+                        aria-label="Search">
+                    <div class="input-group-append">
+                        <button class="btn btn-sidebar">
+                            <i class="fas fa-search fa-fw"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sidebar Menu -->
+            <nav class="mt-2">
+                <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu"
+                    data-accordion="false">
+                    <!-- Add icons to the links using the .nav-icon class
+                                                                                   with font-awesome or any other icon font library -->
+                    <li class="nav-item">
+                        <a href="/dashboard" class="nav-link active">
+                            <i class="nav-icon fa-solid fa-house"></i>
+                            <p>
+                                Dashboard
+                            </p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/kategori" class="nav-link">
+                            <i class="nav-icon fa-solid fa-book"></i>
+                            <p>
+                                Kelola Kategori
+                            </p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/sub-kategori" class="nav-link">
+                            <i class="nav-icon fa-solid fa-book"></i>
+                            <p>
+                                Kelola SubKategori
+                            </p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/kelolaberkas" class="nav-link">
+                            <i class="nav-icon fas fa-folder"></i>
+                            <p>
+                                Kelola Berkas
+                            </p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/kelolauser" class="nav-link">
+                            <i class="nav-icon fas fa-users"></i>
+                            <p>
+                                Kelola User
+                            </p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/aktifitas" class="nav-link">
+                            <i class="nav-icon fa-solid fa-chart-line"></i>
+                            <p>
+                                Aktifitas
+                            </p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/logout" class="nav-link">
+                            <i class="nav-icon fa-solid fa-right-from-bracket"></i>
+                            <p>
+                                Logout
+                            </p>
+                        </a>
+                    </li>
+
+                </ul>
+            </nav>
+            <!-- /.sidebar-menu -->
+        </div>
+        <!-- /.sidebar -->
+    </aside>
+@endsection
 
 @section('content')
     <div class="container-fluid">
@@ -30,7 +130,7 @@
                 <!-- small box -->
                 <div class="small-box bg-success">
                     <div class="inner">
-                        <h3>53<sup style="font-size: 20px">%</sup></h3>
+                        <h3>{{ $kategori }}</h3>
 
                         <p>JUMLAH KATEGORI</p>
                     </div>
@@ -45,7 +145,7 @@
                 <!-- small box -->
                 <div class="small-box bg-warning">
                     <div class="inner">
-                        <h3>44</h3>
+                        <h3>{{ $akun }}</h3>
 
                         <p>JUMLAH USER</p>
                     </div>
@@ -60,9 +160,9 @@
                 <!-- small box -->
                 <div class="small-box bg-danger">
                     <div class="inner">
-                        <h3>65</h3>
+                        <h3>{{ $aktifitas }}</h3>
 
-                        <p>SUBKATEGORI</p>
+                        <p>Jumlah Aktifitas</p>
                     </div>
                     <div class="icon">
                         <i class="ion ion-pie-graph"></i>

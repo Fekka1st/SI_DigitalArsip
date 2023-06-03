@@ -7,7 +7,6 @@
 @section('rute')
     Kategori
 @endsection
-
 @section('select')
     <aside class="main-sidebar sidebar-dark-primary elevation-4">
         <!-- Brand Logo -->
@@ -53,7 +52,7 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="/kategori" class="nav-link active">
+                        <a href="/kategori" class="nav-link ">
                             <i class="nav-icon fa-solid fa-book"></i>
                             <p>
                                 Kelola Kategori
@@ -61,7 +60,7 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="/sub-kategori" class="nav-link">
+                        <a href="/sub-kategori" class="nav-link active ">
                             <i class="nav-icon fa-solid fa-book"></i>
                             <p>
                                 Kelola SubKategori
@@ -99,7 +98,7 @@
         </div>
         <!-- /.sidebar -->
     </aside>
-@endsection
+@endsection     
 
 @section('content')
     <div class="card">
@@ -109,7 +108,7 @@
         <!-- /.card-header -->
         <div class="card-body">
             <div id="example1_wrapper" class="dataTables_wrapper dt-bootstrap4">
-                <a href="{{ route('kategori.create') }}" class="btn btn-primary"><i class="fa fa-plus"></i> Tambah</a>
+                <a href="{{ route('sub-kategori.create') }}" class="btn btn-primary"><i class="fa fa-plus"></i> Tambah</a>
                 <div class="mb-2"></div>
                 <div class="row">
                     <div class="col-sm-12">
@@ -122,7 +121,8 @@
                                         aria-label="Rendering engine: activate to sort column descending">No
                                     </th>
                                     <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1"
-                                        colspan="1" aria-label="Browser: activate to sort column ascending">Nama Kategori
+                                        colspan="1" aria-label="Browser: activate to sort column ascending">Nama
+                                        Sub-Kategori
                                     </th>
                                     <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1"
                                         colspan="1" aria-label="Platform(s): activate to sort column ascending">
@@ -133,15 +133,16 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($kategori as $item => $kategoris)
+                                @foreach ($subkategori as $item => $subkategoris)
                                     <tr class="odd">
 
                                         <td>{{ $item + 1 }}</td>
-                                        <td class="dtr-control sorting_1" tabindex="0">{{ $kategoris->Nama_Kategori }}
+                                        <td class="dtr-control sorting_1" tabindex="0">
+                                            {{ $subkategoris->Nama_SubKategori }}
                                         </td>
-                                        <td>{{ $kategoris->Keterangan }}</td>
-                                        <td><a href="/kategori/edit/{{ $kategoris->id }}">Edit</a>
-                                            <a href="/kategori/delete/{{ $kategoris->id }}">Hapus</a>
+                                        <td>{{ $subkategoris->Keterangan }}</td>
+                                        <td><a href="/sub-kategori/edit/{{ $subkategoris->id }}">Edit</a>
+                                            <a href="/sub-kategori/delete/{{ $subkategoris->id }}">Hapus</a>
                                         </td>
 
                                     </tr>
@@ -149,14 +150,14 @@
 
                             </tbody>
                             {{-- <tfoot>
-                                <tr>
-                                    <th rowspan="1" colspan="1">Rendering engine</th>
-                                    <th rowspan="1" colspan="1">Browser</th>
-                                    <th rowspan="1" colspan="1">Platform(s)</th>
-                                    <th rowspan="1" colspan="1">Engine version</th>
-                                    <th rowspan="1" colspan="1">CSS grade</th>
-                                </tr>
-                            </tfoot> --}}
+                            <tr>
+                                <th rowspan="1" colspan="1">Rendering engine</th>
+                                <th rowspan="1" colspan="1">Browser</th>
+                                <th rowspan="1" colspan="1">Platform(s)</th>
+                                <th rowspan="1" colspan="1">Engine version</th>
+                                <th rowspan="1" colspan="1">CSS grade</th>
+                            </tr>
+                        </tfoot> --}}
                         </table>
                     </div>
                 </div>

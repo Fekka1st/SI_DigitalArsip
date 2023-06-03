@@ -84,7 +84,12 @@
         <!-- /.navbar -->
 
         <!-- Main Sidebar Container -->
-        @includeIf('layout.asidebar')
+        {{-- @includeIf('layout.asidebar') --}}
+        @yield('select')
+
+        
+
+
 
         <!-- Content Wrapper. Contains page content -->
         <div class="content-wrapper">

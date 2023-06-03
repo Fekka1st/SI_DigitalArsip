@@ -1,11 +1,11 @@
 @extends('layout.Master')
 
 @section('title')
-    Kategori
+    Aktifitas
 @endsection
 
 @section('rute')
-    Kategori
+    Aktifitas
 @endsection
 
 @section('select')
@@ -43,7 +43,7 @@
                 <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu"
                     data-accordion="false">
                     <!-- Add icons to the links using the .nav-icon class
-                               with font-awesome or any other icon font library -->
+                                   with font-awesome or any other icon font library -->
                     <li class="nav-item">
                         <a href="/dashboard" class="nav-link">
                             <i class="nav-icon fa-solid fa-house"></i>
@@ -53,7 +53,7 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="/kategori" class="nav-link active">
+                        <a href="/kategori" class="nav-link ">
                             <i class="nav-icon fa-solid fa-book"></i>
                             <p>
                                 Kelola Kategori
@@ -85,14 +85,21 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="/aktifitas" class="nav-link">
+                        <a href="/aktifitas" class="nav-link active ">
                             <i class="nav-icon fa-solid fa-chart-line"></i>
                             <p>
                                 Aktifitas
                             </p>
                         </a>
                     </li>
-
+                    <li class="nav-item">
+                        <a href="/logout" class="nav-link">
+                            <i class="nav-icon fa-solid fa-right-from-bracket"></i>
+                            <p>
+                                Logout
+                            </p>
+                        </a>
+                    </li>
                 </ul>
             </nav>
             <!-- /.sidebar-menu -->
@@ -104,12 +111,12 @@
 @section('content')
     <div class="card">
         <div class="card-header">
-            <h3 class="card-title">Table List Kategori</h3>
+            <h3 class="card-title">LOG aktifitas</h3>
         </div>
         <!-- /.card-header -->
         <div class="card-body">
             <div id="example1_wrapper" class="dataTables_wrapper dt-bootstrap4">
-                <a href="{{ route('kategori.create') }}" class="btn btn-primary"><i class="fa fa-plus"></i> Tambah</a>
+                {{-- <a href="{{ route('kategori.create') }}" class="btn btn-primary"><i class="fa fa-plus"></i> Tambah</a> --}}
                 <div class="mb-2"></div>
                 <div class="row">
                     <div class="col-sm-12">
@@ -122,27 +129,31 @@
                                         aria-label="Rendering engine: activate to sort column descending">No
                                     </th>
                                     <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1"
-                                        colspan="1" aria-label="Browser: activate to sort column ascending">Nama Kategori
+                                        colspan="1" aria-label="Browser: activate to sort column ascending">Nama
                                     </th>
                                     <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1"
                                         colspan="1" aria-label="Platform(s): activate to sort column ascending">
                                         Keterangan</th>
                                     <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1"
-                                        colspan="1" aria-label="Engine version: activate to sort column ascending">Aksi
+                                        colspan="1" aria-label="Engine version: activate to sort column ascending">Staff
+                                    </th>
+                                    <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1"
+                                        colspan="1" aria-label="Engine version: activate to sort column ascending">
+                                        Tanggal
                                     </th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($kategori as $item => $kategoris)
+                                @foreach ($aktifitas as $item => $aktifitas)
                                     <tr class="odd">
 
                                         <td>{{ $item + 1 }}</td>
-                                        <td class="dtr-control sorting_1" tabindex="0">{{ $kategoris->Nama_Kategori }}
+                                        <td>{{ $aktifitas->Nama }}</td>
+                                        <td class="dtr-control sorting_1" tabindex="0">{{ $aktifitas->Aktifitas }}
                                         </td>
-                                        <td>{{ $kategoris->Keterangan }}</td>
-                                        <td><a href="/kategori/edit/{{ $kategoris->id }}">Edit</a>
-                                            <a href="/kategori/delete/{{ $kategoris->id }}">Hapus</a>
-                                        </td>
+                                        <td>{{ $aktifitas->Staff }}</td>
+                                        <td>{{ $aktifitas->created_at->format('Y-m-d') }}</td>
+
 
                                     </tr>
                                 @endforeach

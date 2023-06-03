@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\kategori;
+use App\Models\aktifitas;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use RealRashid\SweetAlert\Facades\Alert;
 
@@ -39,8 +41,13 @@ class kategoricontroller extends Controller
             'Nama_Kategori' => $request->namakategori,
             'Keterangan' => $request->keterangan
         ]);
-        // Alert::success('Congrats', 'You\'ve Successfully Registered');
-        return redirect('/kategori')->with('success', 'Created successfully!');
+
+        $aktifitas = aktifitas::create([
+            'aktifitas' => 'Menambahkan Kategori',
+            'nama' => $request->namakategori,
+            'Staff' => auth()->user()->name
+        ]);
+        return redirect('/kategori');
     }
 
     /**
@@ -64,19 +71,26 @@ class kategoricontroller extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request)
     {
         // kategori::where('id', $id)
         //     ->update([
         //         'Nama_Kategori' => $request->namakategori,
         //         'Keterangan' => $request->keterangan
         //     ]);
-        $kategori = kategori::findOrFail(1);
+        $kategori = kategori::where('id', $request->id)
+            ->update(
+                ['Nama_Kategori' => $request->namakategori, 'Keterangan' => $request->keterangan]
+            );
 
-        $kategori->Nama_Kategori = $request->namakategori;
-        $kategori->Keterangan = $request->keterangan;
-        $kategori->save();
-        return Redirect()->back();
+
+        $aktifitas = aktifitas::create([
+            'aktifitas' => 'Update Kategori',
+            'nama' => $request->namakategori,
+            'Staff' => auth()->user()->name
+        ]);
+
+        return redirect('/kategori');
     }
 
     /**
@@ -85,7 +99,15 @@ class kategoricontroller extends Controller
     public function destroy(string $id)
     {
         //
+        $data = kategori::find($id);
+
+        $aktifitas = aktifitas::create([
+            'aktifitas' => 'Menghapus Kategori',
+            'nama' =>  $data->Nama_Kategori,
+            'Staff' => auth()->user()->name
+        ]);
         kategori::destroy($id);
+
         return Redirect()->back();
     }
 }
