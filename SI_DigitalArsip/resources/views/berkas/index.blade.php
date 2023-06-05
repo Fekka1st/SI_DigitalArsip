@@ -43,7 +43,7 @@
                 <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu"
                     data-accordion="false">
                     <!-- Add icons to the links using the .nav-icon class
-                                                                                               with font-awesome or any other icon font library -->
+                                                                                                                                                                               with font-awesome or any other icon font library -->
                     <li class="nav-item">
                         <a href="/dashboard" class="nav-link">
                             <i class="nav-icon fa-solid fa-house"></i>
@@ -117,8 +117,28 @@
         <!-- /.card-header -->
         <div class="card-body">
             <div id="example1_wrapper" class="dataTables_wrapper dt-bootstrap4">
-                <a href="{{ route('kelolauser.create') }}" class="btn btn-primary"><i class="fa fa-plus"></i> Tambah</a>
+                <a href="{{ route('kelolaberkas.create') }}" class="btn btn-primary"><i class="fa fa-plus"></i> Tambah</a>
                 <div class="mb-2"></div>
+
+                @if (session('success'))
+                    <div id="success-alert" class="alert alert-success">
+                        {{ session('success') }}
+                    </div>
+                @endif
+                @if (session('error'))
+                    <div id="success-alert" class="alert alert-error">
+                        {{ session('error') }}
+                    </div>
+                @endif
+
+                <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+                <script>
+                    $(document).ready(function() {
+                        setTimeout(function() {
+                            $("#success-alert").fadeOut("slow");
+                        }, 2000); // Mengatur waktu tampilan alert (dalam milidetik)
+                    });
+                </script>
                 <div class="row">
                     <div class="col-sm-12">
                         <table id="example1" class="table table-bordered table-striped dataTable dtr-inline"
@@ -138,27 +158,38 @@
                                         Nama Berkas</th>
                                     <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1"
                                         colspan="1" aria-label="Platform(s): activate to sort column ascending">
-                                        Staff</th>
+                                        Kategori</th>
+                                    <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1"
+                                        colspan="1" aria-label="Platform(s): activate to sort column ascending">
+                                        SubKategori</th>
+                                    <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1"
+                                        colspan="1" aria-label="Platform(s): activate to sort column ascending">
+                                        Nama Staff</th>
                                     <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1"
                                         colspan="1" aria-label="Engine version: activate to sort column ascending">Aksi
                                     </th>
                                 </tr>
                             </thead>
                             <tbody>
-                                {{-- @foreach ($subkategori as $item => $subkategoris)
+                                @foreach ($berkas as $item => $data)
                                     <tr class="odd">
 
                                         <td>{{ $item + 1 }}</td>
                                         <td class="dtr-control sorting_1" tabindex="0">
-                                            {{ $subkategoris->Nama_SubKategori }}
+                                            {{ $data->created_at }}
                                         </td>
-                                        <td>{{ $subkategoris->Keterangan }}</td>
-                                        <td><a href="/sub-kategori/edit/{{ $subkategoris->id }}">Edit</a>
-                                            <a href="/sub-kategori/delete/{{ $subkategoris->id }}">Hapus</a>
+                                        <td>{{ $data->NamaBerkas }}</td>
+                                        <td>{{ $data->Nama_Kategori }}</td>
+                                        <td>{{ $data->Nama_SubKategori }}</td>
+                                        <td>{{ $data->name }}</td>
+
+                                        <td><a href="/sub-kategori/edit/{{ $data->id }}">Edit</a>
+                                            <a href="/sub-kategori/delete/{{ $data->id }}">Hapus</a>
+                                            <a href="/sub-kategori/download/{{ $data->id }}">Download</a>
                                         </td>
 
                                     </tr>
-                                @endforeach --}}
+                                @endforeach
 
                             </tbody>
                             {{-- <tfoot>

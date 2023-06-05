@@ -57,9 +57,15 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::get('/kelolauser/data', [KelolauserController::class], 'data');
     Route::resource('/kelolauser', KelolauserController::class);
+    Route::post('/kelolauser/store', [KelolauserController::class, 'store'])->name('Kelolauser.store');
+    Route::get('/kelolauser/edit/{id}', [KelolauserController::class, 'edit'])->name('Kelolauser.edit');
+    Route::get('/kelolauser/delete/{id}', [KelolauserController::class, 'destroy']);
+    Route::post('/kelolauser/update', [KelolauserController::class, 'update']);
 
     Route::get('/kelolaberkas/data', [KelolaberkasController::class], 'data');
     Route::resource('/kelolaberkas', KelolaberkasController::class);
+    Route::post('/kelolaberkas/store', [KelolaberkasController::class, 'store'])->name('kelolaberkas.store');
+
 
     Route::get('/logout', [DashboardController::class, 'logout'])->middleware(['auth', 'verified'])->name('master');
 });

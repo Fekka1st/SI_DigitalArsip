@@ -14,7 +14,7 @@ class aktifitascontroller extends Controller
     public function index()
     {
         //
-        $data['aktifitas'] = aktifitas::all();
+        $data['aktifitas'] = aktifitas::orderBy('id', 'desc')->get();
         return view('aktifitas')->with($data);
     }
 
