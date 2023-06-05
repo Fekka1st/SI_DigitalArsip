@@ -91,6 +91,14 @@
                             </p>
                         </a>
                     </li>
+                    <li class="nav-item">
+                        <a href="/logout" class="nav-link">
+                            <i class="nav-icon fa-solid fa-right-from-bracket"></i>
+                            <p>
+                                Logout
+                            </p>
+                        </a>
+                    </li>
 
                 </ul>
             </nav>

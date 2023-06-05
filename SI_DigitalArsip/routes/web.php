@@ -5,6 +5,9 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\kategoricontroller;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\KelolaberkasController;
+use App\Http\Controllers\Kelolauser;
+use App\Http\Controllers\KelolauserController;
 use App\Http\Controllers\SubKategoriController;
 
 /*
@@ -51,6 +54,12 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::get('/aktifitas/data', [aktifitascontroller::class, 'data']);
     Route::resource('/aktifitas', aktifitascontroller::class);
+
+    Route::get('/kelolauser/data', [KelolauserController::class], 'data');
+    Route::resource('/kelolauser', KelolauserController::class);
+
+    Route::get('/kelolaberkas/data', [KelolaberkasController::class], 'data');
+    Route::resource('/kelolaberkas', KelolaberkasController::class);
 
     Route::get('/logout', [DashboardController::class, 'logout'])->middleware(['auth', 'verified'])->name('master');
 });

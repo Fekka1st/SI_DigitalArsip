@@ -7,6 +7,7 @@
 @section('rute')
     Sub Kategori Tambah
 @endsection
+
 @section('select')
     <aside class="main-sidebar sidebar-dark-primary elevation-4">
         <!-- Brand Logo -->
@@ -80,6 +81,14 @@
                             <i class="nav-icon fas fa-users"></i>
                             <p>
                                 Kelola User
+                            </p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/logout" class="nav-link">
+                            <i class="nav-icon fa-solid fa-right-from-bracket"></i>
+                            <p>
+                                Logout
                             </p>
                         </a>
                     </li>

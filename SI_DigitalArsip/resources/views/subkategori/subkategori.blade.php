@@ -1,11 +1,11 @@
 @extends('layout.Master')
 
 @section('title')
-    Kategori
+    Sub Kategori
 @endsection
 
 @section('rute')
-    Kategori
+    Sub Kategori
 @endsection
 @section('select')
     <aside class="main-sidebar sidebar-dark-primary elevation-4">
@@ -42,7 +42,7 @@
                 <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu"
                     data-accordion="false">
                     <!-- Add icons to the links using the .nav-icon class
-                               with font-awesome or any other icon font library -->
+                                       with font-awesome or any other icon font library -->
                     <li class="nav-item">
                         <a href="/dashboard" class="nav-link">
                             <i class="nav-icon fa-solid fa-house"></i>
@@ -91,6 +91,14 @@
                             </p>
                         </a>
                     </li>
+                    <li class="nav-item">
+                        <a href="/logout" class="nav-link">
+                            <i class="nav-icon fa-solid fa-right-from-bracket"></i>
+                            <p>
+                                Logout
+                            </p>
+                        </a>
+                    </li>
 
                 </ul>
             </nav>
@@ -98,12 +106,12 @@
         </div>
         <!-- /.sidebar -->
     </aside>
-@endsection     
+@endsection
 
 @section('content')
     <div class="card">
         <div class="card-header">
-            <h3 class="card-title">Table List Kategori</h3>
+            <h3 class="card-title">Table List Sub Kategori</h3>
         </div>
         <!-- /.card-header -->
         <div class="card-body">
