@@ -9,6 +9,9 @@ use App\Http\Controllers\KelolaberkasController;
 use App\Http\Controllers\Kelolauser;
 use App\Http\Controllers\KelolauserController;
 use App\Http\Controllers\SubKategoriController;
+use App\Http\Controllers\downloadcontroller;
+use App\Http\Controllers\dashboard;
+use App\Http\Middleware\CheckRole;
 
 /*
 |--------------------------------------------------------------------------
@@ -26,24 +29,15 @@ Route::get('/', function () {
 });
 
 
+Route::middleware(['auth', CheckRole::class . ':Admin'])->group(function () {
+    Route::get('/dashboard', [DashboardController::class, 'index'])->middleware(['verified'])->name('master');
 
-Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-});
-
-Route::group(['middleware' => 'auth'], function () {
-    Route::get('/dashboard', [DashboardController::class, 'index'])->middleware(['auth', 'verified'])->name('master');
-
-    Route::get('/kategori/data', [kategoricontroller::class, 'data']);
-    Route::resource('/kategori', kategoricontroller::class);
-    Route::post('/kategori/store', [kategoricontroller::class, 'store'])->name('kategori.store');
-    Route::get('/kategori/edit/{id}', [kategoricontroller::class, 'edit'])->name('kategori.edit');
-    Route::get('/kategori/delete/{id}', [kategoricontroller::class, 'destroy']);
-    Route::post('/kategori/update', [kategoricontroller::class, 'update']);
-
-
+    Route::get('/kategori/data', [Kategoricontroller::class, 'data']);
+    Route::resource('/kategori', Kategoricontroller::class);
+    Route::post('/kategori/store', [Kategoricontroller::class, 'store'])->name('kategori.store');
+    Route::get('/kategori/edit/{id}', [Kategoricontroller::class, 'edit'])->name('kategori.edit');
+    Route::get('/kategori/delete/{id}', [Kategoricontroller::class, 'destroy']);
+    Route::post('/kategori/update', [Kategoricontroller::class, 'update']);
 
     Route::get('/sub-kategori/data', [SubKategoriController::class, 'data']);
     Route::resource('/sub-kategori', SubKategoriController::class);
@@ -52,23 +46,44 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/sub-kategori/delete/{id}', [SubKategoriController::class, 'destroy']);
     Route::post('/sub-kategori/update', [SubKategoriController::class, 'update']);
 
-    Route::get('/aktifitas/data', [aktifitascontroller::class, 'data']);
-    Route::resource('/aktifitas', aktifitascontroller::class);
+    Route::get('/kelolaberkas/data', [KelolaberkasController::class, 'data']);
+    Route::resource('/kelolaberkas', KelolaberkasController::class);
+    Route::post('/kelolaberkas/store', [KelolaberkasController::class, 'store'])->name('kelolaberkas.store');
+    Route::get('/kelolaberkas/edit/{id}', [KelolaberkasController::class, 'edit'])->name('Kelolaberkas.edit');
+    Route::get('/kelolaberkas/delete/{id}', [KelolaberkasController::class, 'destroy']);
+    Route::post('/kelolaberkas/update', [KelolaberkasController::class, 'update']);
+    Route::get('/kelolaberkas/download/{id}', [KelolaberkasController::class, 'download']);
 
-    Route::get('/kelolauser/data', [KelolauserController::class], 'data');
+    Route::get('/aktifitas/data', [Aktifitascontroller::class, 'data']);
+    Route::resource('/aktifitas', Aktifitascontroller::class);
+    Route::get('/kelolauser/data', [KelolauserController::class, 'data']);
     Route::resource('/kelolauser', KelolauserController::class);
     Route::post('/kelolauser/store', [KelolauserController::class, 'store'])->name('Kelolauser.store');
     Route::get('/kelolauser/edit/{id}', [KelolauserController::class, 'edit'])->name('Kelolauser.edit');
     Route::get('/kelolauser/delete/{id}', [KelolauserController::class, 'destroy']);
     Route::post('/kelolauser/update', [KelolauserController::class, 'update']);
-
-    Route::get('/kelolaberkas/data', [KelolaberkasController::class], 'data');
-    Route::resource('/kelolaberkas', KelolaberkasController::class);
-    Route::post('/kelolaberkas/store', [KelolaberkasController::class, 'store'])->name('kelolaberkas.store');
-
-
-    Route::get('/logout', [DashboardController::class, 'logout'])->middleware(['auth', 'verified'])->name('master');
+    Route::resource('/download', downloadcontroller::class);
+ 
+    // Sisipkan route untuk Admin lainnya di sini
 });
+
+// // Group route untuk pengguna dengan peran "Staff"
+// Route::middleware(['auth', CheckRole::class . ':Staff'])->group(function () {
+//     Route::get('/dashboard', [Dashboard::class, 'index'])->middleware(['verified'])->name('master');
+
+
+    // Route::get('/kelolaberkas/data', [KelolaberkasController::class, 'data']);
+    // Route::resource('/kelolaberkas', KelolaberkasController::class);
+    // Route::post('/kelolaberkas/store', [KelolaberkasController::class, 'store'])->name('kelolaberkas.store');
+    // Route::get('/kelolaberkas/edit/{id}', [KelolaberkasController::class, 'edit'])->name('Kelolaberkas.edit');
+    // Route::get('/kelolaberkas/delete/{id}', [KelolaberkasController::class, 'destroy']);
+    // Route::post('/kelolaberkas/update', [KelolaberkasController::class, 'update']);
+    // Route::get('/kelolaberkas/download/{id}', [KelolaberkasController::class, 'download']);
+
+//     // Sisipkan route untuk Staff lainnya di sini
+// });
+
+Route::get('/logout', [DashboardController::class, 'logout'])->middleware(['auth', 'verified'])->name('master');
 
 
 require __DIR__ . '/auth.php';

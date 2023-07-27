@@ -19,8 +19,10 @@ class UserSeeder extends Seeder
         DB::table('users')->insert([
             'name' => 'Ferry Aditya H',
             'email' => 'ferryaja@gmail.com',
-            'password' => Hash::make('123456789'),
-            'role' => 'Internal'
+            'password' => Hash::make('admin123'),
+            'role' => 'Internal',
+            'url' => 'img/profile/1686011518209-WhatsApp-Image-2023-06-04-at-10.03.55-PM.jpeg',
+            'no_telp' => '081224669182'
         ]);
     }
 }

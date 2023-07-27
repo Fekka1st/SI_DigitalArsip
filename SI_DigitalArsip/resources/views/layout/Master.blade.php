@@ -30,25 +30,46 @@
     <!-- summernote -->
     <link rel="stylesheet" href="{{ asset('plugins/summernote/summernote-bs4.min.css') }}">
     <link rel="stylesheet" href="cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.css">
+    <style>
+        input[type="number"]::-webkit-inner-spin-button,
+        input[type="number"]::-webkit-outer-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
+        input[type="number"] {
+            -moz-appearance: textfield;
+        }
+
+        .img-thumbnail {
+            border: 1px solid rgb(255, 255, 255);
+            /* Atur ketebalan dan warna garis pinggir */
+            border-radius: 0px;
+            /* Atur radius sudut agar tetap tampil rounded */
+            padding: 0.0rem;
+            /* Sesuaikan jarak antara gambar dan garis pinggir */
+        }
+
+    </style>
 </head>
 
 <body class="hold-transition sidebar-mini layout-fixed">
     {{-- @include('sweetalert::alert') --}}
     <div class="wrapper">
 
-        <!-- Preloader -->
+        {{-- <!-- Preloader -->
         <div class="preloader flex-column justify-content-center align-items-center">
             <img class="animation__shake" src="https://e-arsip.kopegtelkp.com/public/logo-fullkpg.png"
                 alt="AdminLTELogo" height="200" width="200">
-        </div>
+        </div> --}}
 
         <!-- Navbar -->
         <nav class="main-header navbar navbar-expand navbar-white navbar-light">
             <!-- Left navbar links -->
             <ul class="navbar-nav">
                 <li class="nav-item">
-                    <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i
-                            class="fas fa-bars"></i></a>
+                    <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
                 </li>
                 <li class="nav-item d-none d-sm-inline-block">
                     <a href="/dashboard" class="nav-link">Home</a>
@@ -57,15 +78,6 @@
 
             <!-- Right navbar links -->
             <ul class="navbar-nav ml-auto">
-                <li class="d-flex">
-                    <img src="{{ auth()->user()->url }}" class="img-thumbnail img-circle" alt="User Image"
-                        height="50" width="50">
-
-
-                </li>
-                <li class="nav-item d-none d-sm-inline-block">
-                    <a href="/profile" class="nav-link">{{ auth()->user()->name }}</a>
-                </li>
                 <li class="nav-item">
                     <a class="nav-link" data-widget="fullscreen" href="#" role="button">
                         <i class="fas fa-expand-arrows-alt"></i>
@@ -85,9 +97,181 @@
 
         <!-- Main Sidebar Container -->
         {{-- @includeIf('layout.asidebar') --}}
-        @yield('select')
+        <aside class="main-sidebar sidebar-dark-primary elevation-4">
+            <!-- Brand Logo -->
+            <a href="#" class="brand-link">
+                <img src="https://e-arsip.kopegtelkp.com/public/logo-fullkpg.png" alt="AdminLTE Logo"
+                    class="img-circle " style="opacity: .8;background-color:white" height="60" width="60">
+                <span class="brand-text font-weight-bold">Digital Arsip
+                </span>
+            </a>
 
-        
+            <!-- Sidebar -->
+            <div class="sidebar">
+                <!-- Sidebar user panel (optional) -->
+                <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+                    <div class="image">
+                        <img src="{{ auth()->user()->url }}" class="rounded img-thumbnail" alt="User Image">
+                    </div>
+                    <div class="info">
+                        <a  class="d-block">{{ auth()->user()->name }}</a>
+                        <a  class="d-block">{{ auth()->user()->role }}</a>
+                    </div>
+                </div>
+
+                <!-- SidebarSearch Form -->
+                <div class="form-inline">
+                    <div class="input-group" data-widget="sidebar-search">
+                        <input class="form-control form-control-sidebar" type="search" placeholder="Search"
+                            aria-label="Search">
+                        <div class="input-group-append">
+                            <button class="btn btn-sidebar">
+                                <i class="fas fa-search fa-fw"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sidebar Menu -->
+                <nav class="mt-2">
+                    <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu"
+                        data-accordion="false">
+                        <!-- Add icons to the links using the .nav-icon class
+                                                                                       with font-awesome or any other icon font library -->
+                        @if(auth()->user()->role== 'Admin')
+                        <li class="nav-item">
+                            <a href="/dashboard" class="nav-link dashboard">
+                                <i class="nav-icon fa-solid fa-house"></i>
+                                <p>
+                                    Dashboard
+                                </p>
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a href="/kategori" class="nav-link Standar">
+                                <i class="nav-icon fa-solid fa-book"></i>
+                                <p>
+                                    Kelola Standarisasi
+                                </p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/kategori" class="nav-link kategori">
+                                <i class="nav-icon fa-solid fa-book"></i>
+                                <p>
+                                    Kelola Kategori
+                                </p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/sub-kategori" class="nav-link sub">
+                                <i class="nav-icon fa-solid fa-book"></i>
+                                <p>
+                                    Kelola SubKategori
+                                </p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/kelolaberkas" class="nav-link berkas">
+                                <i class="nav-icon fas fa-folder"></i>
+                                <p>
+                                    Kelola Berkas
+                                </p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/kelolauser" class="nav-link user">
+                                <i class="nav-icon fas fa-users"></i>
+                                <p>
+                                    Kelola User
+                                </p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/aktifitas" class="nav-link aktifitas">
+                                <i class="nav-icon fa-solid fa-chart-line"></i>
+                                <p>
+                                    Aktifitas
+                                </p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/Download" class="nav-link download">
+                                <i class="nav-icon fas fa-download"></i>
+                                <p>
+                                    History Download
+                                </p>
+                            </a>
+                        </li>
+                        @endif
+
+                        @if(auth()->user()->role== 'Staff')
+                        <li class="nav-item">
+                            <a href="/dashboard" class="nav-link dashboard">
+                                <i class="nav-icon fa-solid fa-house"></i>
+                                <p>
+                                    Dashboard
+                                </p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/kelolaberkas" class="nav-link berkas">
+                                <i class="nav-icon fas fa-folder"></i>
+                                <p>
+                                    Kelola Berkas
+                                </p>
+                            </a>
+                        </li>
+                        @endif
+                        <li class="nav-item">
+                            <a href="/Download" class="nav-link">
+                               
+                                <i class="nav-icon fas fa-user-cog"></i>
+                                <p>
+                                    Pengaturan Profile
+                                </p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a  class="nav-link" data-toggle="modal" data-target="#exampleModal">
+                                <i class="nav-icon fa-solid fa-right-from-bracket"></i>
+                                <p>
+                                    Logout
+                                </p>
+                            </a>
+                        </li>
+
+
+                    </ul>
+                </nav>
+                <!-- /.sidebar-menu -->
+            </div>
+            <!-- /.sidebar -->
+        </aside>
+
+
+        <!-- Modal -->
+        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Logout</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        Anda Yakin ingin keluar ?
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Tidak</button>
+                        <a href="/logout" type="button" class="btn btn-danger" >Ya,Keluar</a>
+                    </div>
+                </div>
+            </div>
+        </div>
 
 
 
@@ -133,13 +317,13 @@
     <script>
         $.widget.bridge('uibutton', $.ui.button)
 
-        @if ($success = 'success')
-            Swal.fire {
-                'Oke',
-                'Oke',
-
-            }
+        @if($success = 'success')
+        Swal.fire {
+            'Oke',
+            'Oke',
+        }
         @endif
+
     </script>
     <!-- Bootstrap 4 -->
     <script src="{{ asset('plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
@@ -164,11 +348,12 @@
     <!-- AdminLTE App -->
     <script src="{{ asset('dist/js/adminlte.js') }}"></script>
     <!-- AdminLTE for demo purposes -->
-    <script src="{{ asset('dist/js/demo.js') }}"></script>
+    {{-- <script src="{{ asset('dist/js/demo.js') }}"></script> --}}
     <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
-    <script src="{{ asset('dist/js/pages/dashboard.js') }}"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
+
+    <script src="{{ asset('dist/js/pages/dashboard.js') }}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
     @yield('plugin')
 
 </body>

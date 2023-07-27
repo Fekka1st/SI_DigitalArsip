@@ -33,7 +33,6 @@ class KelolauserController extends Controller
         $data['users'] = users::all();
         $data['kategoris'] = kategori::all();
         $data['subkategoris'] = subkategori::all();
-        echo $data;
         return view('kelolauser.tambah')->with($data);
     }
 
@@ -54,12 +53,11 @@ class KelolauserController extends Controller
                     'no_telp' => $request->notelp,
                     'password' => Hash::make($request->password),
                     'role' => $request->role,
-                    'url' => 'img/profile/' . $filename
+                    'url' => '/img/profile/' . $filename
                 ]
             );
             $aktifitas = aktifitas::create([
                 'aktifitas' => 'Menambahkan User Baru',
-                'nama' => $request->name,
                 'Staff' => auth()->user()->name
             ]);
             echo 'Success';

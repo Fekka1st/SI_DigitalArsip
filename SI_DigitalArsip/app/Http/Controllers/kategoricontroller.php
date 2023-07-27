@@ -43,11 +43,10 @@ class kategoricontroller extends Controller
         ]);
 
         $aktifitas = aktifitas::create([
-            'aktifitas' => 'Menambahkan Kategori',
-            'nama' => $request->namakategori,
+            'aktifitas' => 'Menambahkan Kategori'.' '. $request->namakategori ,
             'Staff' => auth()->user()->name
         ]);
-        return redirect('/kategori');
+        return redirect('/kategori')->with('success', 'Data berhasil diisi!');
     }
 
     /**

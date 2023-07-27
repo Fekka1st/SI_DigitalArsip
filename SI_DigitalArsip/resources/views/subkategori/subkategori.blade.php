@@ -42,7 +42,7 @@
                 <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu"
                     data-accordion="false">
                     <!-- Add icons to the links using the .nav-icon class
-                                       with font-awesome or any other icon font library -->
+                                                   with font-awesome or any other icon font library -->
                     <li class="nav-item">
                         <a href="/dashboard" class="nav-link">
                             <i class="nav-icon fa-solid fa-house"></i>
@@ -149,8 +149,12 @@
                                             {{ $subkategoris->Nama_SubKategori }}
                                         </td>
                                         <td>{{ $subkategoris->Keterangan }}</td>
-                                        <td><a href="/sub-kategori/edit/{{ $subkategoris->id }}">Edit</a>
-                                            <a href="/sub-kategori/delete/{{ $subkategoris->id }}">Hapus</a>
+                                        <td>
+                                            <button type="button" class="btn btn-warning"><a
+                                                    href="/sub-kategori/edit/{{ $subkategoris->id }}"></a>Edit</button>
+
+                                            <button type="button" class="btn btn-danger"><a
+                                                    href="/sub-kategori/delete/{{ $subkategoris->id }}"></a>Hapus</button>
                                         </td>
 
                                     </tr>
