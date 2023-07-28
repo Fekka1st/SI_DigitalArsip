@@ -1,215 +1,211 @@
 @extends('layout.Master')
 
 @section('title')
-    USER
+    Profile
 @endsection
 
 @section('rute')
-    Kelola USER
+    Setting Profile
 @endsection
 
-@section('select')
-    <aside class="main-sidebar sidebar-dark-primary elevation-4">
-        <!-- Brand Logo -->
-        <a href="#" class="brand-link">
-            <img src="https://e-arsip.kopegtelkp.com/public/logo-fullkpg.png" alt="AdminLTE Logo" class="img-circle "
-                style="opacity: .8;background-color:white" height="60" width="60">
-            <span class="brand-text font-weight-bold">SISTEM INFORMASI
-            </span>
-        </a>
-
-        <!-- Sidebar -->
-        <div class="sidebar">
-            <!-- Sidebar user panel (optional) -->
-            <div class="user-panel mt-3 pb-3 mb-3 d-flex">
-                <span class="brand-text font-weight-bold text-white ml-5">DIGITAL ARSIP
-            </div>
-
-            <!-- SidebarSearch Form -->
-            <div class="form-inline">
-                <div class="input-group" data-widget="sidebar-search">
-                    <input class="form-control form-control-sidebar" type="search" placeholder="Search"
-                        aria-label="Search">
-                    <div class="input-group-append">
-                        <button class="btn btn-sidebar">
-                            <i class="fas fa-search fa-fw"></i>
-                        </button>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Sidebar Menu -->
-            <nav class="mt-2">
-                <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu"
-                    data-accordion="false">
-                    <!-- Add icons to the links using the .nav-icon class
-                                           with font-awesome or any other icon font library -->
-                    <li class="nav-item">
-                        <a href="/dashboard" class="nav-link">
-                            <i class="nav-icon fa-solid fa-house"></i>
-                            <p>
-                                Dashboard
-                            </p>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="/kategori" class="nav-link">
-                            <i class="nav-icon fa-solid fa-book"></i>
-                            <p>
-                                Kelola Kategori
-                            </p>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="/sub-kategori" class="nav-link">
-                            <i class="nav-icon fa-solid fa-book"></i>
-                            <p>
-                                Kelola SubKategori
-                            </p>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="/kelolaberkas" class="nav-link">
-                            <i class="nav-icon fas fa-folder"></i>
-                            <p>
-                                Kelola Berkas
-                            </p>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="/kelolauser" class="nav-link active">
-                            <i class="nav-icon fas fa-users"></i>
-                            <p>
-                                Kelola User
-                            </p>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="/aktifitas" class="nav-link">
-                            <i class="nav-icon fa-solid fa-chart-line"></i>
-                            <p>
-                                Aktifitas
-                            </p>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="/logout" class="nav-link">
-                            <i class="nav-icon fa-solid fa-right-from-bracket"></i>
-                            <p>
-                                Logout
-                            </p>
-                        </a>
-                    </li>
-
-                </ul>
-            </nav>
-            <!-- /.sidebar-menu -->
-        </div>
-        <!-- /.sidebar -->
-    </aside>
-@endsection
 
 @section('content')
-    <div class="card">
-        <div class="card-header">
-            <h3 class="card-title">Table List Kategori</h3>
+
+<div class="container emp-profile">
+    @foreach ($user as $data)
+
+    @endforeach
+    <form method="post">
+        <div class="row">
+            <div class="col-md-4">
+                <div class="profile-img">
+                    <img src="{{$data->url }}" alt="" />
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="profile-head">
+                    <h5>
+                        {{$data->name}}
+                    </h5>
+                    <h6>
+                        {{$data->role}}
+                    </h6>
+                </div>
+            </div>
         </div>
-        <!-- /.card-header -->
-        <div class="card-body">
-            <div id="example1_wrapper" class="dataTables_wrapper dt-bootstrap4">
-                {{-- <a href="{{ route('kategori.create') }}" class="btn btn-primary"><i class="fa fa-plus"></i> Tambah</a> --}}
-                <div class="mb-2"></div>
-                <div class="row">
-                    <div class="col-sm-12">
-                        <table id="example1" class="table table-bordered table-striped dataTable dtr-inline"
-                            aria-describedby="example1_info">
-                            <thead>
-                                <tr>
-                                    <th class="sorting sorting_asc" tabindex="0" aria-controls="example1" rowspan="1"
-                                        colspan="1" aria-sort="ascending"
-                                        aria-label="Rendering engine: activate to sort column descending">No
-                                    </th>
-                                    <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1"
-                                        colspan="1" aria-label="Browser: activate to sort column ascending">Nama Kategori
-                                    </th>
-                                    <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1"
-                                        colspan="1" aria-label="Platform(s): activate to sort column ascending">
-                                        Keterangan</th>
-                                    <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1"
-                                        colspan="1" aria-label="Engine version: activate to sort column ascending">Aksi
-                                    </th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {{-- @foreach ($kategori as $item => $kategoris)
-                                <tr class="odd">
-
-                                    <td>{{ $item + 1 }}</td>
-                                    <td class="dtr-control sorting_1" tabindex="0">{{ $kategoris->Nama_Kategori }}
-                                    </td>
-                                    <td>{{ $kategoris->Keterangan }}</td>
-                                    <td><a href="/kategori/edit/{{ $kategoris->id }}">Edit</a>
-                                        <a href="/kategori/delete/{{ $kategoris->id }}">Hapus</a>
-                                    </td>
-
-                                </tr>
-                            @endforeach --}}
-
-                            </tbody>
-                            {{-- <tfoot>
-                            <tr>
-                                <th rowspan="1" colspan="1">Rendering engine</th>
-                                <th rowspan="1" colspan="1">Browser</th>
-                                <th rowspan="1" colspan="1">Platform(s)</th>
-                                <th rowspan="1" colspan="1">Engine version</th>
-                                <th rowspan="1" colspan="1">CSS grade</th>
-                            </tr>
-                        </tfoot> --}}
-                        </table>
+        <div class="row">
+            <div class="col-md-4">
+            </div>
+            <div class="col-md-8">
+                <div class="tab-content profile-tab" id="myTabContent">
+                    <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label>Nama</label>
+                            </div>
+                            <div class="col-md-6">
+                                <p>{{$data->name}}</p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label>Email</label>
+                            </div>
+                            <div class="col-md-6">
+                                <p>{{$data->email}}</p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label>Phone</label>
+                            </div>
+                            <div class="col-md-6">
+                                <p>{{$data->no_telp}}</p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label>Jabatan</label>
+                            </div>
+                            <div class="col-md-6">
+                                <p>Staff 1</p>
+                            </div>
+                        </div>
+                        <a type="button" href="/profilesettings/edit/{{ $data->id }}"class="btn btn-warning" data-toggle="tooltip" data-placement="top" title="Tombol Edit">Edit <i class="fas fa-edit"></i></a>
                     </div>
                 </div>
             </div>
         </div>
-        <!-- /.card-body -->
-    </div>
+    </form>
+</div>
 @endsection
 
 @section('css')
-    <link rel="stylesheet" href="{{ asset('plugins/datatables-bs4/css/dataTables.bootstrap4.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('plugins/datatables-responsive/css/responsive.bootstrap4.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('plugins/datatables-buttons/css/buttons.bootstrap4.min.css') }}">
+<style>
+    body {
+        background: -webkit-linear-gradient(left, #3931af, #00c6ff);
+    }
+
+    .emp-profile {
+        padding: 3%;
+        margin-top: 3%;
+        margin-bottom: 3%;
+        border-radius: 0.5rem;
+        background: #fff;
+    }
+
+    .profile-img {
+        text-align: center;
+    }
+
+    .profile-img img {
+        width: 70%;
+        height: 100%;
+    }
+
+    .profile-img .file {
+        position: relative;
+        overflow: hidden;
+        margin-top: -20%;
+        width: 70%;
+        border: none;
+        border-radius: 0;
+        font-size: 15px;
+        background: #212529b8;
+    }
+
+    .profile-img .file input {
+        position: absolute;
+        opacity: 0;
+        right: 0;
+        top: 0;
+    }
+
+    .profile-head h5 {
+        color: #333;
+    }
+
+    .profile-head h6 {
+        color: #0062cc;
+    }
+
+    .profile-edit-btn {
+        border: none;
+        border-radius: 1.5rem;
+        width: 70%;
+        padding: 2%;
+        font-weight: 600;
+        color: #6c757d;
+        cursor: pointer;
+    }
+
+    .proile-rating {
+        font-size: 12px;
+        color: #818182;
+        margin-top: 5%;
+    }
+
+    .proile-rating span {
+        color: #495057;
+        font-size: 15px;
+        font-weight: 600;
+    }
+
+    .profile-head .nav-tabs {
+        margin-bottom: 5%;
+    }
+
+    .profile-head .nav-tabs .nav-link {
+        font-weight: 600;
+        border: none;
+    }
+
+    .profile-head .nav-tabs .nav-link.active {
+        border: none;
+        border-bottom: 2px solid #0062cc;
+    }
+
+    .profile-work {
+        padding: 14%;
+        margin-top: -15%;
+    }
+
+    .profile-work p {
+        font-size: 12px;
+        color: #818182;
+        font-weight: 600;
+        margin-top: 10%;
+    }
+
+    .profile-work a {
+        text-decoration: none;
+        color: #495057;
+        font-weight: 600;
+        font-size: 14px;
+    }
+
+    .profile-work ul {
+        list-style: none;
+    }
+
+    .profile-tab label {
+        font-weight: 600;
+    }
+
+    .profile-tab p {
+        font-weight: 600;
+        color: #0062cc;
+    }
+
+</style>
 @endsection
 @section('plugin')
-    <!-- DataTables  & Plugins -->
-    <script src="{{ asset('plugins/datatables/jquery.dataTables.min.js') }}"></script>
-    <script src="{{ asset('plugins/datatables-bs4/js/dataTables.bootstrap4.min.js') }}"></script>
-    <script src="{{ asset('plugins/datatables-responsive/js/dataTables.responsive.min.js') }}"></script>
-    <script src="{{ asset('plugins/datatables-responsive/js/responsive.bootstrap4.min.js') }}"></script>
-    <script src="{{ asset('plugins/datatables-buttons/js/dataTables.buttons.min.js') }}"></script>
-    <script src="{{ asset('plugins/datatables-buttons/js/buttons.bootstrap4.min.js') }}"></script>
-    <script src="{{ asset('plugins/jszip/jszip.min.js') }}"></script>
-    <script src="{{ asset('plugins/pdfmake/pdfmake.min.js') }}"></script>
-    <script src="{{ asset('plugins/pdfmake/vfs_fonts.js') }}"></script>
-    <script src="{{ asset('plugins/datatables-buttons/js/buttons.html5.min.js') }}"></script>
-    <script src="{{ asset('plugins/datatables-buttons/js/buttons.print.min.js') }}"></script>
-    <script src="{{ asset('plugins/datatables-buttons/js/buttons.colVis.min.js') }}"></script>
     <script>
-        $(function() {
-            $("#example1").DataTable({
-                "responsive": true,
-                "lengthChange": true,
-                "autoWidth": false,
-                "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
-            }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
-            $('#example2').DataTable({
-                "paging": true,
-                "lengthChange": false,
-                "searching": false,
-                "ordering": true,
-                "info": true,
-                "autoWidth": false,
-                "responsive": true,
-            });
-        });
-    </script>
+        const navLinks = document.querySelectorAll('.profile');
+       const currentPath = window.location.pathname; // Mendapatkan path dari URL saat ini
+   
+       navLinks.forEach(link => {
+           link.classList.add('active'); // Tambahkan class "active" pada link yang sesuai dengan halaman aktif
+       });
+   </script>
 @endsection

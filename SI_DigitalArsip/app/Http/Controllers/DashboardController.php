@@ -21,7 +21,11 @@ class DashboardController extends Controller
         $user = Auth::user();
         $berkas = berkas::count();
 
-        return view('dashboard', compact('user', 'kategori', 'akun', 'aktifitas', 'berkas'));
+        if(Auth::user()->role == 'Admin'){
+            return view('dashboard', compact('user', 'kategori', 'akun', 'aktifitas', 'berkas'));
+        }
+        return view('dashboard2');
+        
     }
     public function logout()
     {

@@ -149,7 +149,7 @@
                         </li>
 
                         <li class="nav-item">
-                            <a href="/kategori" class="nav-link Standar">
+                            <a href="/standar" class="nav-link Standar">
                                 <i class="nav-icon fa-solid fa-book"></i>
                                 <p>
                                     Kelola Standarisasi
@@ -197,7 +197,7 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="/Download" class="nav-link download">
+                            <a href="/download" class="nav-link download">
                                 <i class="nav-icon fas fa-download"></i>
                                 <p>
                                     History Download
@@ -225,7 +225,7 @@
                         </li>
                         @endif
                         <li class="nav-item">
-                            <a href="/Download" class="nav-link">
+                            <a href="/profilesettings/{{auth()->user()->id}}" class="nav-link profile">
                                
                                 <i class="nav-icon fas fa-user-cog"></i>
                                 <p>

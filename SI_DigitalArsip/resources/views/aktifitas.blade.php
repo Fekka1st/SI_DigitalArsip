@@ -60,7 +60,7 @@
                                         <td class="dtr-control sorting_1" tabindex="0">{{ $aktifitas->Aktifitas }}
                                         </td>
                                         <td>{{ $aktifitas->Staff }}</td>
-                                        <td>{{ $aktifitas->created_at->format('Y-m-d') }}</td>
+                                        <td>{{ $aktifitas->created_at }}</td>
 
 
                                     </tr>

@@ -10,7 +10,7 @@ class downloadcontroller extends Controller
 {
     //
     public function index(){
-        $data['downloads'] = download::all();
+        $data['download'] = download::all();
         return view('download')->with($data);
     }
 }

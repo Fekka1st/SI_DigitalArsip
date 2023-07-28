@@ -10,6 +10,7 @@ use App\Models\aktifitas;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use RealRashid\SweetAlert\Facades\Alert;
+use Illuminate\Support\Facades\Validator;
 
 
 class kategoricontroller extends Controller
@@ -19,7 +20,7 @@ class kategoricontroller extends Controller
      */
     public function index()
     {
-        $data['kategori'] = kategori::all();
+        $data['kategori'] = kategori::orderBy('id', 'desc')->get();
         return view('kelolakategori.kategori')->with($data);
     }
 
@@ -37,13 +38,21 @@ class kategoricontroller extends Controller
     public function store(Request $request)
     {
         //	
+        $validator = Validator::make($request->all(), [
+            'namakategori' => 'required',
+            'keterangan' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            abort(403, 'Data Tidak boleh kosong');
+        }
         $kategori = kategori::create([
             'Nama_Kategori' => $request->namakategori,
             'Keterangan' => $request->keterangan
         ]);
 
         $aktifitas = aktifitas::create([
-            'aktifitas' => 'Menambahkan Kategori'.' '. $request->namakategori ,
+            'aktifitas' => 'Tambah Kategori'.' - '. $request->namakategori ,
             'Staff' => auth()->user()->name
         ]);
         return redirect('/kategori')->with('success', 'Data berhasil diisi!');
@@ -72,11 +81,14 @@ class kategoricontroller extends Controller
      */
     public function update(Request $request)
     {
-        // kategori::where('id', $id)
-        //     ->update([
-        //         'Nama_Kategori' => $request->namakategori,
-        //         'Keterangan' => $request->keterangan
-        //     ]);
+        $validator = Validator::make($request->all(), [
+            'namakategori' => 'required',
+            'keterangan' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            abort(403, 'Data Tidak boleh kosong');
+        }
         $kategori = kategori::where('id', $request->id)
             ->update(
                 ['Nama_Kategori' => $request->namakategori, 'Keterangan' => $request->keterangan]
@@ -84,8 +96,7 @@ class kategoricontroller extends Controller
 
 
         $aktifitas = aktifitas::create([
-            'aktifitas' => 'Update Kategori',
-            'nama' => $request->namakategori,
+            'aktifitas' => 'Edit Kategori'. ' - '.$request->namakategori,
             'Staff' => auth()->user()->name
         ]);
 
@@ -101,8 +112,7 @@ class kategoricontroller extends Controller
         $data = kategori::find($id);
 
         $aktifitas = aktifitas::create([
-            'aktifitas' => 'Menghapus Kategori',
-            'nama' =>  $data->Nama_Kategori,
+            'aktifitas' => 'Hapus Kategori'. ' - '.$data->Nama_Kategori,
             'Staff' => auth()->user()->name
         ]);
         kategori::destroy($id);

@@ -67,9 +67,11 @@ class KelolauserController extends Controller
         return redirect('/kelolauser');
     }
 
-    public function show(string $id)
+    public function detail(string $id)
     {
         //
+        $user = DB::table('users')->where('id', $id)->get();
+        return view('kelolauser.detail', ['user' => $user]);
     }
 
     /**
@@ -87,54 +89,55 @@ class KelolauserController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        $oldUser = users::find($request->id);
+        $user = User::find($request->id); // Ganti 'users' dengan 'User' jika modelnya bernama 'User'
 
-        if ($oldUser) {
-            $oldFilePath = $oldUser->url;
-
+        if ($user) {
+            // Lakukan validasi untuk inputan berkas
+            $request->validate([
+                'filename' => 'image|mimes:jpeg,png,jpg,gif|max:2048', // Atur sesuai kebutuhan
+            ]);
+    
             if ($request->hasFile('filename')) {
                 // Menghapus file lama jika ada
+                $oldFilePath = $user->url;
                 if ($oldFilePath && file_exists(public_path($oldFilePath))) {
                     unlink(public_path($oldFilePath));
                 }
-
+    
                 // Upload file baru
                 $filename = round(microtime(true) * 1000) . '-' . str_replace(' ', '-', $request->file('filename')->getClientOriginalName());
-                $request->file('filename')->move(public_path('img/profile'), $filename);
-            } else {
-                // Jika tidak ada file yang diunggah, gunakan url lama
-                $filename = $oldUser->url;
+                $request->file('filename')->move(public_path('/img/profile'), $filename);
+    
+                // Set url baru untuk gambar
+                $user->url = '/img/profile/' . $filename;
             }
-
-            $user = users::where('id', $request->id)
-                ->update([
-                    'name' => $request->name,
-                    'email' => $request->email,
-                    'no_telp' => $request->notelp,
-                    'password' => Hash::make($request->password),
-                    'role' => $request->role,
-                    'url' => 'img/profile/' . $filename
-                ]);
-
-            $aktifitas = aktifitas::create([
-                'aktifitas' => 'Mengupdate User Baru',
-                'nama' => $request->name,
+    
+            // Update data lainnya
+            $user->name = $request->name;
+            $user->email = $request->email;
+            $user->no_telp = $request->notelp;
+            $user->role = $request->role;
+    
+            if ($request->filled('password')) {
+                // Jika password diisi, update password
+                $user->password = Hash::make($request->password);
+            }
+    
+            // Simpan perubahan
+            $user->save();
+    
+            // Buat record aktifitas
+            $aktifitas = Aktifitas::create([
+                'aktifitas' => 'Edit User Baru - ' . $request->name,
                 'Staff' => auth()->user()->name
             ]);
-
-            if ($user && $oldFilePath) {
-                $oldFilePath = public_path($oldFilePath);
-                if (file_exists($oldFilePath)) {
-                    unlink($oldFilePath);
-                }
-            }
+    
+            return redirect('/kelolauser')->with('success', 'Data berhasil diupdate!');
         } else {
             // Pengguna dengan ID yang diberikan tidak ditemukan
-            // Lakukan tindakan yang sesuai, seperti menampilkan pesan error atau mengarahkan pengguna ke halaman yang sesuai.
+            abort(404); // Ubah menjadi 404 jika ingin menampilkan halaman error 404
         }
-
-
-        return redirect('/kelolauser');
+    
     }
 
     /**
@@ -153,8 +156,7 @@ class KelolauserController extends Controller
         }
 
         $aktifitas = aktifitas::create([
-            'aktifitas' => 'Menghapus User ',
-            'nama' => $data->name,
+            'aktifitas' => 'Menghapus User '.' - '.$data->name,
             'Staff' => auth()->user()->name
         ]);
 

@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\subkategori;
 use App\Models\aktifitas;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Validator;
 
 class SubKategoriController extends Controller
 {
@@ -16,7 +17,7 @@ class SubKategoriController extends Controller
     public function index()
     {
         //
-        $data['subkategori'] = subkategori::all();
+        $data['subkategori'] = subkategori::orderBy('id', 'desc')->get();
         return view('subkategori.subkategori')->with($data);
     }
 
@@ -35,17 +36,23 @@ class SubKategoriController extends Controller
     public function store(Request $request)
     {
         //
+        $validator = Validator::make($request->all(), [
+            'namakategori' => 'required',
+            'keterangan' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            abort(403, 'Data Tidak boleh kosong');
+        }
         $subkategori = subkategori::create([
             'Nama_SubKategori' => $request->namakategori,
             'Keterangan' => $request->keterangan
         ]);
 
         $aktifitas = aktifitas::create([
-            'aktifitas' => 'Menambahkan Sub Kategori',
-            'nama' => $request->namakategori,
+            'aktifitas' => 'Menambahkan Sub Kategori'.' - '.$request->namakategori,
             'Staff' => auth()->user()->name
         ]);
-        // Alert::success('Congrats', 'You\'ve Successfully Registered');
         return redirect('/sub-kategori')->with('success', 'Created successfully!');
     }
 
@@ -73,6 +80,14 @@ class SubKategoriController extends Controller
     public function update(Request $request, string $id)
     {
         //
+        $validator = Validator::make($request->all(), [
+            'namakategori' => 'required',
+            'keterangan' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            abort(403, 'Data Tidak boleh kosong');
+        }
         $subkategori = subkategori::where('id', $request->id)
             ->update(
                 ['Nama_SubKategori' => $request->namakategori, 'Keterangan' => $request->keterangan]
@@ -80,8 +95,7 @@ class SubKategoriController extends Controller
 
 
         $aktifitas = aktifitas::create([
-            'aktifitas' => 'Update Sub Kategori',
-            'nama' => $request->namakategori,
+            'aktifitas' => 'Update Sub Kategori'.' - '. $request->namakategori,
             'Staff' => auth()->user()->name
         ]);
 
@@ -97,8 +111,7 @@ class SubKategoriController extends Controller
         $data = subkategori::find($id);
 
         $aktifitas = aktifitas::create([
-            'aktifitas' => 'Menghapus Sub Kategori',
-            'nama' =>  $data->Nama_SubKategori,
+            'aktifitas' => 'Menghapus Sub Kategori'.' - '.$data->Nama_SubKategori,
             'Staff' => auth()->user()->name
         ]);
         subkategori::destroy($id);

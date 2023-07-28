@@ -53,10 +53,10 @@
                                         </td>
                                         <td>{{ $kategoris->Keterangan }}</td>
                                         <td>
-                                            <button type="button" class="btn btn-warning"><a
-                                                    href="/kategori/edit/{{ $kategoris->id }}"></a>Edit </button>
-                                            <button type="button" class="btn btn-danger"> <a
-                                                    href="/kategori/delete/{{ $kategoris->id }}"></a>Hapus</button>
+                                            <div class="btn-group" role="group" aria-label="Basic example">
+                                                <a type="button" href="/kategori/edit/{{ $kategoris->id }}" class="btn btn-warning" data-toggle="tooltip" data-placement="top" title="Tombol Edit"><i class="fas fa-edit"></i></a>
+                                                <a type="button" href="/kategori/delete/{{ $kategoris->id }}"class="btn btn-danger" data-toggle="tooltip" data-placement="top" title="Tombol Hapus"><i class="fas fa-trash-alt"></i></a>
+                                            </div>      
                                         </td>
 
                                     </tr>
@@ -109,15 +109,6 @@
                 "autoWidth": false,
                 "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
             }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
-            $('#example2').DataTable({
-                "paging": true,
-                "lengthChange": false,
-                "searching": false,
-                "ordering": true,
-                "info": true,
-                "autoWidth": false,
-                "responsive": true,
-            });
         });
     </script>
 
