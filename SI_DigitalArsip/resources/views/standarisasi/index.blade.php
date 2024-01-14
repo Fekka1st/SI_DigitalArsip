@@ -1,120 +1,161 @@
 @extends('layout.Master')
 
 @section('title')
-Standarisasi
+Kelola Standarisasi
 @endsection
 
 @section('rute')
-    Standarisasi
+Kelola Standarisasi
 @endsection
 
 @section('content')
+@include('standarisasi.form')
 <div class="card">
     <div class="card-header">
         <h3 class="card-title">Table List Standar</h3>
     </div>
-    <!-- /.card-header -->
+
     <div class="card-body">
         <div id="example1_wrapper" class="dataTables_wrapper dt-bootstrap4">
-            <a href="{{ route('standar.create') }}" class="btn btn-primary" data-toggle="tooltip" data-placement="top" title="Tombol Tambah"><i class="fa fa-plus"></i> Tambah</a>
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#tambahModal">
+                <i class="fa fa-plus"></i> Tambah Data
+            </button>
+            {{-- Table --}}
             <div class="mb-2"></div>
             <div class="row">
                 <div class="col-sm-12">
-                    <table id="example1" class="table table-bordered table-striped dataTable dtr-inline"
-                        aria-describedby="example1_info">
+                    <table class="table table-bordered data-table" id="standarTable">
                         <thead>
                             <tr>
-                                <th class="sorting sorting_asc" tabindex="0" aria-controls="example1" rowspan="1"
-                                    colspan="1" aria-sort="ascending"
-                                    aria-label="Rendering engine: activate to sort column descending">No
-                                </th>
-                                <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1"
-                                    colspan="1" aria-label="Browser: activate to sort column ascending">Nama Standar
-                                </th>
-                                <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1"
-                                    colspan="1" aria-label="Platform(s): activate to sort column ascending">
-                                    Keterangan</th>
-                                <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1"
-                                    colspan="1" aria-label="Engine version: activate to sort column ascending">Aksi
-                                </th>
+                                <th width="20px">No</th>
+                                <th>Nama</th>
+                                <th>Keterangan</th>
+                                <th width="20px">Aksi</th>
+
                             </tr>
                         </thead>
-                        <tbody>
-                            @foreach ($standar as $item => $standars)
-                                    <tr class="odd">
-
-                                        <td>{{ $item + 1 }}</td>
-                                        <td class="dtr-control sorting_1" tabindex="0">{{ $standars->nama_standarisasi }}
-                                        </td>
-                                        <td>{{ $standars->keterangan }}</td>
-                                        <td>
-                                            <div class="btn-group" role="group" aria-label="Basic example">
-                                            <a type="button" href="/standar/edit/{{ $standars->id }}" class="btn btn-warning" data-toggle="tooltip" data-placement="top" title="Tombol Edit"><i class="fas fa-edit"></i></a>
-                                            <a type="button" href="/standar/delete/{{ $standars->id }}"class="btn btn-danger" data-toggle="tooltip" data-placement="top" title="Tombol Hapus"><i class="fas fa-trash-alt"></i></a>
-                                            </div>
-                                        </td>
-
-                                    </tr>
-                                @endforeach
-
-                        </tbody>
-                       
                     </table>
                 </div>
             </div>
         </div>
     </div>
-    <!-- /.card-body -->
 </div>
+
+
 @endsection
 
 @section('css')
-    <link rel="stylesheet" href="{{ asset('plugins/datatables-bs4/css/dataTables.bootstrap4.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('plugins/datatables-responsive/css/responsive.bootstrap4.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('plugins/datatables-buttons/css/buttons.bootstrap4.min.css') }}">
+<link rel="stylesheet" href="{{ asset('plugins/datatables-bs4/css/dataTables.bootstrap4.min.css') }}">
+{{-- <link rel="stylesheet" href="{{ asset('plugins/datatables-responsive/css/responsive.bootstrap4.min.css') }}"> --}}
+{{-- <link rel="stylesheet" href="{{ asset('plugins/datatables-buttons/css/buttons.bootstrap4.min.css') }}"> --}}
 @endsection
 
 @section('plugin')
-    <!-- DataTables  & Plugins -->
-    <script src="{{ asset('plugins/datatables/jquery.dataTables.min.js') }}"></script>
-    <script src="{{ asset('plugins/datatables-bs4/js/dataTables.bootstrap4.min.js') }}"></script>
-    <script src="{{ asset('plugins/datatables-responsive/js/dataTables.responsive.min.js') }}"></script>
-    <script src="{{ asset('plugins/datatables-responsive/js/responsive.bootstrap4.min.js') }}"></script>
-    <script src="{{ asset('plugins/datatables-buttons/js/dataTables.buttons.min.js') }}"></script>
-    <script src="{{ asset('plugins/datatables-buttons/js/buttons.bootstrap4.min.js') }}"></script>
-    <script src="{{ asset('plugins/jszip/jszip.min.js') }}"></script>
-    <script src="{{ asset('plugins/pdfmake/pdfmake.min.js') }}"></script>
-    <script src="{{ asset('plugins/pdfmake/vfs_fonts.js') }}"></script>
-    <script src="{{ asset('plugins/datatables-buttons/js/buttons.html5.min.js') }}"></script>
-    <script src="{{ asset('plugins/datatables-buttons/js/buttons.print.min.js') }}"></script>
-    <script src="{{ asset('plugins/datatables-buttons/js/buttons.colVis.min.js') }}"></script>
-    <script>
-        $(function() {
-            $("#example1").DataTable({
-                "responsive": true,
-                "lengthChange": true,
-                "autoWidth": false,
-                "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
-            }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
-            $('#example2').DataTable({
-                "paging": true,
-                "lengthChange": false,
-                "searching": false,
-                "ordering": true,
-                "info": true,
-                "autoWidth": false,
-                "responsive": true,
+<script>
+    let table;
+    $(document).ready(function () {
+        table = $('#standarTable').DataTable({
+            select: true,
+            serverSide: true,
+            processing: true,
+            responsive: true,
+            lengthChange: true,
+            autoWidth: false,
+
+            ajax: {
+                url: "{{ route('standarisasi.data') }}",
+                dataSrc: 'data'
+            },
+
+            columns: [{
+                    data: 'DT_RowIndex',
+                    name: 'DT_RowIndex'
+                },
+                {
+                    data: 'nama_standarisasi',
+                    name: 'nama_standarisasi'
+                },
+                {
+                    data: 'keterangan',
+                    name: 'keterangan'
+                },
+
+                {
+                    data: 'aksi',
+                    name: 'aksi',
+                    orderable: false,
+                    searchable: false
+                },
+
+
+            ],
+            lengthMenu: [
+                [10, 25, 50, -1],
+                ['10', '25', '50', 'Semua']
+            ],
+
+
+        });
+
+        // Membuat tombol ditambahkan ke dalam elemen yang benar
+        table.buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+        $(document).on('click', '.btn-edit', function () {
+            var dataId = $(this).data('id');
+            var formAction = '/kelola_standarisasi/update/' + dataId;
+            $('#editForm').attr('action', formAction);
+
+            // Membuat permintaan Ajax untuk mendapatkan data informasi
+            $.ajax({
+                url: '/kelola_standarisasi/' + dataId + '/edit',
+                method: 'GET',
+                success: function (response) {
+                    // Isi formulir penyuntingan dengan data yang diambil dari server
+                    var data = response.standarisasi;
+                    $('#editModal').find('#nama').val(data.nama_standarisasi);
+                    $('#editModal').find('#Keterangan').val(data.keterangan);
+                    $('#editModal').modal('show');
+                    console.log(response);
+                },
+                error: function (xhr, status, error) {
+                    console.error(xhr.responseText);
+                }
             });
         });
-    </script>
 
+        // Button Hapus
+        $(document).on('click', '.btn-hapus', function () {
+            console.log('Hapus');
+            var dataId = $(this).data('id');
+            $('#hapusModalForm').attr('action', '/kelola_standarisasi/' + dataId);
+        });
+    });
+
+</script>
 <script>
-     const navLinks = document.querySelectorAll('.Standar');
+    const navLinks = document.querySelectorAll('.Standar');
     const currentPath = window.location.pathname; // Mendapatkan path dari URL saat ini
 
     navLinks.forEach(link => {
         link.classList.add('active'); // Tambahkan class "active" pada link yang sesuai dengan halaman aktif
     });
-</script>
 
+</script>
+<!-- DataTables  & Plugins -->
+<script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
+{{-- <script src="{{ asset('plugins/datatables/jquery.dataTables.min.js') }}"></script> --}}
+<script src="https://cdn.datatables.net/buttons/2.4.2/js/dataTables.buttons.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.print.min.js"></script>
+<script src="https://cdn.datatables.net/select/1.7.0/js/dataTables.select.min.js"></script>
+
+<script src="{{ asset('plugins/datatables-bs4/js/dataTables.bootstrap4.min.js') }}"></script>
+<script src="{{ asset('plugins/datatables-responsive/js/dataTables.responsive.min.js') }}"></script>
+<script src="{{ asset('plugins/datatables-responsive/js/responsive.bootstrap4.min.js') }}"></script>
+<script src="{{ asset('plugins/datatables-buttons/js/buttons.bootstrap4.min.js') }}"></script>
+<script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.html5.min.js"></script>
+<script src="{{ asset('plugins/datatables-buttons/js/buttons.colVis.min.js') }}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+
+{{-- <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.js"></script> --}}
 @endsection

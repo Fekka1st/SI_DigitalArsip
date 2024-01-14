@@ -12,9 +12,9 @@
 
 @section('content')
     <div class="registration-form">
-        <form action="/kelolauser/store" method="post" enctype="multipart/form-data"> 
+        <form action="/kelolauser/store" method="post" enctype="multipart/form-data">
             {{ csrf_field() }}
-          
+
             <div class="form-icon" id="preview-container">
                 <span>
                     <i class="fas fa-user" id="icon-placeholder"></i>
@@ -30,6 +30,9 @@
             </div>
             <div class="form-group">
                 <input type="text" class="form-control item" name="notelp" id="notelp" placeholder="No Telpon">
+            </div>
+            <div class="form-group">
+                <input type="text" class="form-control item" name="jabatan" id="jabatan" placeholder="jabatan">
             </div>
             <div class="form-group">
                 <input type="password" class="form-control item"name="password" id="password" placeholder="Password">

@@ -20,31 +20,45 @@ class kategoricontroller extends Controller
      */
     public function index()
     {
-        $data['kategori'] = kategori::orderBy('id', 'desc')->get();
-        return view('kelolakategori.kategori')->with($data);
+
+        return view('kelolakategori.index');
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
+    public function data()
     {
-        return view('kelolakategori.tambah');
+        $data = kategori::orderBy('id', 'desc')->get();
+        return dataTables()
+            ->of($data)
+            ->addIndexColumn()
+            ->addColumn('aksi', function ($data) {
+                return
+                    ' <div class="btn-group" role="group" aria-label="Basic example">
+                    <a type="button" href="#" class="btn btn-warning btn-edit" id="btn-edit" data-toggle="modal"
+                        data-target="#editModal" data-id="' . $data->id . '">
+                        <i class="fas fa-edit"></i>
+                    </a>
+
+                    <button type="button" class="btn btn-danger btn-hapus" id="btn-hapus" data-toggle="modal"
+                        data-target="#hapusModal" data-id="' . $data->id . '">
+                        <i class="fas fa-trash-alt"></i>
+                    </button>
+                </div>';
+            })
+            ->rawColumns(['aksi'])
+            ->make(true);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        //	
+
         $validator = Validator::make($request->all(), [
             'namakategori' => 'required',
             'keterangan' => 'required',
         ]);
 
         if ($validator->fails()) {
-            abort(403, 'Data Tidak boleh kosong');
+            Alert::error('Error', 'Data tidak sesuai!')->persistent(true, false);
+            return redirect('/kelola_kategori');
         }
         $kategori = kategori::create([
             'Nama_Kategori' => $request->namakategori,
@@ -52,34 +66,27 @@ class kategoricontroller extends Controller
         ]);
 
         $aktifitas = aktifitas::create([
-            'aktifitas' => 'Tambah Kategori'.' - '. $request->namakategori ,
+            'aktifitas' => 'Menambahkan Kategori'.' - '. $request->namakategori ,
             'Staff' => auth()->user()->name
         ]);
-        return redirect('/kategori')->with('success', 'Data berhasil diisi!');
+        Alert::success('Sukses', 'Data berhasil disimpan!');
+
+    return redirect('/kelola_kategori');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
 
-    /**.
-     * Show the form for editing the specified resource.
-     */
+
     public function edit(string $id)
     {
         //
-        $kategori = DB::table('kategoris')->where('id', $id)->get();
-        return view('kelolakategori.update', ['kategori' => $kategori]);
+        $kategori = kategori::find($id);
+        if (!$kategori) {
+            return response()->json(['error' => 'Data tidak ditemukan'], 404);
+        }
+        return response()->json(['kategori' => $kategori]);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request)
+    public function update(Request $request, string $id)
     {
         $validator = Validator::make($request->all(), [
             'namakategori' => 'required',
@@ -87,20 +94,21 @@ class kategoricontroller extends Controller
         ]);
 
         if ($validator->fails()) {
-            abort(403, 'Data Tidak boleh kosong');
+        Alert::error('Error', 'Data tidak sesuai!')->persistent(true, false);
+        return redirect('/kelola_kategori');
         }
-        $kategori = kategori::where('id', $request->id)
-            ->update(
-                ['Nama_Kategori' => $request->namakategori, 'Keterangan' => $request->keterangan]
-            );
 
-
+        $kategori = kategori::find($id);
         $aktifitas = aktifitas::create([
-            'aktifitas' => 'Edit Kategori'. ' - '.$request->namakategori,
+            'aktifitas' => 'Mengedit Data Kategori'. ' - ' . $kategori->Nama_Kategori . ' Ke '. $request->namakategori,
             'Staff' => auth()->user()->name
         ]);
+        $kategori->Nama_Kategori = $request->namakategori;
+        $kategori->keterangan = $request->keterangan;
+        $kategori->update();
+        Alert::success('Sukses', 'Data berhasil diedit!');
 
-        return redirect('/kategori');
+        return redirect('/kelola_kategori');
     }
 
     /**
@@ -112,11 +120,12 @@ class kategoricontroller extends Controller
         $data = kategori::find($id);
 
         $aktifitas = aktifitas::create([
-            'aktifitas' => 'Hapus Kategori'. ' - '.$data->Nama_Kategori,
+            'aktifitas' => 'Hapus Data Kategori'. ' - ' . $data->Nama_Kategori,
             'Staff' => auth()->user()->name
         ]);
-        kategori::destroy($id);
 
-        return Redirect()->back();
+        kategori::destroy($id);
+        Alert::success('Sukses', 'Data berhasil dihapus');
+        return redirect('/kelola_kategori');
     }
 }

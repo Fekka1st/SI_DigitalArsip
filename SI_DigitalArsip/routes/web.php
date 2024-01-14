@@ -34,29 +34,31 @@ Route::group(['middleware' => 'auth'], function () {
     route::group(['middleware' => 'role:Admin'], function () {
         Route::get('/dashboard', [DashboardController::class, 'index'])->name('master');
 
-        Route::get('/standar/data', [standarcontroller::class, 'data']);
-        Route::resource('/standar', standarcontroller::class);
-        Route::post('/standar/store', [standarcontroller::class, 'store'])->name('standar.store');
-        Route::get('/standar/edit/{id}', [standarcontroller::class, 'edit'])->name('standar.edit');
-        Route::get('/standar/delete/{id}', [standarcontroller::class, 'destroy']);
-        Route::post('/standar/update', [standarcontroller::class, 'update']);
+        //kelola standarisasi Done
+        Route::get('/kelola_standarisasi/hide/data', [standarcontroller::class, 'data'])->name('standarisasi.data');
+        Route::resource('/kelola_standarisasi', standarcontroller::class);
+        Route::post('/kelola_standarisasi/store', [standarcontroller::class, 'store'])->name('standarisasi.store');
+        Route::get('/kelola_standarisasi/{id}/edit', 'standarcontroller@edit');
+        Route::delete('/kelola_standarisasi/{id}', 'standarcontroller@destroy')->name('standarisasi.destroy');
+        Route::patch('/kelola_standarisasi/update/{id}', [standarcontroller::class, 'update'])->name('standarisasi.update');
 
-        Route::get('/kategori/data', [Kategoricontroller::class, 'data']);
-        Route::resource('/kategori', Kategoricontroller::class);
-        Route::post('/kategori/store', [Kategoricontroller::class, 'store'])->name('kategori.store');
-        Route::get('/kategori/edit/{id}', [Kategoricontroller::class, 'edit'])->name('kategori.edit');
-        Route::get('/kategori/delete/{id}', [Kategoricontroller::class, 'destroy']);
-        Route::post('/kategori/update', [Kategoricontroller::class, 'update']);
+        // kelola kategori done
+        Route::get('/kelola_kategori/hide/data', [Kategoricontroller::class, 'data'])->name('kategori.data');
+        Route::resource('/kelola_kategori', Kategoricontroller::class);
+        Route::post('/kelola_kategori/store', [Kategoricontroller::class, 'store'])->name('kategori.store');
+        Route::get('/kelola_kategori/{id}/edit', 'Kategoricontroller@edit');
+        Route::delete('/kelola_kategori/{id}', 'Kategoricontroller@destroy')->name('kategori.destroy');
+        Route::patch('/kelola_kategori/update/{id}', [Kategoricontroller::class, 'update'])->name('kategori.update');
 
+        // kelola sub kategori done
+        Route::get('/kelola_sub-kategori/hide/data', [SubKategoriController::class, 'data'])->name('subkategori.data');
+        Route::resource('/kelola_sub-kategori', SubKategoriController::class);
+        Route::post('/kelola_sub-kategori/store', [SubKategoriController::class, 'store'])->name('subkategori.store');
+        Route::get('/kelola_sub-kategori/{id}/edit', 'SubKategoriController@edit');
+        Route::delete('/kelola_sub-kategori/{id}', 'SubKategoriController@destroy')->name('subkategori.destroy');
+        Route::patch('/kelola_sub-kategori/update/{id}', [SubKategoriController::class, 'update'])->name('subkategori.update');
 
-    
-        Route::get('/sub-kategori/data', [SubKategoriController::class, 'data']);
-        Route::resource('/sub-kategori', SubKategoriController::class);
-        Route::post('/sub-kategori/store', [SubKategoriController::class, 'store'])->name('subkategori.store');
-        Route::get('/sub-kategori/edit/{id}', [SubKategoriController::class, 'edit'])->name('subkategori.edit');
-        Route::get('/sub-kategori/delete/{id}', [SubKategoriController::class, 'destroy']);
-        Route::post('/sub-kategori/update', [SubKategoriController::class, 'update']);
-    
+        //kelola Berkas
         Route::get('/kelolaberkas/data', [KelolaberkasController::class, 'data']);
         Route::resource('/kelolaberkas', KelolaberkasController::class);
         Route::post('/kelolaberkas/store', [KelolaberkasController::class, 'store'])->name('kelolaberkas.store');
@@ -64,19 +66,22 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('/kelolaberkas/delete/{id}', [KelolaberkasController::class, 'destroy']);
         Route::post('/kelolaberkas/update', [KelolaberkasController::class, 'update']);
         Route::get('/kelolaberkas/download/{id}', [KelolaberkasController::class, 'download']);
-    
+
+        //Kelola Report Berkas
+
+
+        //Aktifitas
         Route::get('/aktifitas/data', [Aktifitascontroller::class, 'data']);
         Route::resource('/aktifitas', Aktifitascontroller::class);
 
+        //Kelola User Done
         Route::get('/kelolauser/data', [KelolauserController::class, 'data']);
         Route::resource('/kelolauser', KelolauserController::class);
         Route::post('/kelolauser/store', [KelolauserController::class, 'store'])->name('Kelolauser.store');
         Route::get('/kelolauser/edit/{id}', [KelolauserController::class, 'edit'])->name('Kelolauser.edit');
-        Route::get('/kelolauser/detail/{id}', [KelolauserController::class, 'detail'])->name('Kelolauser.detail');
+        Route::get('/kelolauser/{id}/detail', [KelolauserController::class, 'detail'])->name('Kelolauser.detail');
         Route::get('/kelolauser/delete/{id}', [KelolauserController::class, 'destroy']);
         Route::post('/kelolauser/update', [KelolauserController::class, 'update']);
-        
-
         Route::resource('/download', downloadcontroller::class);
     });
 
@@ -89,16 +94,14 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('/kelolaberkas/update', [KelolaberkasController::class, 'update']);
     Route::get('/kelolaberkas/download/{id}', [KelolaberkasController::class, 'download']);
 
-    Route::get('/profilesettings/{id}', [profilecontroller::class, 'settings'])->name('Kelolaberkas.settings');
-    // Route::post('/profilesettings/store', [profilecontroller::class, 'store'])->name('Kelolauser.store');
-    // Route::get('/profilesettings/edit/{id}', [profilecontroller::class, 'edit'])->name('Kelolauser.edit');
+    //Profile Settings Done
+    Route::get('/profilesettings/', [profilecontroller::class, 'settings'])->name('Kelolaberkas.settings');
     Route::post('/profilesettings/store', [profilecontroller::class, 'store'])->name('Kelolauser.store');
     Route::get('/profilesettings/edit/{id}', [profilecontroller::class, 'edit'])->name('Kelolauser.edit');
-    Route::post('/profilesettings/update', [profilecontroller::class, 'update']);
+    Route::patch('/profilesettings/update', [profilecontroller::class, 'update']);
 });
 
 
 Route::get('/logout', [DashboardController::class, 'logout'])->middleware(['auth', 'verified'])->name('master');
-
 
 require __DIR__ . '/auth.php';

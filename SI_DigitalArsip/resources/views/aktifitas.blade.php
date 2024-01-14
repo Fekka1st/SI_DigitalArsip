@@ -13,10 +13,9 @@
         <div class="card-header">
             <h3 class="card-title">History Aktifitas Sistem</h3>
         </div>
-        <!-- /.card-header -->
+
         <div class="card-body">
             <div id="example1_wrapper" class="dataTables_wrapper dt-bootstrap4">
-                {{-- <a href="{{ route('kategori.create') }}" class="btn btn-primary"><i class="fa fa-plus"></i> Tambah</a> --}}
                 <div class="btn-group">
                     <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                       Filter
@@ -25,7 +24,7 @@
                         <a class="dropdown-item filter-button" href="#" data-aktifitas="">Semua</a>
                         <a class="dropdown-item filter-button" href="#" data-aktifitas="Menambahkan">Menambahkan</a>
                         <a class="dropdown-item filter-button" href="#" data-aktifitas="Hapus">Hapus</a>
-                        <a class="dropdown-item filter-button" href="#" data-aktifitas="Update">Mengedit</a>
+                        <a class="dropdown-item filter-button" href="#" data-aktifitas="Mengedit">Mengedit</a>
                     </div>
                 </div>
                 <div class="mb-2">
@@ -122,6 +121,15 @@
         });
             table.buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
         });
-   
+
     </script>
+
+<script>
+const navLinks = document.querySelectorAll('.aktifitas');
+   const currentPath = window.location.pathname; // Mendapatkan path dari URL saat ini
+
+   navLinks.forEach(link => {
+       link.classList.add('active'); // Tambahkan class "active" pada link yang sesuai dengan halaman aktif
+   });
+</script>
 @endsection

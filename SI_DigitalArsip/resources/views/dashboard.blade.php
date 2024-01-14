@@ -1,16 +1,18 @@
 @extends('layout.Master')
 
 @section('title')
-Dashboard
+Daftar
 @endsection
 
-@section('rute')
+@section('Rute')
 Dashboard
 @endsection
 
 @section('content')
 <div class="container-fluid">
+
     <!-- Small boxes (Stat box) -->
+
     <div class="row">
         <div class="col-lg-3 col-6">
             <!-- small box -->
@@ -21,9 +23,9 @@ Dashboard
                     <p>JUMLAH BERKAS</p>
                 </div>
                 <div class="icon">
-                    <i class="ion ion-bag"></i>
+                    <i class="fa-solid fa-file"></i>
                 </div>
-                <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                <a href="/kelola_berkas" class="small-box-footer">Lebih Lanjut <i class="fas fa-arrow-circle-right"></i></a>
             </div>
         </div>
         <!-- ./col -->
@@ -36,9 +38,9 @@ Dashboard
                     <p>JUMLAH KATEGORI</p>
                 </div>
                 <div class="icon">
-                    <i class="ion ion-stats-bars"></i>
+                    <i class="fa-solid fa-table-list"></i>
                 </div>
-                <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                <a href="/kelola_kategori" class="small-box-footer">Lebih Lanjut <i class="fas fa-arrow-circle-right"></i></a>
             </div>
         </div>
         <!-- ./col -->
@@ -51,9 +53,9 @@ Dashboard
                     <p>JUMLAH USER</p>
                 </div>
                 <div class="icon">
-                    <i class="ion ion-person-add"></i>
+                    <i class="fa-solid fa-user"></i>
                 </div>
-                <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                <a href="/kelolauser" class="small-box-footer">Lebih Lanjut <i class="fas fa-arrow-circle-right"></i></a>
             </div>
         </div>
         <!-- ./col -->
@@ -66,77 +68,122 @@ Dashboard
                     <p>Jumlah Aktifitas</p>
                 </div>
                 <div class="icon">
-                    <i class="ion ion-pie-graph"></i>
+                    <i class="fa-solid fa-chart-line"></i>
                 </div>
-                <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                <a href="/aktifitas" class="small-box-footer">Lebih Lanjut <i class="fas fa-arrow-circle-right"></i></a>
             </div>
         </div>
         <!-- ./col -->
+
     </div>
-    <div class="card">
-        <div class="card-header">
-            <h3 class="card-title">Report Berkas</h3>
-        </div>
-        <div class="card-body">
-            <div id="example1_wrapper" class="dataTables_wrapper dt-bootstrap4">
-                <div class="mb-2"></div>
-                <div class="row">
-                    <div class="col-sm-12">
-                        <table id="example1" class="table table-bordered table-striped dataTable dtr-inline"
-                            aria-describedby="example1_info">
-                            <thead>
-                                <tr>
-                                    <th class="sorting sorting_asc" tabindex="0" aria-controls="example1" rowspan="1"
-                                        colspan="1" aria-sort="ascending"
-                                        aria-label="Rendering engine: activate to sort column descending">No
-                                    </th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                         
-                                <tr class="odd">
 
-                                    <td>jhg</td>
-                                  
 
-                                </tr>
-                         
-                        
+</div>
+<div class="row">
+    <div class="col-6">
+        <div class="card">
+            <div class="card-body">
+                <div class="text-center">
+                    <div class="col-6"></div>
+                    <h1 class="font-weight-Normal"> Selamat Datang {{ auth()->user()->name }}
 
-                            </tbody>
-                        </table>
-                    </div>
+
+                        <br> Sistem Informasi Digital Arsip </h1>
+                    <img width="300" height="300" src="assets/img/jobs.png" alt="">
                 </div>
             </div>
         </div>
-        <!-- /.card-body -->
+    </div>
+    <div class="col-6">
+        <div class="card">
+            <div class="card-body">
+                <div class="text-center">
+                    <h4>Report Jumlah Berkas</h4>
+                    <canvas id="myChart" width="400" height="200"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-6">
+        <div class="card">
+            <div class="card-body">
+                <div class="text-center">
+                    <h4>Report Jumlah Aktifitas</h4>
+                    <canvas id="myChart2" width="400" height="200"></canvas>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
+
+
+
 @endsection
 
 @section('plugin')
- <!-- DataTables  & Plugins -->
- <script src="{{ asset('plugins/datatables/jquery.dataTables.min.js') }}"></script>
- <script src="{{ asset('plugins/datatables-bs4/js/dataTables.bootstrap4.min.js') }}"></script>
- <script src="{{ asset('plugins/datatables-responsive/js/dataTables.responsive.min.js') }}"></script>
- <script src="{{ asset('plugins/datatables-responsive/js/responsive.bootstrap4.min.js') }}"></script>
- <script src="{{ asset('plugins/datatables-buttons/js/dataTables.buttons.min.js') }}"></script>
- <script src="{{ asset('plugins/datatables-buttons/js/buttons.bootstrap4.min.js') }}"></script>
- <script src="{{ asset('plugins/jszip/jszip.min.js') }}"></script>
- <script src="{{ asset('plugins/pdfmake/pdfmake.min.js') }}"></script>
- <script src="{{ asset('plugins/pdfmake/vfs_fonts.js') }}"></script>
- <script src="{{ asset('plugins/datatables-buttons/js/buttons.html5.min.js') }}"></script>
- <script src="{{ asset('plugins/datatables-buttons/js/buttons.print.min.js') }}"></script>
- <script src="{{ asset('plugins/datatables-buttons/js/buttons.colVis.min.js') }}"></script>
- <script>
-    $(function() {
-        $("#example1").DataTable({
-            "responsive": true,
-            "lengthChange": true,
-            "autoWidth": false,
-            "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
-        }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+
+<script>
+    // Ambil data dari controller
+    var chartData = @json($chartData);
+
+
+    // Proses data dan buat grafik
+    var ctx = document.getElementById('myChart').getContext('2d');
+    var myChart = new Chart(ctx, {
+        type: 'line', // Ubah tipe grafik menjadi line
+        data: {
+            labels: chartData.map(item => item.month),
+            datasets: [{
+                label: 'Jumlah Berkas per Bulan',
+                backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                borderColor: 'rgba(75, 192, 192, 1)',
+                data: chartData.map(item => item.count),
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: false,
+                    ticks: {
+                        min: 1, // Nilai minimum
+                        max: 1000, // Nilai maksimum
+                    }
+                }
+            }
+        }
     });
+
+    var chartData = @json($aktifitasData);
+
+
+    // Proses data dan buat grafik
+    var ctx = document.getElementById('myChart2').getContext('2d');
+    var myChart = new Chart(ctx, {
+        type: 'line', // Ubah tipe grafik menjadi line
+        data: {
+            labels: chartData.map(item => item.day),
+            datasets: [{
+                label: 'Jumlah Aktifitas per Hari',
+                backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                borderColor: 'rgba(75, 192, 192, 1)',
+                data: chartData.map(item => item.count),
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: false,
+                    ticks: {
+                        min: 1, // Nilai minimum
+                        max: 1000, // Nilai maksimum
+                    }
+                }
+            }
+        }
+    });
+
 </script>
 <script>
     // Ambil semua elemen dengan class "nav-link"
@@ -148,4 +195,17 @@ Dashboard
     });
 
 </script>
+<script src="{{ asset('plugins/datatables/jquery.dataTables.min.js') }}"></script>
+<script src="{{ asset('plugins/datatables-bs4/js/dataTables.bootstrap4.min.js') }}"></script>
+<script src="{{ asset('plugins/datatables-responsive/js/dataTables.responsive.min.js') }}"></script>
+<script src="{{ asset('plugins/datatables-responsive/js/responsive.bootstrap4.min.js') }}"></script>
+<script src="{{ asset('plugins/datatables-buttons/js/dataTables.buttons.min.js') }}"></script>
+<script src="{{ asset('plugins/datatables-buttons/js/buttons.bootstrap4.min.js') }}"></script>
+<script src="{{ asset('plugins/jszip/jszip.min.js') }}"></script>
+<script src="{{ asset('plugins/pdfmake/pdfmake.min.js') }}"></script>
+<script src="{{ asset('plugins/pdfmake/vfs_fonts.js') }}"></script>
+<script src="{{ asset('plugins/datatables-buttons/js/buttons.html5.min.js') }}"></script>
+<script src="{{ asset('plugins/datatables-buttons/js/buttons.print.min.js') }}"></script>
+<script src="{{ asset('plugins/datatables-buttons/js/buttons.colVis.min.js') }}"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 @endsection

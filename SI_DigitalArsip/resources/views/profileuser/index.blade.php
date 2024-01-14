@@ -1,211 +1,249 @@
 @extends('layout.Master')
 
 @section('title')
-    Profile
+Pengaturan Profile
 @endsection
 
 @section('rute')
-    Setting Profile
+Pengaturan Profile
 @endsection
 
 
 @section('content')
-
-<div class="container emp-profile">
+<div class="registration-form">
     @foreach ($user as $data)
-
-    @endforeach
-    <form method="post">
-        <div class="row">
-            <div class="col-md-4">
-                <div class="profile-img">
-                    <img src="{{$data->url }}" alt="" />
+    <form action="/profilesettings/update" method="post" enctype="multipart/form-data">
+        @csrf
+        @method('PATCH')
+        <div class="text-center">
+            <img src="{{$data->url}}" class="img-thumbnail rounded" style="height: 200px; width: 200px " alt="">
+            <p>FOTO PROFILE</p>
+        </div>
+        <div class="row justify-content-center">
+            <div class="col-4">
+                <div class="form-group">
+                    <label for="name">Nama</label>
+                    <input type="text" class="form-control item" name="name" id="name" placeholder="Nama"
+                        value="{{$data->name}}">
                 </div>
             </div>
-            <div class="col-md-6">
-                <div class="profile-head">
-                    <h5>
-                        {{$data->name}}
-                    </h5>
-                    <h6>
-                        {{$data->role}}
-                    </h6>
+            <div class="col-4">
+                <div class="form-group">
+                    <label for="name">Email</label>
+                    <input type="text" class="form-control item" name="email" id="email" placeholder="Email"
+                        value="{{$data->email}}">
                 </div>
             </div>
         </div>
-        <div class="row">
-            <div class="col-md-4">
+        <div class="row justify-content-center">
+            <div class="form-group col-8">
+                <label for="notelpon">Nomor Telpon:</label>
+                <input type="text" class="form-control item" name="notelp" id="notelp" placeholder="No Telpon"
+                    value="{{$data->no_telp}}">
+                <label for="profile-picture">Profile Picture:</label>
+                <input type="file" class="form-control-file " name="filename">
+                <p>*Abaikan jika tidak ingin ganti foto profile</p>
             </div>
-            <div class="col-md-8">
-                <div class="tab-content profile-tab" id="myTabContent">
-                    <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
-                        <div class="row">
-                            <div class="col-md-6">
-                                <label>Nama</label>
-                            </div>
-                            <div class="col-md-6">
-                                <p>{{$data->name}}</p>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <label>Email</label>
-                            </div>
-                            <div class="col-md-6">
-                                <p>{{$data->email}}</p>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <label>Phone</label>
-                            </div>
-                            <div class="col-md-6">
-                                <p>{{$data->no_telp}}</p>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <label>Jabatan</label>
-                            </div>
-                            <div class="col-md-6">
-                                <p>Staff 1</p>
-                            </div>
-                        </div>
-                        <a type="button" href="/profilesettings/edit/{{ $data->id }}"class="btn btn-warning" data-toggle="tooltip" data-placement="top" title="Tombol Edit">Edit <i class="fas fa-edit"></i></a>
-                    </div>
-                </div>
+            <div class="form-group col-8">
+                <label for="Password">Password</label>
+                <input type="password" class="form-control item" name="password" id="password" placeholder="Password">
+            </div>
+            <div class="input-group mb-3"> </div>
+            <div class="form-group col-6">
+                <button type="submit" value="Simpan Data" class="btn btn-block create-account">Simpan Pengaturan</button>
             </div>
         </div>
     </form>
+    @endforeach
+    {{-- <div class="social-media"> --}}
+
+</div>
 </div>
 @endsection
 
+@section('plugin')
+<script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.15/jquery.mask.min.js">
+</script>
+<script>
+    $(document).ready(function () {
+        $('#notelp').mask('0000-0000-0000-0000');
+    });
+
+</script>
+<script>
+    function togglePasswordVisibility() {
+        var passwordInput = document.getElementById('password');
+        var showPasswordCheckbox = document.getElementById('showPassword');
+
+        // Jika checkbox dicentang, ubah tipe input menjadi "text"
+        // Jika tidak dicentang, ubah tipe input menjadi "password" kembali
+        passwordInput.type = showPasswordCheckbox.checked ? 'text' : 'password';
+    }
+
+</script>
+
+<script>
+    const profilePictureInput = document.getElementById('profile-picture');
+    const previewContainer = document.getElementById('preview-container');
+    const previewImage = document.getElementById('preview-image');
+    const iconPlaceholder = document.getElementById('icon-placeholder');
+
+    profilePictureInput.addEventListener('change', function () {
+        const file = this.files[0];
+
+        if (file) {
+            const reader = new FileReader();
+
+            reader.addEventListener('load', function () {
+                iconPlaceholder.style.display = 'none';
+                previewImage.src = reader.result;
+                previewImage.style.display = 'block';
+            });
+
+            reader.readAsDataURL(file);
+        } else {
+            // Reset the preview if no file is selected
+            iconPlaceholder.style.display = 'block';
+            previewImage.src = '#';
+            previewImage.style.display = 'none';
+        }
+    });
+
+</script>
+<script>
+    const navLinks = document.querySelectorAll('.profile');
+    const currentPath = window.location.pathname; // Mendapatkan path dari URL saat ini
+
+    navLinks.forEach(link => {
+        link.classList.add('active'); // Tambahkan class "active" pada link yang sesuai dengan halaman aktif
+    });
+
+</script>
+@endsection
+
+
+
+
 @section('css')
 <style>
+    .form-control {
+        padding-bottom: 38px;
+        border-radius: 20px;
+        padding-left: 10px;
+        display: block;
+        width: 100%;
+        height: calc(2.25rem + 2px);
+        padding: -0.625rem 0.75rem;
+        padding-top: 10px;
+        font-size: 1rem;
+        font-weight: 400;
+        line-height: 1.5;
+        color: #495057;
+        background-color: #fff;
+        background-clip: padding-box;
+        border: 1px solid #ced4da;
+        border-radius: 15px;
+        box-shadow: inset 0 0 0 transparent;
+        transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+    }
+
     body {
-        background: -webkit-linear-gradient(left, #3931af, #00c6ff);
+        background-color: #dee9ff;
     }
 
-    .emp-profile {
-        padding: 3%;
-        margin-top: 3%;
-        margin-bottom: 3%;
-        border-radius: 0.5rem;
-        background: #fff;
+    .registration-form {
+        padding: 0px 0;
     }
 
-    .profile-img {
+    .registration-form form {
+        background-color: #fff;
+        max-width: 1200px;
+        margin: auto;
+        padding: 50px 70px;
+        border-radius: 30px;
+        box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.075);
+    }
+
+    .registration-form .form-icon {
         text-align: center;
+        background-color: #5891ff;
+        border-radius: 50%;
+        font-size: 40px;
+        color: white;
+        width: 100px;
+        height: 100px;
+        margin: auto;
+        margin-bottom: 50px;
+        line-height: 100px;
     }
 
-    .profile-img img {
-        width: 70%;
-        height: 100%;
+    .registration-form .item {
+        border-radius: 20px;
+        margin-bottom: 25px;
+        padding: 10px 20px;
     }
 
-    .profile-img .file {
-        position: relative;
-        overflow: hidden;
-        margin-top: -20%;
-        width: 70%;
+    .registration-form .create-account {
+        border-radius: 30px;
+        padding: 10px 20px;
+        font-size: 18px;
+        font-weight: bold;
+        background-color: #5791ff;
         border: none;
-        border-radius: 0;
-        font-size: 15px;
-        background: #212529b8;
+        color: white;
+        margin-top: 20px;
     }
 
-    .profile-img .file input {
-        position: absolute;
-        opacity: 0;
-        right: 0;
-        top: 0;
+    .registration-form .social-media {
+        max-width: 1200px;
+        background-color: #fff;
+        margin: auto;
+        padding: 35px 0;
+        text-align: center;
+        border-bottom-left-radius: 30px;
+        border-bottom-right-radius: 30px;
+        color: #9fadca;
+        border-top: 1px solid #dee9ff;
+        box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.075);
     }
 
-    .profile-head h5 {
-        color: #333;
+    .registration-form .social-icons {
+        margin-top: 30px;
+        margin-bottom: 16px;
     }
 
-    .profile-head h6 {
-        color: #0062cc;
+    .registration-form .social-icons a {
+        font-size: 23px;
+        margin: 0 3px;
+        color: #5691ff;
+        border: 1px solid;
+        border-radius: 50%;
+        width: 45px;
+        display: inline-block;
+        height: 45px;
+        text-align: center;
+        background-color: #fff;
+        line-height: 45px;
     }
 
-    .profile-edit-btn {
-        border: none;
-        border-radius: 1.5rem;
-        width: 70%;
-        padding: 2%;
-        font-weight: 600;
-        color: #6c757d;
-        cursor: pointer;
-    }
-
-    .proile-rating {
-        font-size: 12px;
-        color: #818182;
-        margin-top: 5%;
-    }
-
-    .proile-rating span {
-        color: #495057;
-        font-size: 15px;
-        font-weight: 600;
-    }
-
-    .profile-head .nav-tabs {
-        margin-bottom: 5%;
-    }
-
-    .profile-head .nav-tabs .nav-link {
-        font-weight: 600;
-        border: none;
-    }
-
-    .profile-head .nav-tabs .nav-link.active {
-        border: none;
-        border-bottom: 2px solid #0062cc;
-    }
-
-    .profile-work {
-        padding: 14%;
-        margin-top: -15%;
-    }
-
-    .profile-work p {
-        font-size: 12px;
-        color: #818182;
-        font-weight: 600;
-        margin-top: 10%;
-    }
-
-    .profile-work a {
+    .registration-form .social-icons a:hover {
         text-decoration: none;
-        color: #495057;
-        font-weight: 600;
-        font-size: 14px;
+        opacity: 0.6;
     }
 
-    .profile-work ul {
-        list-style: none;
-    }
+    @media (max-width: 576px) {
+        .registration-form form {
+            padding: 50px 20px;
+        }
 
-    .profile-tab label {
-        font-weight: 600;
-    }
-
-    .profile-tab p {
-        font-weight: 600;
-        color: #0062cc;
+        .registration-form .form-icon {
+            width: 70px;
+            height: 70px;
+            font-size: 30px;
+            line-height: 70px;
+        }
     }
 
 </style>
-@endsection
-@section('plugin')
-    <script>
-        const navLinks = document.querySelectorAll('.profile');
-       const currentPath = window.location.pathname; // Mendapatkan path dari URL saat ini
-   
-       navLinks.forEach(link => {
-           link.classList.add('active'); // Tambahkan class "active" pada link yang sesuai dengan halaman aktif
-       });
-   </script>
 @endsection

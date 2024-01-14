@@ -8,6 +8,7 @@ use App\Models\subkategori;
 use App\Models\aktifitas;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class SubKategoriController extends Controller
 {
@@ -17,61 +18,72 @@ class SubKategoriController extends Controller
     public function index()
     {
         //
-        $data['subkategori'] = subkategori::orderBy('id', 'desc')->get();
-        return view('subkategori.subkategori')->with($data);
+
+        return view('subkategori.index');
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
+
+    public function data()
     {
-        //
-        return view('subkategori.tambah');
+        $data = subkategori::orderBy('id', 'desc')->get();
+        return dataTables()
+            ->of($data)
+            ->addIndexColumn()
+            ->addColumn('aksi', function ($data) {
+                return
+                    ' <div class="btn-group" role="group" aria-label="Basic example">
+                    <a type="button" href="#" class="btn btn-warning btn-edit" id="btn-edit" data-toggle="modal"
+                        data-target="#editModal" data-id="' . $data->id . '">
+                        <i class="fas fa-edit"></i>
+                    </a>
+
+                    <button type="button" class="btn btn-danger btn-hapus" id="btn-hapus" data-toggle="modal"
+                        data-target="#hapusModal" data-id="' . $data->id . '">
+                        <i class="fas fa-trash-alt"></i>
+                    </button>
+                </div>';
+            })
+            ->rawColumns(['aksi'])
+            ->make(true);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        //
+
         $validator = Validator::make($request->all(), [
-            'namakategori' => 'required',
+            'nama' => 'required',
             'keterangan' => 'required',
         ]);
 
         if ($validator->fails()) {
-            abort(403, 'Data Tidak boleh kosong');
+            Alert::error('Error', 'Data tidak sesuai!')->persistent(true, false);
+            return redirect('/kelola_sub-kategori');
         }
         $subkategori = subkategori::create([
-            'Nama_SubKategori' => $request->namakategori,
+            'Nama_SubKategori' => $request->nama,
             'Keterangan' => $request->keterangan
         ]);
 
         $aktifitas = aktifitas::create([
-            'aktifitas' => 'Menambahkan Sub Kategori'.' - '.$request->namakategori,
+            'aktifitas' => 'Menambahkan Sub-Kategori'.' - '.$request->nama,
             'Staff' => auth()->user()->name
         ]);
-        return redirect('/sub-kategori')->with('success', 'Created successfully!');
+        Alert::success('Sukses', 'Data berhasil disimpan!');
+        return redirect('/kelola_sub-kategori');
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(string $id)
     {
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit(string $id)
     {
-        //
-        $subkategori = DB::table('subkategoris')->where('id', $id)->get();
-        return view('subkategori.update', ['subkategori' => $subkategori]);
+        $subkategori = subkategori::find($id);
+        if (!$subkategori) {
+            return response()->json(['error' => 'Data tidak ditemukan'], 404);
+        }
+        return response()->json(['subkategori' => $subkategori]);
     }
 
     /**
@@ -81,25 +93,27 @@ class SubKategoriController extends Controller
     {
         //
         $validator = Validator::make($request->all(), [
-            'namakategori' => 'required',
-            'keterangan' => 'required',
+            'nama' => 'required',
+            'Keterangan' => 'required',
         ]);
 
         if ($validator->fails()) {
-            abort(403, 'Data Tidak boleh kosong');
+            Alert::error('Error', 'Data tidak sesuai!')->persistent(true, false);
+            return redirect('/kelola_sub-kategori');
         }
-        $subkategori = subkategori::where('id', $request->id)
-            ->update(
-                ['Nama_SubKategori' => $request->namakategori, 'Keterangan' => $request->keterangan]
-            );
-
-
+        $subkategori = subkategori::find($id);
         $aktifitas = aktifitas::create([
-            'aktifitas' => 'Update Sub Kategori'.' - '. $request->namakategori,
+            'aktifitas' => 'Mengedit Data Sub-Kategori'. ' - ' . $subkategori->Nama_SubKategori . ' Ke '. $request->nama,
             'Staff' => auth()->user()->name
         ]);
 
-        return redirect('/sub-kategori');
+        $subkategori->Nama_SubKategori = $request->nama;
+        $subkategori->Keterangan = $request->Keterangan;
+        $subkategori->update();
+        Alert::success('Sukses', 'Data berhasil diedit!');
+
+        return redirect('/kelola_sub-kategori');
+
     }
 
     /**
@@ -111,11 +125,12 @@ class SubKategoriController extends Controller
         $data = subkategori::find($id);
 
         $aktifitas = aktifitas::create([
-            'aktifitas' => 'Menghapus Sub Kategori'.' - '.$data->Nama_SubKategori,
+            'aktifitas' => 'Hapus Data Sub-Kategori'. ' - ' . $data->Nama_SubKategori,
             'Staff' => auth()->user()->name
         ]);
-        subkategori::destroy($id);
 
-        return Redirect()->back();
+        subkategori::destroy($id);
+        Alert::success('Sukses', 'Data berhasil dihapus');
+        return redirect('/kelola_sub-kategori');
     }
 }

@@ -1,17 +1,17 @@
 @extends('layout.Master')
 
 @section('title')
-    History Download
+Riwayat Unduh
 @endsection
 
 @section('rute')
-    History Download
+Riwayat Unduh
 @endsection
 
 @section('content')
     <div class="card">
         <div class="card-header">
-            <h3 class="card-title">History Download</h3>
+            <h3 class="card-title">List Riwayat Unduh</h3>
         </div>
         <!-- /.card-header -->
         <div class="card-body">
@@ -33,7 +33,7 @@
                                         colspan="1" aria-label="Platform(s): activate to sort column ascending">
                                         Nama Berkas</th>
                                     <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1"
-                                        colspan="1" aria-label="Engine version: activate to sort column ascending">Staff
+                                        colspan="1" aria-label="Engine version: activate to sort column ascending">User
                                     </th>
                                     <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1"
                                         colspan="1" aria-label="Engine version: activate to sort column ascending">

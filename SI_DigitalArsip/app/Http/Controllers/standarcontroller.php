@@ -8,73 +8,83 @@ use App\Models\standar;
 use App\Models\aktifitas;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
+use RealRashid\SweetAlert\Facades\Alert;
+use DataTables;
 
 class standarcontroller extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+
     public function index()
     {
-        //
-        $data['standar'] = standar::orderBy('id', 'desc')->get();
-        return view('standarisasi.index')->with($data);
+        return view('standarisasi.index');
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
+    public function data()
+    {
+        $data = standar::orderBy('id', 'desc')->get();
+        return dataTables()
+            ->of($data)
+            ->addIndexColumn()
+            ->addColumn('aksi', function ($data) {
+                return
+                    ' <div class="btn-group" role="group" aria-label="Basic example">
+                    <a type="button" href="#" class="btn btn-warning btn-edit" id="btn-edit" data-toggle="modal"
+                        data-target="#editModal" data-id="' . $data->id . '">
+                        <i class="fas fa-edit"></i>
+                    </a>
+
+                    <button type="button" class="btn btn-danger btn-hapus" id="btn-hapus" data-toggle="modal"
+                        data-target="#hapusModal" data-id="' . $data->id . '">
+                        <i class="fas fa-trash-alt"></i>
+                    </button>
+                </div>';
+            })
+            ->rawColumns(['aksi'])
+            ->make(true);
+    }
+
+
     public function create()
     {
-        //
-        return view('standarisasi.tambah');
+
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        //
+
         $validator = Validator::make($request->all(), [
-            'namastandar' => 'required',
+            'nama' => 'required',
             'keterangan' => 'required',
         ]);
-    
+
         // Cek apakah validasi gagal
         if ($validator->fails()) {
             abort(403, 'Data Tidak boleh kosong');
         }
         $standar = standar::create([
-            'nama_standarisasi' => $request->namastandar,
+            'nama_standarisasi' => $request->nama,
             'Keterangan' => $request->keterangan
         ]);
 
         $aktifitas = aktifitas::create([
-            'aktifitas' => 'Tambah Standar'.' - '. $request->namastandar ,
+            'aktifitas' => 'Menambahkan Data Standarisasi'. ' - ' . $request->nama ,
             'Staff' => auth()->user()->name
         ]);
-        return redirect('/standar')->with('success', 'Data berhasil diisi!');
+        Alert::success('Sukses', 'Data berhasil disimpan!')->persistent(true, false);
+        return redirect('/kelola_standarisasi');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
+
+    public function edit($id)
     {
-        //
 
+        $standarisasi = standar::find($id);
+        if (!$standarisasi) {
+            return response()->json(['error' => 'Data tidak ditemukan'], 404);
+        }
+        return response()->json(['standarisasi' => $standarisasi]);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-        $standar = DB::table('standarisasis')->where('id', $id)->get();
-        return view('standarisasi.update', ['standar' => $standar]);
-    }
 
     /**
      * Update the specified resource in storage.
@@ -83,25 +93,20 @@ class standarcontroller extends Controller
     {
         //
 
-        $validator = Validator::make($request->all(), [
-            'namastandar' => 'required',
-            'keterangan' => 'required',
-        ]);
-
-        if ($validator->fails()) {
-            abort(403, 'Data Tidak boleh kosong');
-        }
-        
-        $standar = standar::where('id', $request->id)
-        ->update(
-            ['nama_standarisasi' => $request->namastandar, 'Keterangan' => $request->keterangan]
-        );
-
+        $standar = standar::find($id);
         $aktifitas = aktifitas::create([
-            'aktifitas' => 'Edit Standar'. ' - '.$request->namastandar,
+            'aktifitas' => 'Mengedit Data Standarisasi'. ' - ' . $standar->nama_standarisasi . ' Ke '. $request->nama,
             'Staff' => auth()->user()->name
         ]);
-        return redirect('/standar');
+        $standar->nama_standarisasi = $request->nama;
+        $standar->keterangan = $request->Keterangan;
+        $standar->update();
+
+
+        Alert::success('Sukses', 'Data berhasil diedit!')->persistent(true, false);
+        return redirect('/kelola_standarisasi');
+
+
     }
 
     /**
@@ -113,12 +118,12 @@ class standarcontroller extends Controller
         $data = standar::find($id);
 
         $aktifitas = aktifitas::create([
-            'aktifitas' => 'Hapus Standar'. ' - ' . $data->nama_standarisasi,
+            'aktifitas' => 'Hapus Data Standarisasi'. ' - ' . $data->nama_standarisasi,
             'Staff' => auth()->user()->name
         ]);
 
         standar::destroy($id);
-
+        Alert::success('Sukses', 'Data berhasil dihapus!');
         return Redirect()->back();
     }
 }

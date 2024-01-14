@@ -59,13 +59,17 @@ Kelola User
                                         <a type="button" href="/kelolauser/edit/{{ $user->id }}" class="btn btn-warning"
                                             data-toggle="tooltip" data-placement="top" title="Tombol Edit"><i
                                                 class="fas fa-edit"></i></a>
-                                                <a type="button" href="/kelolauser/detail/{{ $user->id }}"
-                                                    class="btn btn-info" data-toggle="tooltip" data-placement="top"
-                                                    title="Tombol Detail"><i class="fas fa-info-circle"></i></a>
+                                        {{-- <a type="button" href="/kelolauser/detail/{{ $user->id }}"
+                                        class="btn btn-info" data-toggle="tooltip" data-placement="top"
+                                        title="Tombol Detail"><i class="fas fa-info-circle"></i></a> --}}
+                                        <a type="button" href="#" class="btn btn-info btn-edit" id="btn-edit"
+                                            data-toggle="modal" data-target="#detail" data-id="{{ $user->id }}">
+                                            <i class="fas fa-info-circle"></i>
+                                        </a>
                                         <a type="button" href="/kelolauser/delete/{{ $user->id }}"
                                             class="btn btn-danger" data-toggle="tooltip" data-placement="top"
                                             title="Tombol Hapus"><i class="fas fa-trash-alt"></i></a>
-                                     
+
                                     </div>
                                 </td>
 
@@ -73,21 +77,60 @@ Kelola User
                             @endforeach
 
                         </tbody>
-                        {{-- <tfoot>
-                        <tr>
-                            <th rowspan="1" colspan="1">Rendering engine</th>
-                            <th rowspan="1" colspan="1">Browser</th>
-                            <th rowspan="1" colspan="1">Platform(s)</th>
-                            <th rowspan="1" colspan="1">Engine version</th>
-                            <th rowspan="1" colspan="1">CSS grade</th>
-                        </tr>
-                    </tfoot> --}}
                     </table>
                 </div>
             </div>
         </div>
     </div>
-    <!-- /.card-body -->
+</div>
+{{-- modal Info --}}
+<div class="modal fade" id="detail" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdropLabel">Detail User</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="col-12 d-flex align-items-stretch flex-column">
+                    <div class="card bg-light d-flex flex-fill">
+                        <div class="card-header text-muted border-bottom-0">
+
+                        </div>
+                        <div class="card-body pt-0">
+                            <div class="row">
+                                <div class="col-7">
+                                    <h2 class="lead"><b> Nama : </b></h2>
+                                    <p class="text-muted text-sm"><b>Jabatan: </b>
+                                    </p>
+                                    <ul class="ml-4 mb-0 fa-ul text-muted">
+                                        <li class="small"><span class="fa-li"><i class="fas fa-lg fa-building"></i></span><span id="emailPlaceholder">EMAIL DISINI</span></li>
+                                        <li class="small"><span class="fa-li"><i class="fas fa-lg fa-phone"></i></span><span id="phonePlaceholder">NO TELPON DISINI</span></li>
+                                    </ul>
+                                </div>
+                                <div class="col-5 text-center">
+                                    <img src="" alt="user-avatar" class="img-circle img-fluid">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-footer">
+                            <div class="text-right">
+                                <a href="" class="btn btn-sm bg-teal">
+                                    Pergi Ke Whatsapp <i class="fa-brands fa-whatsapp"></i>
+                                </a>
+                                <a href="" class="btn btn-sm btn-primary " id="emailLink">
+                                    Pergi Ke Email <i class="fa-regular fa-envelope"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer"></div>
+        </div>
+    </div>
 </div>
 @endsection
 
@@ -98,6 +141,40 @@ Kelola User
 <link rel="stylesheet" href="{{ asset('plugins/datatables-buttons/css/buttons.bootstrap4.min.css') }}">
 @endsection
 @section('plugin')
+
+<script>
+    $(document).on('click', '.btn-edit', function () {
+        var dataId = $(this).data('id');
+        $.ajax({
+            url: '/kelolauser/' + dataId + '/detail',
+            method: 'GET',
+            success: function (response) {
+                $('#detail').find('.modal-title').text('Detail User');
+                $('#detail').find('.card-header').text(response.user.role);
+                $('#detail').find('.lead b').text('Nama : ' + response.user.name);
+                $('#detail').find('.text-muted.text-sm b').text('Jabatan: ' + response.user
+                .Jabatan);
+
+                $('#emailPlaceholder').text('Email: ' +response.user.email);
+                $('#phonePlaceholder').text('No Telpon: ' +response.user.no_telp);
+
+                $('#detail').find('.img-circle.img-fluid').attr('src', response.user.url);
+
+                // Atur tautan Whatsapp dan Email
+                $('#detail').find('.bg-teal').attr('href', 'https://wa.me/' + response.user
+                .no_telp);
+                // Atur tautan Email
+                $('#emailLink').attr('href', 'mailto:' + response.user.email);
+                // Buka modal
+                $('#detail').modal('show');
+            },
+            error: function (xhr, status, error) {
+                console.error(xhr.responseText);
+            }
+        });
+    });
+
+</script>
 <!-- DataTables  & Plugins -->
 <script src="{{ asset('plugins/datatables/jquery.dataTables.min.js') }}"></script>
 <script src="{{ asset('plugins/datatables-bs4/js/dataTables.bootstrap4.min.js') }}"></script>
@@ -125,10 +202,11 @@ Kelola User
 
 <script>
     const navLinks = document.querySelectorAll('.user');
-   const currentPath = window.location.pathname; // Mendapatkan path dari URL saat ini
+    const currentPath = window.location.pathname; // Mendapatkan path dari URL saat ini
 
-   navLinks.forEach(link => {
-       link.classList.add('active'); // Tambahkan class "active" pada link yang sesuai dengan halaman aktif
-   });
+    navLinks.forEach(link => {
+        link.classList.add('active'); // Tambahkan class "active" pada link yang sesuai dengan halaman aktif
+    });
+
 </script>
 @endsection

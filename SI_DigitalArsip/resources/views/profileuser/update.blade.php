@@ -11,9 +11,10 @@
 @section('content')
     <div class="registration-form">
         @foreach ($user as $data)
-        <form action="/profilesettings/update" method="post" enctype="multipart/form-data"> 
+        <form action="/kelolauser/store" method="post" enctype="multipart/form-data">
             @csrf
             @method('PATCH')
+
             <div class="form-icon" id="preview-container">
                 <span>
                     <i class="fas fa-user" id="icon-placeholder"></i>
@@ -51,11 +52,11 @@
             </div>
             <div class="form-group">
                 <label for="profile-picture">Profile Picture:</label> <p>*Abaikan jika tidak ingin ganti foto profile</p>
-                <input type="file" class="form-control" id="profile-picture" name="filename">
+                <input type="file" class="form-control" id="profile-picture" name="filename" accept="image/*">
                 <input hidden type="text" class="form-control" name="id" id="id"
                 placeholder="........" value="{{ $data->id }}">
             </div>
-            
+
             <div class="form-group">
                 <button type="submit" value="Simpan Data" class="btn btn-block create-account">Edit Akun</button>
             </div>

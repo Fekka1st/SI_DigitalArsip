@@ -6,16 +6,17 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use APP\models\user;
+use App\Models\Aktifitas;
 
 class profilecontroller extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function settings(string $id)
+    public function settings()
     {
         //
-        $user = DB::table('users')->where('id', $id)->get();
+        $user = DB::table('users')->where('id', auth()->user()->id)->get();
         return view('profileuser.index', ['user' => $user]);
     }
 
@@ -79,7 +80,7 @@ class profilecontroller extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request)
     {
         $user = User::find($request->id); // Ganti 'users' dengan 'User' jika modelnya bernama 'User'
 
@@ -88,48 +89,48 @@ class profilecontroller extends Controller
             $request->validate([
                 'filename' => 'image|mimes:jpeg,png,jpg,gif|max:2048', // Atur sesuai kebutuhan
             ]);
-    
+
             if ($request->hasFile('filename')) {
                 // Menghapus file lama jika ada
                 $oldFilePath = $user->url;
                 if ($oldFilePath && file_exists(public_path($oldFilePath))) {
                     unlink(public_path($oldFilePath));
                 }
-    
+
                 // Upload file baru
                 $filename = round(microtime(true) * 1000) . '-' . str_replace(' ', '-', $request->file('filename')->getClientOriginalName());
                 $request->file('filename')->move(public_path('/img/profile'), $filename);
-    
+
                 // Set url baru untuk gambar
                 $user->url = '/img/profile/' . $filename;
             }
-    
+
             // Update data lainnya
             $user->name = $request->name;
             $user->email = $request->email;
             $user->no_telp = $request->notelp;
-            $user->role = $request->role;
-    
+
+
             if ($request->filled('password')) {
                 // Jika password diisi, update password
                 $user->password = Hash::make($request->password);
             }
-    
+
             // Simpan perubahan
             $user->save();
-    
+
             // Buat record aktifitas
             $aktifitas = Aktifitas::create([
                 'aktifitas' => 'Edit User Baru - ' . $request->name,
                 'Staff' => auth()->user()->name
             ]);
-    
+
             return redirect('/dashboard');
         } else {
             // Pengguna dengan ID yang diberikan tidak ditemukan
             abort(404); // Ubah menjadi 404 jika ingin menampilkan halaman error 404
         }
-    
+
     }
 
     /**

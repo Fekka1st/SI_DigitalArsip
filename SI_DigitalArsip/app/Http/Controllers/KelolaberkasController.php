@@ -11,6 +11,8 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use App\Models\download;
+use App\Models\standar;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class KelolaberkasController extends Controller
 {
@@ -41,7 +43,8 @@ class KelolaberkasController extends Controller
         $kategori = kategori::all();
         $subkategori =  subkategori::all();
         $user =  User::all();
-        return view('berkas.tambah', compact('kategori', 'subkategori', 'user'));
+        $standar = standar::all();
+        return view('berkas.tambah', compact('kategori', 'subkategori', 'user','standar'));
     }
 
     /**
@@ -58,27 +61,28 @@ class KelolaberkasController extends Controller
         }
 
         if ($request->hasfile('filename')) {
-            $filename = round(microtime(true) * 1000) . '-' . str_replace(' ', '-', $request->file('filename')->getClientOriginalName());
+            $filename = $request->file('filename')->getClientOriginalName(). ' - '.now();
             $request->file('filename')->move(public_path('document'), $filename);
 
             $berkas = Berkas::create([
                 'NamaBerkas' => $request->NamaBerkas,
                 'keterangan' => $request->keterangan,
+                'id_standarisasi' => $request->id_standar,
                 'id_user' => auth()->user()->id,
                 'id_kategori' => $request->id_kategori,
                 'id_subkategori' => $request->id_subkategori,
                 'url' => 'document/' . $filename,
+                'tanggal' => now(),
             ]);
 
             $aktifitas = aktifitas::create([
                 'aktifitas' => 'Menambahkan Berkas Baru',
-                'nama' => $request->NamaBerkas,
                 'Staff' => auth()->user()->name
             ]);
-            echo 'Success';
-            return redirect('/kelolaberkas')->with('success', 'Data berkas berhasil disimpan.');
+            Alert::success('Sukses', 'Data berhasil disimpan!');
+            return redirect('/kelolaberkas');
         } else {
-            echo 'Gagal';
+            Alert::success('Gagal', 'Data Gagal disimpan!');
             return redirect('/kelolaberkas')->with('error', 'Gagal');
         }
     }
@@ -128,7 +132,7 @@ class KelolaberkasController extends Controller
         ]);
         $berkas->delete();
         // Menghapus data berkas dari database
-
+        Alert::success('Sukses', 'Data berhasil Hapus');
         return redirect('/kelolaberkas')->with('success', 'Data berkas berhasil dihapus.');
     }
 
@@ -147,11 +151,12 @@ class KelolaberkasController extends Controller
             $download = download::create([
                 'namaberkas' => $fileName,
                 'namastaff' => auth()->user()->name,
-                'tanggal' => now()
+                'tanggal' => now(),
             ]);
             return response()->download($filePath, $fileName);
         } else {
-            return redirect('/berkas')->with('error', 'Berkas tidak ditemukan.');
+            Alert::warning('berkas', 'Berkas Tidak Ditemukan');
+            return redirect('/berkas');
         }
     }
 }
