@@ -62,9 +62,6 @@
             </div>
         </form>
         @endforeach
-        <div class="social-media">
-            <h4>GOO</h4>
-        </div>
     </div>
 @endsection
 
@@ -142,8 +139,7 @@
     max-width: 600px;
     margin: auto;
     padding: 50px 70px;
-    border-top-left-radius: 30px;
-    border-top-right-radius: 30px;
+    border-radius: 30px;
     box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.075);
 }
 

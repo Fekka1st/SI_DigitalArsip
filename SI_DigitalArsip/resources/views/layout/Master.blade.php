@@ -4,10 +4,9 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    @yield('meta')
     <title>SIDA | @yield('title')</title>
     @yield('css')
-
+    <link rel="icon" type="image/x-icon" href="/img/iconfav.png">
     <link href="https://cdn.jsdelivr.net/npm/@sweetalert2/theme-dark@4/dark.css" rel="stylesheet">
     <link rel="stylesheet"
         href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
@@ -86,7 +85,7 @@
         <aside class="main-sidebar sidebar-dark-primary elevation-4" style="background-color: #1E1E1E">
             <!-- Brand Logo -->
             <a href="#" class="brand-link">
-                <img src="https://e-arsip.kopegtelkp.com/public/logo-fullkpg.png" alt="AdminLTE Logo"
+                <img src="/img/iconfav2.png" alt="AdminLTE Logo"
                     class="img-circle " style="opacity: .8;background-color:white" height="60" width="60">
                 <span class="brand-text font-weight-bold">Digital Arsip
                 </span>

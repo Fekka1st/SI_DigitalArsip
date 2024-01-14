@@ -12,6 +12,7 @@ use App\Http\Controllers\SubKategoriController;
 use App\Http\Controllers\downloadcontroller;
 use App\Http\Controllers\standarcontroller;
 use App\Http\Controllers\dashboard;
+use App\Http\Controllers\Reportberkas;
 use App\Http\Middleware\CheckRole;
 
 /*
@@ -68,7 +69,8 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('/kelolaberkas/download/{id}', [KelolaberkasController::class, 'download']);
 
         //Kelola Report Berkas
-
+        Route::post('/Report/cetak', [Reportberkas::class, 'cetak'])->name('report.cetak');
+        Route::resource('/Report', Reportberkas::class);
 
         //Aktifitas
         Route::get('/aktifitas/data', [Aktifitascontroller::class, 'data']);
@@ -99,6 +101,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('/profilesettings/store', [profilecontroller::class, 'store'])->name('Kelolauser.store');
     Route::get('/profilesettings/edit/{id}', [profilecontroller::class, 'edit'])->name('Kelolauser.edit');
     Route::patch('/profilesettings/update', [profilecontroller::class, 'update']);
+    Route::resource('/download', downloadcontroller::class);
 });
 
 

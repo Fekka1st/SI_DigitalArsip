@@ -153,7 +153,7 @@ Dashboard
             }
         }
     });
-
+    console.log(chartData.map(item => item.count))
     var chartData = @json($aktifitasData);
 
 
@@ -183,6 +183,7 @@ Dashboard
             }
         }
     });
+    console.log(chartData.map(item => item.count))
 
 </script>
 <script>

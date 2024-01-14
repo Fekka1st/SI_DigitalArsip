@@ -23,7 +23,7 @@ class KelolaberkasController extends Controller
     public function index()
     {
         //
-        $data['berkas'] = berkas::select('NamaBerkas', 'berkas.id', 'berkas.keterangan', 'berkas.url', 'kategoris.Nama_Kategori', 'subkategoris.Nama_SubKategori', 'users.name', 'berkas.tanggal','standarisasis.nama_standarisasi')
+        $data['berkas'] = berkas::select('berkas.NamaBerkas', 'berkas.id', 'berkas.keterangan', 'berkas.url', 'kategoris.Nama_Kategori', 'subkategoris.Nama_SubKategori', 'users.name', 'berkas.tanggal','standarisasis.nama_standarisasi')
             ->join('users', 'berkas.id_user', '=', 'users.id')
             ->join('kategoris', 'berkas.id_kategori', '=', 'kategoris.id')
             ->join('subkategoris', 'berkas.id_subkategori', '=', 'subkategoris.id')

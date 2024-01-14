@@ -11,60 +11,55 @@
 @section('content')
     <div class="registration-form">
         @foreach ($user as $data)
-        <form action="/kelolauser/store" method="post" enctype="multipart/form-data"> 
+        <form action="/kelolauser/store" method="post" enctype="multipart/form-data">
             @csrf
             @method('PATCH')
-          
-            <div class="form-icon" id="preview-container">
-                <span>
-                    <i class="fas fa-user" id="icon-placeholder"></i>
-                    <img id="preview-image" src="" alt="" style="display: none; max-width: 150px; max-height: 150px; border-radius: 35%;">
-                </span>
-            </div>
-            <div class="form-group">
-                <input type="text" class="form-control item" name="name" id="name" placeholder="Nama" value="{{$data->name}}">
-            </div>
 
-            <div class="form-group">
-                <input type="text" class="form-control item" name="email" id="email" placeholder="Email" value="{{$data->email}}">
+            <div class="text-center">
+                <img src="{{$data->url}}" class="img-thumbnail rounded" style="height: 200px; width: 200px " alt="">
+                <p>FOTO PROFILE</p>
             </div>
-            <div class="form-group">
-                <input type="text" class="form-control item" name="notelp" id="notelp" placeholder="No Telpon" value="{{$data->no_telp}}">
-            </div>
-            <div class="form-group">
-                <input type="password" class="form-control item"name="password" id="password" placeholder="Password">
-            </div>
-            <div class="form-group row">
-                <div class="col-sm-5 text-right">
-                    <div class="form-check">
-                        <input type="checkbox" class="form-check-input" id="showPassword" onclick="togglePasswordVisibility()">
-                        <label class="form-check-label" for="showPassword">Tampilkan Password</label>
+            <div class="row justify-content-center">
+                <div class="col-4">
+                    <div class="form-group">
+                        <label for="name">Nama</label>
+                        <input type="text" class="form-control item" name="name" id="name" placeholder="Nama"
+                            value="{{$data->name}}">
                     </div>
                 </div>
-                <div class="col-sm-6 ">
+                <div class="col-4">
+                    <div class="form-group">
+                        <label for="name">Email</label>
+                        <input type="text" class="form-control item" name="email" id="email" placeholder="Email"
+                            value="{{$data->email}}">
+                    </div>
                 </div>
             </div>
-            <div class="form-group">
-                <select class="form-control" id="role" name="role" value="{{$data->role}}">
-                    <option value="Admin">Admin</option>
-                    <option value="Staff">Staff</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label for="profile-picture">Profile Picture:</label> <p>*Abaikan jika tidak ingin ganti foto profile</p>
-                <input type="file" class="form-control" id="profile-picture" name="filename">
-                <input hidden type="text" class="form-control" name="id" id="id"
-                placeholder="........" value="{{ $data->id }}">
-            </div>
-            
-            <div class="form-group">
-                <button type="submit" value="Simpan Data" class="btn btn-block create-account">Edit Akun</button>
+
+            <div class="row justify-content-center">
+                <div class="form-group col-8">
+                    <div class="form-group">
+                        <label for="notelpon">Jabatan</label>
+                        <input type="text" class="form-control item" name="jabatan" id="jabatan" placeholder="jabatan">
+                    </div>
+                    <label for="notelpon">Nomor Telpon:</label>
+                    <input type="text" class="form-control item" name="notelp" id="notelp" placeholder="No Telpon"
+                        value="{{$data->no_telp}}">
+                    <label for="profile-picture">Profile Picture:</label>
+                    <input type="file" class="form-control-file " name="filename">
+                    <p>*Abaikan jika tidak ingin ganti foto profile</p>
+                </div>
+                <div class="form-group col-8">
+                    <label for="Password">Password</label>
+                    <input type="password" class="form-control item" name="password" id="password" placeholder="Password">
+                </div>
+                <div class="input-group mb-3"> </div>
+                <div class="form-group col-6">
+                    <button type="submit" value="Simpan Data" class="btn btn-block create-account">Simpan Pengaturan</button>
+                </div>
             </div>
         </form>
         @endforeach
-        <div class="social-media">
-            <h4>GOO</h4>
-        </div>
     </div>
 @endsection
 
@@ -87,33 +82,7 @@
     }
 </script>
 
-<script>
-    const profilePictureInput = document.getElementById('profile-picture');
-    const previewContainer = document.getElementById('preview-container');
-    const previewImage = document.getElementById('preview-image');
-    const iconPlaceholder = document.getElementById('icon-placeholder');
 
-    profilePictureInput.addEventListener('change', function() {
-        const file = this.files[0];
-
-        if (file) {
-            const reader = new FileReader();
-
-            reader.addEventListener('load', function() {
-                iconPlaceholder.style.display = 'none';
-                previewImage.src = reader.result;
-                previewImage.style.display = 'block';
-            });
-
-            reader.readAsDataURL(file);
-        } else {
-            // Reset the preview if no file is selected
-            iconPlaceholder.style.display = 'block';
-            previewImage.src = '#';
-            previewImage.style.display = 'none';
-        }
-    });
-</script>
 <script>
     const navLinks = document.querySelectorAll('.user');
    const currentPath = window.location.pathname; // Mendapatkan path dari URL saat ini
@@ -129,6 +98,7 @@
 
 @section('css')
 <style>
+
     body{
     background-color: #dee9ff;
 }
@@ -139,11 +109,10 @@
 
 .registration-form form{
     background-color: #fff;
-    max-width: 600px;
+    max-width: 1200px;
     margin: auto;
     padding: 50px 70px;
-    border-top-left-radius: 30px;
-    border-top-right-radius: 30px;
+    border-radius: 30px;
     box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.075);
 }
 

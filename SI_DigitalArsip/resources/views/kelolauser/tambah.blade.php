@@ -61,9 +61,7 @@
                 <button type="submit" value="Simpan Data" class="btn btn-block create-account">Buat Akun</button>
             </div>
         </form>
-        <div class="social-media">
-            <h4>GOO</h4>
-        </div>
+
     </div>
 @endsection
 
@@ -79,9 +77,6 @@
     function togglePasswordVisibility() {
         var passwordInput = document.getElementById('password');
         var showPasswordCheckbox = document.getElementById('showPassword');
-
-        // Jika checkbox dicentang, ubah tipe input menjadi "text"
-        // Jika tidak dicentang, ubah tipe input menjadi "password" kembali
         passwordInput.type = showPasswordCheckbox.checked ? 'text' : 'password';
     }
 </script>
@@ -141,8 +136,7 @@
     max-width: 600px;
     margin: auto;
     padding: 50px 70px;
-    border-top-left-radius: 30px;
-    border-top-right-radius: 30px;
+    border-radius: 30px;
     box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.075);
 }
 

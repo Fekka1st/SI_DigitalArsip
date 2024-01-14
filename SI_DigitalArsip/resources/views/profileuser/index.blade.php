@@ -83,34 +83,7 @@ Pengaturan Profile
 
 </script>
 
-<script>
-    const profilePictureInput = document.getElementById('profile-picture');
-    const previewContainer = document.getElementById('preview-container');
-    const previewImage = document.getElementById('preview-image');
-    const iconPlaceholder = document.getElementById('icon-placeholder');
 
-    profilePictureInput.addEventListener('change', function () {
-        const file = this.files[0];
-
-        if (file) {
-            const reader = new FileReader();
-
-            reader.addEventListener('load', function () {
-                iconPlaceholder.style.display = 'none';
-                previewImage.src = reader.result;
-                previewImage.style.display = 'block';
-            });
-
-            reader.readAsDataURL(file);
-        } else {
-            // Reset the preview if no file is selected
-            iconPlaceholder.style.display = 'block';
-            previewImage.src = '#';
-            previewImage.style.display = 'none';
-        }
-    });
-
-</script>
 <script>
     const navLinks = document.querySelectorAll('.profile');
     const currentPath = window.location.pathname; // Mendapatkan path dari URL saat ini

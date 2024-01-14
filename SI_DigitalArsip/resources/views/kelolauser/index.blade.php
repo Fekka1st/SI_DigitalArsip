@@ -140,8 +140,8 @@ Kelola User
 <link rel="stylesheet" href="{{ asset('plugins/datatables-responsive/css/responsive.bootstrap4.min.css') }}">
 <link rel="stylesheet" href="{{ asset('plugins/datatables-buttons/css/buttons.bootstrap4.min.css') }}">
 @endsection
-@section('plugin')
 
+@section('plugin')
 <script>
     $(document).on('click', '.btn-edit', function () {
         var dataId = $(this).data('id');
