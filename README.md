@@ -23,6 +23,8 @@ _Berikut Beberapa Gambar Webnya :_
 - Node.js
 - NPM
 - MySQL
+  Catatan: Laravel yang digunakan versi : v10.2.1
+  (Jika update manual ada kemungkinan terjadi bug dibeberapa fitur)
 
 ## Installation
 1.  Clone Repository
