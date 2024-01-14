@@ -23,7 +23,7 @@ _Berikut Beberapa Gambar Webnya :_
 - Node.js
 - NPM
 - MySQL
-  Catatan: Laravel yang digunakan versi : v10.2.1
+<br> Catatan!! Laravel yang digunakan versi : v10.2.1
   (Jika update manual ada kemungkinan terjadi bug dibeberapa fitur)
 
 ## Installation
@@ -39,4 +39,4 @@ _Berikut Beberapa Gambar Webnya :_
     - Email: `ferryaja@itcupu.com`
     - Password: `admin123`
 10. Enjoy!
-    Catatan: Import dulu SQL saya belum buat database migration
+<br> Catatan!! Import dulu SQL saya belum buat database migration
