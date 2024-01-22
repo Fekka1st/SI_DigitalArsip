@@ -138,7 +138,7 @@
                             <a href="/kelola_standarisasi" class="nav-link Standar">
                                 <i class="nav-icon fa-solid fa-book"></i>
                                 <p>
-                                    Kelola Standarisasi
+                                    Kelola Standar
                                 </p>
                             </a>
                         </li>
@@ -158,6 +158,7 @@
                                 </p>
                             </a>
                         </li>
+
                         <li class="nav-link active head mt-3 mb-3"> KELOLA DATA </li>
                         <li class="nav-item">
                             <a href="/kelolaberkas" class="nav-link berkas">
@@ -180,6 +181,14 @@
                                 <i class="nav-icon fas fa-users"></i>
                                 <p>
                                     Kelola User
+                                </p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/kelola_departement" class="nav-link departement">
+                                <i class="nav-icon fas fa-building"></i>
+                                <p>
+                                    Kelola Departement
                                 </p>
                             </a>
                         </li>

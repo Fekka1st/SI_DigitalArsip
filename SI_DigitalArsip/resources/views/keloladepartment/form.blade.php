@@ -11,11 +11,11 @@
                  </button>
              </div>
              <div class="modal-body">
-                 <form action="{{ route('standarisasi.store')}}" method="post">
+                 <form action="{{ route('department.store')}}" method="post">
                      {{ csrf_field() }}
                      <!-- Isi form kedua di sini -->
                      <div class="form-group">
-                         <label for="nama">nama Standarisasi</label>
+                         <label for="nama">Nama Departement</label>
                          <input type="text" class="form-control" name="nama" id="nama"
                              aria-describedby="Kode Universitas" placeholder="Masukkan Nama" required>
                          <div id="kodeWarning" class="text-danger"></div>
@@ -45,7 +45,7 @@
          <div class="modal-content">
              <div class="modal-header">
                  <h5 class="modal-title" id="exampleModalLongTitle">Hapus Data
-                     Standarisasi
+                     Departement
                  </h5>
                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                      <span aria-hidden="true">&times;</span>
@@ -74,7 +74,7 @@ aria-hidden="true">
 <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
         <div class="modal-header">
-            <h5 class="modal-title" id="staticBackdropLabel">Edit Informasi</h5>
+            <h5 class="modal-title" id="staticBackdropLabel">Edit Departement</h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
             </button>
@@ -85,7 +85,7 @@ aria-hidden="true">
                 @method('PATCH')
                 <!-- Isi formulir update di sini -->
                 <div class="form-group">
-                    <label for="nama">Nama</label>
+                    <label for="nama">Nama Departement</label>
                     <input type="text" class="form-control " name="nama" id="nama" placeholder="Masukkan Nama"
                         required>
                     <div id="kodeWarning" class="text-danger"></div>

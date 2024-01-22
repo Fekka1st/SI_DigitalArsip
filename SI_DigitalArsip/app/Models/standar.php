@@ -11,4 +11,8 @@ class standar extends Model
     use HasFactory;
     protected $table = 'standarisasis';
     protected $guarded = [];
+    public function berkas()
+    {
+        return $this->hasMany(Berkas::class, 'id_standarisasi', 'id');
+    }
 }

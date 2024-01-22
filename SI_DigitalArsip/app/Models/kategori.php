@@ -10,4 +10,8 @@ class kategori extends Model
     use HasFactory;
     protected $table = 'kategoris';
     protected $guarded = [];
+    public function berkas()
+    {
+        return $this->hasMany(Berkas::class, 'id_kategori', 'id');
+    }
 }

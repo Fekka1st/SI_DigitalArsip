@@ -23,7 +23,6 @@ class DashboardController extends Controller
         $berkas = berkas::count();
 
         if(Auth::user()->role == 'Admin'){
-            // Ambil data untuk grafik
             $chartData = DB::table('berkas')
                 ->select(DB::raw('DATE_FORMAT(created_at, "%Y-%m") as month'), DB::raw('COUNT(*) as count'))
                 ->groupBy('month')
@@ -33,8 +32,6 @@ class DashboardController extends Controller
                 ->where('created_at', '>', now()->subDays(7))
                 ->groupBy('day')
                 ->get();
-
-            // Kirim data grafik ke tampilan
             return view('dashboard', compact('user', 'kategori', 'akun', 'aktifitas', 'berkas', 'chartData','aktifitasData'));
         }
 

@@ -10,13 +10,13 @@
 
 @section('content')
     <div class="registration-form">
-        @foreach ($user as $data)
+
         <form action="/kelolauser/store" method="post" enctype="multipart/form-data">
             @csrf
             @method('PATCH')
 
             <div class="text-center">
-                <img src="{{$data->url}}" class="img-thumbnail rounded" style="height: 200px; width: 200px " alt="">
+                <img src="{{$user->url}}" class="img-thumbnail rounded" style="height: 200px; width: 200px " alt="">
                 <p>FOTO PROFILE</p>
             </div>
             <div class="row justify-content-center">
@@ -24,27 +24,45 @@
                     <div class="form-group">
                         <label for="name">Nama</label>
                         <input type="text" class="form-control item" name="name" id="name" placeholder="Nama"
-                            value="{{$data->name}}">
+                            value="{{$user->name}}">
                     </div>
                 </div>
                 <div class="col-4">
                     <div class="form-group">
                         <label for="name">Email</label>
                         <input type="text" class="form-control item" name="email" id="email" placeholder="Email"
-                            value="{{$data->email}}">
+                            value="{{$user->email}}">
                     </div>
                 </div>
             </div>
 
             <div class="row justify-content-center">
                 <div class="form-group col-8">
+
                     <div class="form-group">
                         <label for="notelpon">Jabatan</label>
                         <input type="text" class="form-control item" name="jabatan" id="jabatan" placeholder="jabatan">
                     </div>
+                    <div class="form-group">
+                        <label for="">Departement</label>
+                        <select class="form-control" id="departement" name="departement" style="border-radius: 20px">
+                            @foreach ($departements as $item)
+                                <option value="{{$item->id}}" {{$user->departement_id == $item->id ? 'selected' : ''}}>
+                                    {{$item->nama_departement}}
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="">Role</label>
+                        <select class="form-control" id="role" name="role" style="border-radius: 20px">
+                            <option value="Admin">Admin</option>
+                            <option value="Staff">Staff</option>
+                        </select>
+                    </div>
                     <label for="notelpon">Nomor Telpon:</label>
                     <input type="text" class="form-control item" name="notelp" id="notelp" placeholder="No Telpon"
-                        value="{{$data->no_telp}}">
+                        value="{{$user->no_telp}}">
                     <label for="profile-picture">Profile Picture:</label>
                     <input type="file" class="form-control-file " name="filename">
                     <p>*Abaikan jika tidak ingin ganti foto profile</p>
@@ -52,14 +70,15 @@
                 <div class="form-group col-8">
                     <label for="Password">Password</label>
                     <input type="password" class="form-control item" name="password" id="password" placeholder="Password">
+                    <input hidden value="{{$user->id}}" name="id" >
                 </div>
                 <div class="input-group mb-3"> </div>
                 <div class="form-group col-6">
-                    <button type="submit" value="Simpan Data" class="btn btn-block create-account">Simpan Pengaturan</button>
+                    <button type="submit" value="Simpan user" class="btn btn-block create-account">Simpan Pengaturan</button>
                 </div>
             </div>
         </form>
-        @endforeach
+
     </div>
 @endsection
 

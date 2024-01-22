@@ -39,6 +39,9 @@ Kelola User
                                 <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1"
                                     aria-label="Platform(s): activate to sort column ascending">
                                     No Telpon</th>
+                                    <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1"
+                                    aria-label="Platform(s): activate to sort column ascending">
+                                    Departement</th>
                                 <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1"
                                     aria-label="Engine version: activate to sort column ascending">Aksi
                                 </th>
@@ -54,6 +57,7 @@ Kelola User
                                 </td>
                                 <td>{{ $user->email }}</td>
                                 <td>{{ $user->no_telp }}</td>
+                                <td>{{ $user->nama_departement }}</td>
                                 <td>
                                     <div class="btn-group" role="group" aria-label="Basic example">
                                         <a type="button" href="/kelolauser/edit/{{ $user->id }}" class="btn btn-warning"
@@ -66,9 +70,10 @@ Kelola User
                                             data-toggle="modal" data-target="#detail" data-id="{{ $user->id }}">
                                             <i class="fas fa-info-circle"></i>
                                         </a>
-                                        <a type="button" href="/kelolauser/delete/{{ $user->id }}"
-                                            class="btn btn-danger" data-toggle="tooltip" data-placement="top"
-                                            title="Tombol Hapus"><i class="fas fa-trash-alt"></i></a>
+                                        <button type="button" class="btn btn-danger btn-hapus" id="btn-hapus" data-toggle="modal"
+                                        data-target="#hapusModal" data-id={{$user->id}}>
+                                        <i class="fas fa-trash-alt"></i>
+                                    </button>
 
                                     </div>
                                 </td>
@@ -105,6 +110,8 @@ Kelola User
                                     <h2 class="lead"><b> Nama : </b></h2>
                                     <p class="text-muted text-sm"><b>Jabatan: </b>
                                     </p>
+                                    <p class="departement"><b>Departement : </b>
+                                    </p>
                                     <ul class="ml-4 mb-0 fa-ul text-muted">
                                         <li class="small"><span class="fa-li"><i class="fas fa-lg fa-building"></i></span><span id="emailPlaceholder">EMAIL DISINI</span></li>
                                         <li class="small"><span class="fa-li"><i class="fas fa-lg fa-phone"></i></span><span id="phonePlaceholder">NO TELPON DISINI</span></li>
@@ -132,6 +139,36 @@ Kelola User
         </div>
     </div>
 </div>
+
+<!-- Modal Hapus -->
+<div class="modal fade" id="hapusModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+aria-hidden="true">
+<div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLongTitle">Hapus Data
+                Akun User
+            </h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            Ingin Hapus Data tersebut ?
+        </div>
+        <form id="hapusModalForm" action="" method="post">
+            @csrf
+            @method('DELETE')
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Tidak</button>
+                <button type="submit" class="btn btn-danger" data-toggle="tooltip" data-placement="top"
+                    title="Tombol Hapus">Hapus</button>
+            </div>
+        </form>
+
+    </div>
+</div>
+</div>
 @endsection
 
 
@@ -152,6 +189,7 @@ Kelola User
                 $('#detail').find('.modal-title').text('Detail User');
                 $('#detail').find('.card-header').text(response.user.role);
                 $('#detail').find('.lead b').text('Nama : ' + response.user.name);
+                $('#detail').find('.departement b').text('Departement : ' + response.user.nama_departement);
                 $('#detail').find('.text-muted.text-sm b').text('Jabatan: ' + response.user
                 .Jabatan);
 
@@ -194,12 +232,18 @@ Kelola User
             "responsive": true,
             "lengthChange": true,
             "autoWidth": false,
-            "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
+            "buttons": ["copy", "csv", "excel", "pdf", "print"]
         }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
     });
 
 </script>
-
+<script>
+     $(document).on('click', '.btn-hapus', function () {
+            console.log('Hapus');
+            var dataId = $(this).data('id');
+            $('#hapusModalForm').attr('action', '/kelolauser/' + dataId);
+        });
+</script>
 <script>
     const navLinks = document.querySelectorAll('.user');
     const currentPath = window.location.pathname; // Mendapatkan path dari URL saat ini

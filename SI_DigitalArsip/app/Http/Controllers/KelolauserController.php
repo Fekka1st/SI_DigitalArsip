@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\aktifitas;
+use App\Models\departement;
 use App\Models\kategori;
 use App\Models\subkategori;
 use Illuminate\Http\Request;
@@ -19,14 +20,15 @@ class KelolauserController extends Controller
 {
     public function index()
     {
-        $data["user"] = users::all();
+        $data["user"] = DB::table('users')
+        ->leftJoin('departement', 'users.id_departement', '=', 'departement.id')
+        ->select('users.*', 'departement.nama_departement')
+        ->get();
         return view("kelolauser.index")->with($data);
     }
     public function create()
     {
-        $data["users"] = users::all();
-        $data["kategoris"] = kategori::all();
-        $data["subkategoris"] = subkategori::all();
+        $data["departement"] = departement::all();
         return view("kelolauser.tambah")->with($data);
     }
     public function store(Request $request)
@@ -38,6 +40,7 @@ class KelolauserController extends Controller
             "jabatan" => "required",
             "password" => "required",
             "role" => "required",
+            "departement" => "required"
         ]);
 
         if ($validator->fails()) {
@@ -78,6 +81,7 @@ class KelolauserController extends Controller
             "password" => Hash::make($request->password),
             "role" => $request->role,
             "url" => "/img/profile/" . $filename,
+            "id_departement" => $request->departement
         ]);
         $aktifitas = aktifitas::create([
             "aktifitas" => "Menambahkan User Baru",
@@ -89,9 +93,11 @@ class KelolauserController extends Controller
 
     public function detail(string $id)
     {
-        $user = DB::table("users")
-            ->where("id", $id)
-            ->first();
+        $user = DB::table('users')
+        ->join('departement', 'users.id_departement', '=', 'departement.id')
+        ->select('users.*', 'departement.nama_departement')
+        ->where('users.id', $id)
+        ->first();;
 
         if ($user) {
             $user->no_telp = str_replace("-", "", $user->no_telp);
@@ -108,18 +114,20 @@ class KelolauserController extends Controller
     }
 
     public function edit(string $id)
-    {
-        //
-        $user = DB::table("users")
-            ->where("id", $id)
-            ->get();
-        return view("kelolauser.update", ["user" => $user]);
+    {$user = DB::table("users")
+        ->leftJoin('departement', 'users.id_departement', '=', 'departement.id')
+        ->select('users.*', 'departement.nama_departement', 'departement.id as departement_id')
+        ->where("users.id", $id)
+        ->first();
+
+    $departements = Departement::all();
+    return view("kelolauser.update", ["user" => $user, "departements" => $departements]);
     }
 
     public function update(Request $request, string $id)
     {
         $user = User::find($request->id);
-
+        var_dump($user);
         if ($user) {
             $request->validate([
                 "filename" => "image|mimes:jpeg,png,jpg,gif|max:2048",
@@ -150,6 +158,7 @@ class KelolauserController extends Controller
             $user->email = $request->email;
             $user->no_telp = $request->notelp;
             $user->role = $request->role;
+            $user->id_departement = $request->departement;
 
             if ($request->filled("password")) {
                 $user->password = Hash::make($request->password);
@@ -166,6 +175,7 @@ class KelolauserController extends Controller
             return redirect("/kelolauser");
         } else {
             abort(404);
+
         }
     }
 

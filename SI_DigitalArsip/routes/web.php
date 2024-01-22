@@ -11,8 +11,8 @@ use App\Http\Controllers\KelolauserController;
 use App\Http\Controllers\SubKategoriController;
 use App\Http\Controllers\downloadcontroller;
 use App\Http\Controllers\standarcontroller;
-use App\Http\Controllers\dashboard;
 use App\Http\Controllers\Reportberkas;
+use App\Http\Controllers\departmentcontroller;
 use App\Http\Middleware\CheckRole;
 
 /*
@@ -59,14 +59,22 @@ Route::group(['middleware' => 'auth'], function () {
         Route::delete('/kelola_sub-kategori/{id}', 'SubKategoriController@destroy')->name('subkategori.destroy');
         Route::patch('/kelola_sub-kategori/update/{id}', [SubKategoriController::class, 'update'])->name('subkategori.update');
 
+        Route::get('/kelola_departement/hide/data', [departmentcontroller::class, 'data'])->name('department.data');
+        Route::resource('/kelola_departement', departmentcontroller::class);
+        Route::post('/kelola_departement/store', [departmentcontroller::class, 'store'])->name('department.store');
+        Route::get('/kelola_departement/{id}/edit', 'departmentcontroller@edit');
+        Route::delete('/kelola_departement/{id}', 'departmentcontroller@destroy')->name('department.destroy');
+        Route::patch('/kelola_departement/update/{id}', [departmentcontroller::class, 'update'])->name('department.update');
+
         //kelola Berkas
-        Route::get('/kelolaberkas/data', [KelolaberkasController::class, 'data']);
+        Route::get('/kelolaberkas/hide/data', [KelolaberkasController::class, 'data'])->name('kelolaberkas.data');
         Route::resource('/kelolaberkas', KelolaberkasController::class);
         Route::post('/kelolaberkas/store', [KelolaberkasController::class, 'store'])->name('kelolaberkas.store');
-        Route::get('/kelolaberkas/edit/{id}', [KelolaberkasController::class, 'edit'])->name('Kelolaberkas.edit');
-        Route::get('/kelolaberkas/delete/{id}', [KelolaberkasController::class, 'destroy']);
-        Route::post('/kelolaberkas/update', [KelolaberkasController::class, 'update']);
+        Route::get('/kelolaberkas/{id}/edit', 'KelolaberkasController@edit');
+        Route::delete('/kelolaberkas/{id}', 'KelolaberkasController@destroy')->name('kelolaberkas.destroy');
+        Route::patch('/kelolaberkas/update/{id}', [KelolaberkasController::class, 'update'])->name('kelolaberkas.update');
         Route::get('/kelolaberkas/download/{id}', [KelolaberkasController::class, 'download']);
+        Route::get('/kelolaberkas/detail/{id}', [KelolaberkasController::class, 'show']);
 
         //Kelola Report Berkas
         Route::post('/Report/cetak', [Reportberkas::class, 'cetak'])->name('report.cetak');
@@ -86,6 +94,14 @@ Route::group(['middleware' => 'auth'], function () {
         Route::post('/kelolauser/update', [KelolauserController::class, 'update']);
         Route::resource('/download', downloadcontroller::class);
     });
+    Route::get('/kelolaberkas/hide/data', [KelolaberkasController::class, 'data'])->name('kelolaberkas.data');
+    Route::resource('/kelolaberkas', KelolaberkasController::class);
+    Route::post('/kelolaberkas/store', [KelolaberkasController::class, 'store'])->name('kelolaberkas.store');
+    Route::get('/kelolaberkas/{id}/edit', 'KelolaberkasController@edit');
+    // Route::delete('/kelolaberkas/{id}', 'KelolaberkasController@destroy')->name('kelolaberkas.destroy');
+    // Route::patch('/kelolaberkas/update/{id}', [KelolaberkasController::class, 'update'])->name('kelolaberkas.update');
+    Route::get('/kelolaberkas/download/{id}', [KelolaberkasController::class, 'download']);
+    Route::get('/kelolaberkas/detail/{id}', [KelolaberkasController::class, 'show']);
 
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('master');
     Route::get('/kelolaberkas/data', [KelolaberkasController::class, 'data']);

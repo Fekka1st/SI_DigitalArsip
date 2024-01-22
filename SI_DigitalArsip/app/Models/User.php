@@ -22,7 +22,10 @@ class User extends Authenticatable
         'email',
         'password',
     ];
-
+    public function berkas()
+    {
+        return $this->hasMany(Berkas::class, 'id_user', 'id');
+    }
     /**
      * The attributes that should be hidden for serialization.
      *
@@ -48,4 +51,5 @@ class User extends Authenticatable
         }
         return false;
     }
+
 }

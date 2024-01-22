@@ -1,6 +1,8 @@
 <x-auth-session-status class="mb-4" :status="session('status')" />
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+<link href="https://cdn.jsdelivr.net/npm/@sweetalert2/theme-dark@4/dark.css" rel="stylesheet">
+
 <style>
     .wrap-input100 {
         position: relative;
@@ -17,7 +19,6 @@
     .show-password {
         display: none;
     }
-
 </style>
 <link href="{{ asset('/dist/css/layanan.css') }}" rel="stylesheet">
 <link rel="stylesheet" type="text/css" href="css/util.css">
@@ -43,6 +44,7 @@
                     <span class="invalid-feedback" role="alert">
                         <strong>{{ $message }}</strong>
                     </span>
+
                     @enderror
                 </div>
 
@@ -62,7 +64,7 @@
 
             </form>
             <div class="footer" style="background-color:#365757" >
-                <h5 class="text-center text-white">Hubungi Admin Jika Mengalami Masalah</h5>
+                <h5 class="text-center text-white">Hubungi Admin Jika Mengalami Kendala</h5>
             </div>
         </div>
 
@@ -87,5 +89,15 @@
             $(this).hide();
         });
     });
-
+</script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+    // Check if there are errors and show SweetAlert
+    @if ($errors->any())
+        Swal.fire({
+            icon: 'error',
+            title: 'Email/Password Anda Salah',
+            text: 'Harap masukan dengan benar',
+        });
+    @endif
 </script>

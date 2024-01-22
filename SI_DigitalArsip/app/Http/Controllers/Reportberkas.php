@@ -13,50 +13,48 @@ use RealRashid\SweetAlert\Facades\Alert;
 class Reportberkas extends Controller
 {
     //
-    public function index(){
-        $data['berkas'] = DB::table('berkas')
-        ->join('users', 'berkas.id_user', '=', 'users.id')
-        ->join('kategoris', 'berkas.id_kategori', '=', 'kategoris.id')
-        ->join('subkategoris', 'berkas.id_subkategori', '=', 'subkategoris.id')
-        ->join('standarisasis','berkas.id_standarisasi','=','standarisasis.id')
-        ->orderBy('id','desc')
-        ->select(
-            'berkas.*',
-            'users.name as nama_staff',
-            'kategoris.Nama_Kategori',
-            'subkategoris.Nama_SubKategori',
-            'standarisasis.nama_standarisasi' // Perbaikan: tambahkan nama_standarisasi di sini
-        )
+    public function index()
+{
+    $berkas = DB::table('standarisasis')
+        ->leftJoin('berkas', 'standarisasis.id', '=', 'berkas.id_standarisasi')
+        ->select('standarisasis.nama_standarisasi', DB::raw('COALESCE(COUNT(berkas.id), 0) AS jumlah_berkas'))
+        ->groupBy('standarisasis.id', 'standarisasis.nama_standarisasi')
         ->get();
 
-    return view('Report.index')->with($data);
-    }
+        $chart = DB::table('standarisasis')
+    ->leftJoin('berkas', 'standarisasis.id', '=', 'berkas.id_standarisasi')
+    ->select('standarisasis.nama_standarisasi', DB::raw('COALESCE(COUNT(berkas.id), 0) AS jumlah_berkas'))
+    ->groupBy('standarisasis.id', 'standarisasis.nama_standarisasi')
+    ->get();
+
+    return view('Report.index', compact('berkas','chart'));
+}
+
 
     public function show(){
 
     }
 
     public function cetak(Request $request){
-
-        // Cetak semua berkas
+        $namaUser = auth()->user()->name;
         if (empty($request->mulai) && empty($request->akhir)) {
-            $data = DB::table('berkas')
-            ->join('users', 'berkas.id_user', '=', 'users.id')
-            ->join('kategoris', 'berkas.id_kategori', '=', 'kategoris.id')
-            ->join('subkategoris', 'berkas.id_subkategori', '=', 'subkategoris.id')
-            ->join('standarisasis', 'berkas.id_standarisasi', '=', 'standarisasis.id')
-            ->select(
-                'berkas.*',
-                'users.name as nama_staff',
-                'kategoris.Nama_Kategori',
-                'subkategoris.Nama_SubKategori',
-                'standarisasis.nama_standarisasi' // Perbaikan: tambahkan nama_standarisasi di sini
-            )
+            $data = DB::table('standarisasis')
+            ->leftJoin('berkas', 'standarisasis.id', '=', 'berkas.id_standarisasi')
+            ->select('standarisasis.nama_standarisasi', DB::raw('COALESCE(COUNT(berkas.id), 0) AS jumlah_berkas'))
+            ->groupBy('standarisasis.id', 'standarisasis.nama_standarisasi')
             ->get();
 
-            $pdf = Pdf::loadView('Report.cetak', ['data' => $data])->setPaper('a4', 'landscape');
+            $namaUser = auth()->user()->name;
+
+            $pdf = Pdf::loadView('Report.cetak', ['data' => $data ,'namaUser' => $namaUser])->setPaper('a4', 'landscape');
+            $pdf->getDomPDF()->getOptions()->setIsHtml5ParserEnabled(true);
+            $pdf->getDomPDF()->set_option('isHtml5ParserEnabled', true);
+            $pdf->getDomPDF()->set_option('isPhpEnabled', true);
+
             return $pdf->download('Report-Berkas Tanggal ' . now() . '.pdf');
-        }else{
+
+            }else{
+
             $validator = Validator::make($request->all(), [
                 'mulai' => 'required',
                 'akhir' => 'required',
@@ -74,24 +72,14 @@ class Reportberkas extends Controller
                 $mulai = \Carbon\Carbon::createFromFormat('Y-m-d', $mulai)->startOfDay();
                 $akhir = \Carbon\Carbon::createFromFormat('Y-m-d', $akhir)->endOfDay();
 
-                $data = DB::table('berkas')
-                    ->join('users', 'berkas.id_user', '=', 'users.id')
-                    ->join('kategoris', 'berkas.id_kategori', '=', 'kategoris.id')
-                    ->join('subkategoris', 'berkas.id_subkategori', '=', 'subkategoris.id')
-                    ->join('standarisasis','berkas.id_standarisasi','=','standarisasis.id')
-                    ->select(
-                        'berkas.*',
-                        'users.name as nama_staff',
-                        'kategoris.Nama_Kategori',
-                        'subkategoris.Nama_SubKategori',
-                        'standarisasis.nama_standarisasi' // Perbaikan: tambahkan nama_standarisasi di sini
-                    )
-                    ->whereBetween('berkas.created_at', [$mulai, $akhir])
-                    ->get();
+                $data = DB::table('standarisasis')
+                ->leftJoin('berkas', 'standarisasis.id', '=', 'berkas.id_standarisasi')
+                ->select('standarisasis.nama_standarisasi', DB::raw('COALESCE(COUNT(berkas.id), 0) AS jumlah_berkas'))
+                ->whereBetween('berkas.created_at', [$mulai, $akhir])
+                ->groupBy('standarisasis.id', 'standarisasis.nama_standarisasi')
+                ->get();
 
             } catch (\Exception $e) {
-                // Tangani error jika terjadi kesalahan dalam format tanggal
-                dd($mulai, $akhir );
                 return response()->json(['error' => 'Format tanggal tidak valid'], 400);
             }
 

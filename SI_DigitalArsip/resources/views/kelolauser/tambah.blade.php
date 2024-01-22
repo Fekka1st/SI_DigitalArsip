@@ -48,6 +48,15 @@
                 </div>
             </div>
             <div class="form-group">
+                <label for="">Departement</label>
+                <select class="form-control" id="departement" name="departement">
+                    @foreach ($departement as $item => $departement)
+                    <option value="{{$departement->id}}">{{$departement->nama_departement}}</option>
+                    @endforeach
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="">Role</label>
                 <select class="form-control" id="role" name="role">
                     <option value="Admin">Admin</option>
                     <option value="Staff">Staff</option>

@@ -27,6 +27,13 @@
             text-align: center;
             line-height: 5px;
         }
+        .text-right {
+            text-align: right;
+        }
+
+        .mt-5 {
+            margin-top: 10%;
+        }
 
     </style>
 </head>
@@ -50,40 +57,51 @@
 
         <div class="container mt-4">
             <div class="text-center">
-                <p class="mb-4">Dibuat pada tanggal: {{ now() }}</p>
+                <p class="mb-4">Hal: Laporan Berkas </p>
             </div>
             <div style="align-content: center; align-self: center">
                 <table border="1" cellspacing="0" cellpadding="5">
                     <thead>
                         <tr>
                             <th scope="col">No</th>
-                            <th scope="col">Nama Berkas</th>
-                            <th scope="col">Standarisasi</th>
-                            <th scope="col">Kategori</th>
-                            <th scope="col">Sub-Kategori</th>
-
-                            <th scope="col">Nama Staff</th>
-                            <th scope="col">Tanggal Berkas Masuk</th>
+                            <th scope="col">Nama Standar</th>
+                            <th scope="col">Jumlah Berkas</th>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach($data as $key => $berkas)
                         <tr>
                             <th scope="row">{{ $key + 1 }}</th>
-                            <td>{{ $berkas->NamaBerkas }}</td>
                             <td>{{ $berkas->nama_standarisasi }}</td>
-                            <td>{{ $berkas->Nama_Kategori }}</td>
-                            <td>{{ $berkas->Nama_SubKategori }}</td>
-
-                            <td>{{ $berkas->nama_staff }}</td>
-                            <td>{{ $berkas->created_at }}</td>
+                            <td>{{ $berkas->jumlah_berkas }}</td>
                         </tr>
                         @endforeach
                     </tbody>
                 </table>
             </div>
+            <div class="text-right mt-5">
+
+                <p>Cianjur, {{ now()->format('d F Y') }}</p>
+                <br><br>
+                <p>(Tanda tangan)</p>
+                <p>{{$namaUser}}</p>
+            </div>
         </div>
     </div>
+    <script type="text/php">
+        if ( isset($pdf) ) {
+            $pdf->page_script('
+                if ($PAGE_COUNT > 1) {
+                    $font = $fontMetrics->get_font("Arial, Helvetica, sans-serif", "normal", 10);
+                    $size = 12;
+                    $pageText = "Halaman " . $PAGE_NUM ;
+                    $y = 550;
+                    $x = 420;
+                    $pdf->text($x, $y, $pageText, $font, $size);
+                }
+            ');
+        }
+    </script>
 </body>
 
 </html>

@@ -9,35 +9,38 @@
 @endsection
 
 @section('content')
-    <div class="card">
-        <div class="card-header">
-            <h3 class="card-title">Report Berkas</h3>
-        </div>
+<div class="card">
+    <div class="card-header">
+        <h3 class="card-title">Report Berkas</h3>
+    </div>
 
-        <div class="card-body">
-            <div id="example1_wrapper" class="dataTables_wrapper dt-bootstrap4">
+    <div class="card-body">
 
-
+        <div class="row">
+            <form action="{{ route('report.cetak')}}" method="post">
+                {{ csrf_field() }}
+                <input type="date" class="form-control" name="mulai" id="Mulai" hidden>
+                <input type="date" class="form-control" name="akhir" id="akhir" hidden>
 
                 <div class="row">
-
-                    <form action="{{ route('report.cetak')}}" method="post">
-                        {{ csrf_field() }}
-                            <input type="date" class="form-control" name="mulai" id="Mulai"
-                              hidden>
-                            <input type="date" class="form-control" name="akhir" id="akhir"
-                            hidden>
-                        </div>
+                    <div class="col-6 mb-2">
                         <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#tambahModal">
                             <i class="fa fa-print"></i> Cetak Pilihan
                         </button>
-                        <button type="submit" class="btn btn-primary"><i class="fa fa-print"></i> Cetak Semua</button>
-                    </form>
-                    <div class="mb-2">
                     </div>
-                    <div class="col-sm-12">
-                        <table id="example1" class="table table-bordered table-striped dataTable dtr-inline"
-                            aria-describedby="example1_info">
+                    <div class="col-6 mb-2">
+                        <button type="submit" class="btn btn-primary"><i class="fa fa-print"></i> Cetak Semua</button>
+                    </div>
+                </div>
+
+
+
+            </form>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6 mb-2">
+                <table id="example1" class="table table-bordered table-striped dataTable dtr-inline">
                             <thead>
                                 <tr>
                                     <th class="sorting sorting_asc" tabindex="0" aria-controls="example1" rowspan="1"
@@ -46,50 +49,38 @@
                                     </th>
                                     <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1"
                                         colspan="1" aria-label="Platform(s): activate to sort column ascending">
-                                        Nama Berkas</th>
+                                        Nama Standar</th>
                                         <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1"
                                         colspan="1" aria-label="Platform(s): activate to sort column ascending">
-                                        Standarisasi</th>
-                                        <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1"
-                                        colspan="1" aria-label="Platform(s): activate to sort column ascending">
-                                        Kategori</th>
-                                        <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1"
-                                        colspan="1" aria-label="Platform(s): activate to sort column ascending">
-                                        Sub-Kategori</th>
-                                    <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1"
-                                        colspan="1" aria-label="Engine version: activate to sort column ascending">Keterangan
-                                    </th>
-                                    <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1"
-                                        colspan="1" aria-label="Engine version: activate to sort column ascending">
-                                        Nama Staff
-                                    </th>
-                                    <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1"
-                                        colspan="1" aria-label="Engine version: activate to sort column ascending">
-                                        Tanggal Masuk
-                                    </th>
+                                        Jumlah Berkas</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @foreach($berkas as $data => $berkas)
                                 <tr>
                                     <td>{{ $data + 1 }}</td>
-                                    <td>{{ $berkas->NamaBerkas }}</td>
                                     <td>{{ $berkas->nama_standarisasi }}</td>
-                                    <td>{{ $berkas->Nama_Kategori }}</td>
-                                    <td>{{ $berkas->Nama_SubKategori }}</td>
-                                    <td>{{ $berkas->keterangan }}</td>
-                                    <td>{{ $berkas->nama_staff }}</td>
-                                    <td>{{ $berkas->created_at }}</td>
+                                    <td>{{ $berkas->jumlah_berkas }}</td>
                                 </tr>
                                 @endforeach
 
                             </tbody>
                         </table>
                     </div>
+
+                    <div class="col-md-6">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="text-center">
+                                    <h4>Report Jumlah Berkas Berdasarkan Standar</h4>
+                                    <canvas id="myChart" width="400" height="200"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
 
     {{-- Modal  Tambah --}}
  <div class="modal fade" id="tambahModal" data-backdrop="static" data-keyboard="false" tabindex="-1"
@@ -150,6 +141,40 @@
     <script src="{{ asset('plugins/datatables-buttons/js/buttons.html5.min.js') }}"></script>
     <script src="{{ asset('plugins/datatables-buttons/js/buttons.print.min.js') }}"></script>
     <script src="{{ asset('plugins/datatables-buttons/js/buttons.colVis.min.js') }}"></script>
+
+
+
+<script>
+    var chartData = @json($chart);
+
+
+// Proses data dan buat grafik
+var ctx = document.getElementById('myChart').getContext('2d');
+var myChart = new Chart(ctx, {
+    type: 'line', // Ubah tipe grafik menjadi line
+    data: {
+        labels: chartData.map(item => item.nama_standarisasi),
+        datasets: [{
+            label: 'Jumlah Berkas per Bulan',
+            backgroundColor: 'rgba(75, 192, 192, 0.2)',
+            borderColor: 'rgba(75, 192, 192, 1)',
+            data: chartData.map(item => item.jumlah_berkas),
+            borderWidth: 1
+        }]
+    },
+    options: {
+        scales: {
+            y: {
+                beginAtZero: false,
+                ticks: {
+                    min: 1, // Nilai minimum
+                    max: 1000, // Nilai maksimum
+                }
+            }
+        }
+    }
+});
+</script>
 
 <script>
 

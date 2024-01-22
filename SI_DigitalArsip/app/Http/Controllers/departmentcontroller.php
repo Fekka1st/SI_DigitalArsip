@@ -3,25 +3,22 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
-use App\Models\standar;
 use App\Models\aktifitas;
-use Illuminate\Support\Facades\DB;
+use Illuminate\Http\Request;
+use App\Models\departement;
 use Illuminate\Support\Facades\Validator;
 use RealRashid\SweetAlert\Facades\Alert;
-use DataTables;
 
-class standarcontroller extends Controller
+class departmentcontroller extends Controller
 {
+    //
 
-    public function index()
-    {
-        return view('standarisasi.index');
+    public function index(){
+        return view('keloladepartment.index');
     }
-
     public function data()
     {
-        $data = standar::orderBy('id', 'desc')->get();
+        $data = departement::orderBy('id', 'desc')->get();
         return dataTables()
             ->of($data)
             ->addIndexColumn()
@@ -43,12 +40,6 @@ class standarcontroller extends Controller
             ->make(true);
     }
 
-
-    public function create()
-    {
-
-    }
-
     public function store(Request $request)
     {
 
@@ -62,71 +53,62 @@ class standarcontroller extends Controller
         }
         $request->keterangan = $request->keterangan ?: "";
 
-        $standar = standar::create([
-            'nama_standarisasi' => $request->nama,
-            'Keterangan' => $request->keterangan
+        $departement = departement::create([
+            'nama_departement' => $request->nama,
+            'keterangan' => $request->keterangan
         ]);
 
         $aktifitas = aktifitas::create([
-            'aktifitas' => 'Menambahkan Data Standarisasi'. ' - ' . $request->nama ,
+            'aktifitas' => 'Menambahkan Data Departement'. ' - ' . $request->nama ,
             'Staff' => auth()->user()->name
         ]);
         Alert::success('Sukses', 'Data berhasil disimpan!')->persistent(true, false);
-        return redirect('/kelola_standarisasi');
+        return redirect('/kelola_departement');
     }
-
 
     public function edit($id)
     {
 
-        $standarisasi = standar::find($id);
-        if (!$standarisasi) {
+        $departement = departement::find($id);
+        if (!$departement) {
             return response()->json(['error' => 'Data tidak ditemukan'], 404);
         }
-        return response()->json(['standarisasi' => $standarisasi]);
+        return response()->json(['departement' => $departement]);
     }
-
-
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, string $id)
     {
         //
 
-        $standar = standar::find($id);
+        $departement = departement::find($id);
         $request->Keterangan = $request->Keterangan ?: "";
         $aktifitas = aktifitas::create([
-            'aktifitas' => 'Mengedit Data Standarisasi'. ' - ' . $standar->nama_standarisasi . ' Ke '. $request->nama,
+            'aktifitas' => 'Mengedit Data Departement'. ' - ' . $departement->nama_departement . ' Ke '. $request->nama,
             'Staff' => auth()->user()->name
         ]);
 
-        $standar->nama_standarisasi = $request->nama;
-        $standar->keterangan = $request->Keterangan;
-        $standar->update();
+        $departement->nama_departement = $request->nama;
+        $departement->keterangan = $request->Keterangan;
+        $departement->update();
 
 
         Alert::success('Sukses', 'Data berhasil diedit!')->persistent(true, false);
-        return redirect('/kelola_standarisasi');
+        return redirect('/kelola_departement');
 
 
     }
-
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(string $id)
     {
         //
-        $data = standar::find($id);
+        $data = departement::find($id);
 
         $aktifitas = aktifitas::create([
-            'aktifitas' => 'Hapus Data Standarisasi'. ' - ' . $data->nama_standarisasi,
+            'aktifitas' => 'Hapus Data Departement'. ' - ' . $data->nama_departement,
             'Staff' => auth()->user()->name
         ]);
 
-        standar::destroy($id);
+        departement::destroy($id);
         Alert::success('Sukses', 'Data berhasil dihapus!');
-        return redirect('/kelola_standarisasi');
+        return redirect('/kelola_departement');
     }
+
 }

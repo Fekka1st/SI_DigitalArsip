@@ -1,18 +1,18 @@
 @extends('layout.Master')
 
 @section('title')
-Kelola Standar
+Kelola Departement
 @endsection
 
 @section('rute')
-Kelola Standar
+Kelola Departement
 @endsection
 
 @section('content')
-@include('standarisasi.form')
+@include('keloladepartment.form')
 <div class="card">
     <div class="card-header">
-        <h3 class="card-title">Table List Standar</h3>
+        <h3 class="card-title">Table List Departement</h3>
     </div>
 
     <div class="card-body">
@@ -24,7 +24,7 @@ Kelola Standar
             <div class="mb-2"></div>
             <div class="row">
                 <div class="col-sm-12">
-                    <table class="table table-bordered data-table" id="standarTable">
+                    <table class="table table-bordered data-table" id="departementTable">
                         <thead>
                             <tr>
                                 <th width="20px">No</th>
@@ -54,7 +54,7 @@ Kelola Standar
 <script>
     let table;
     $(document).ready(function () {
-        table = $('#standarTable').DataTable({
+        table = $('#departementTable').DataTable({
             select: true,
             serverSide: true,
             processing: true,
@@ -63,7 +63,7 @@ Kelola Standar
             autoWidth: false,
 
             ajax: {
-                url: "{{ route('standarisasi.data') }}",
+                url: "{{ route('department.data') }}",
                 dataSrc: 'data'
             },
 
@@ -72,8 +72,8 @@ Kelola Standar
                     name: 'DT_RowIndex'
                 },
                 {
-                    data: 'nama_standarisasi',
-                    name: 'nama_standarisasi'
+                    data: 'nama_departement',
+                    name: 'nama_departement'
                 },
                 {
                     data: 'keterangan',
@@ -101,17 +101,17 @@ Kelola Standar
         table.buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
         $(document).on('click', '.btn-edit', function () {
             var dataId = $(this).data('id');
-            var formAction = '/kelola_standarisasi/update/' + dataId;
+            var formAction = '/kelola_departement/update/' + dataId;
             $('#editForm').attr('action', formAction);
 
             // Membuat permintaan Ajax untuk mendapatkan data informasi
             $.ajax({
-                url: '/kelola_standarisasi/' + dataId + '/edit',
+                url: '/kelola_departement/' + dataId + '/edit',
                 method: 'GET',
                 success: function (response) {
                     // Isi formulir penyuntingan dengan data yang diambil dari server
-                    var data = response.standarisasi;
-                    $('#editModal').find('#nama').val(data.nama_standarisasi);
+                    var data = response.departement;
+                    $('#editModal').find('#nama').val(data.nama_departement);
                     $('#editModal').find('#Keterangan').val(data.keterangan);
                     $('#editModal').modal('show');
                     console.log(response);
@@ -126,13 +126,13 @@ Kelola Standar
         $(document).on('click', '.btn-hapus', function () {
             console.log('Hapus');
             var dataId = $(this).data('id');
-            $('#hapusModalForm').attr('action', '/kelola_standarisasi/' + dataId);
+            $('#hapusModalForm').attr('action', '/kelola_departement/' + dataId);
         });
     });
 
 </script>
 <script>
-    const navLinks = document.querySelectorAll('.Standar');
+    const navLinks = document.querySelectorAll('.departement');
     const currentPath = window.location.pathname; // Mendapatkan path dari URL saat ini
 
     navLinks.forEach(link => {

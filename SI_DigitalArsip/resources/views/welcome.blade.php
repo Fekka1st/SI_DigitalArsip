@@ -10,7 +10,7 @@
     <meta content="" name="keywords">
 
     <!-- Favicons -->
-    <link href="{{asset('assets/img/favicon.png')}}" rel="icon">
+    <link rel="icon" type="image/x-icon" href="/img/iconfav.png">
 
     <!-- Google Fonts -->
     <link

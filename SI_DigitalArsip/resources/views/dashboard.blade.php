@@ -84,12 +84,10 @@ Dashboard
         <div class="card">
             <div class="card-body">
                 <div class="text-center">
-                    <div class="col-6"></div>
                     <h1 class="font-weight-Normal"> Selamat Datang {{ auth()->user()->name }}
-
-
                         <br> Sistem Informasi Digital Arsip </h1>
                     <img width="300" height="300" src="assets/img/jobs.png" alt="">
+                    <br><br><br><br>
                 </div>
             </div>
         </div>
@@ -153,7 +151,6 @@ Dashboard
             }
         }
     });
-    console.log(chartData.map(item => item.count))
     var chartData = @json($aktifitasData);
 
 
