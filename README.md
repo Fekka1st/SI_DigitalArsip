@@ -33,10 +33,10 @@ _Berikut Beberapa Gambar Webnya :_
 4.  Run `npm run dev`
 5.  Buat Database lalu update .env bisa juga cp .env.example .env
 6.  Run `php artisan key:generate`
-7.  Run `php artisan db:seed `
+7.  Import SQL to Database
 8.  Run `php artisan serve`
-9. Login dengan user dibawah
-    - Email: `ferryaja@itcupu.com`
+9. Login dengan akun dibawah
+    - Email: `ferryaja@gmail.com`
     - Password: `admin123`
 10. Enjoy!
 <br> Catatan!! Import dulu SQL saya belum buat database migration
