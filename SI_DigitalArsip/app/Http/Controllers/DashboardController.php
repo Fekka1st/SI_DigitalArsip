@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use App\Models\aktifitas;
 use App\Models\berkas;
+use App\Models\departement;
+use App\Models\download;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\kategori;
@@ -34,8 +36,15 @@ class DashboardController extends Controller
                 ->get();
             return view('dashboard', compact('user', 'kategori', 'akun', 'aktifitas', 'berkas', 'chartData','aktifitasData'));
         }
+        $user = Auth::user();
+        $department = departement::find($user->id_departement);
+        $chartData = DB::table('downloads')
+        ->where('department', '=', $department->nama_departement )
+        ->select(DB::raw('DATE_FORMAT(tanggal, "%Y-%m-%d") as day'), DB::raw('COUNT(*) as count'))
+        ->groupBy('day')
+        ->get();
 
-        return view('dashboard2');
+        return view('dashboard2',compact('user','department','chartData'));
     }
 
     public function logout()

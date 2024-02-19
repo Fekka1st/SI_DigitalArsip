@@ -60,8 +60,6 @@
                                         </td>
                                         <td>{{ $aktifitas->Staff }}</td>
                                         <td>{{ $aktifitas->created_at }}</td>
-
-
                                     </tr>
                                 @endforeach
 
@@ -110,10 +108,9 @@
                 "responsive": true,
                 "lengthChange": true,
                 "autoWidth": false,
-                "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
+                "buttons": ["copy", "csv", "excel", "pdf", "print"]
             });
 
-            // Fungsi untuk menambahkan filter berdasarkan tipe aktifitas
             $(".filter-button").on("click", function(event) {
             event.preventDefault();
             var aktifitas = $(this).data("aktifitas");

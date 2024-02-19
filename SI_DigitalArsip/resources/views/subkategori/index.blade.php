@@ -24,7 +24,7 @@ Kelola Sub-Kategori
             <div class="mb-2"></div>
             <div class="row">
                 <div class="col-sm-12">
-                    <table class="table table-bordered data-table" id="subkategoriTable">
+                    <table class="table table-bordered data-table table-striped dataTable dtr-inline" id="subkategoriTable">
                         <thead>
                             <tr>
                                 <th width="20px">No</th>

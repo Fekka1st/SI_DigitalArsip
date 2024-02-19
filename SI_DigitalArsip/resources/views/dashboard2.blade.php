@@ -10,27 +10,52 @@ Dashboard
 
 @section('content')
 <div class="container-fluid">
-    <!-- Hero Section -->
-    <section class="hero">
-        <div class="container">
-            <div class="row justify-content-center">
-                <div class="col-md-8">
-                    <div class="card rounded">
-                        <div class="card-body text-center">
-                            <h1 class="display-4">Selamat Datang {{ auth()->user()->name }}</h1>
-                            <img src="https://akupintar.id/documents/20143/0/ghvbhbhnmjh.png/33c38760-ea46-8ac8-2aac-d86430d11607?version=1.0&t=1642494197498&imagePreview=1"
-                                alt="Gambar Selamat Datang" class="img-fluid mb-3">
-                            <p class="lead">Anda telah berhasil Login ke Sistem Informasi Digital Arsip . Selamat
-                                menggunakan aplikasi kami
-                                dan
-                                semoga hari Anda menyenangkan.</p>
-                            <a href="/kelolaberkas" class="btn btn-primary">Mulai Sekarang</a>
+    <div class="card-header">
+        <h1>Beranda</h1>
+    </div>
+    <div class="row">
+        <div class="col-lg-3 col-6">
+            <div class="card rounded">
+                <div class="card-body">
+                    <div class="card-header">
+                        <h4>Selamat Datang</h4>
+                    </div>
+                    <div>
+                        <div class="text-center">
+                            <img src="{{$user->url}}" alt="Gambar Selamat Datang" class="img-fluid rounded mb-3"
+                                width="200" height="400">
+                            <p>{{$user->name}}</p>
                         </div>
+                        <p class="lead">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <td><b>Tanggal Register </b> {{$user->created_at}}</td </tr> <tr>
+                                        <td><b>Departement </b> {{$department->nama_departement	}}</td </tr> <tr>
+                                        <td><b>Email </b> {{$user->email}}</td </tr> <tr>
+                                        <td><b>No Telpon </b> {{$user->no_telp}}</td </tr> </thead> <tbody>
+                                        </tbody>
+                            </table>
+                        </p>
+                        <a href="/kelolaberkas" class="btn btn-primary">Mulai Sekarang</a>
                     </div>
                 </div>
             </div>
         </div>
-    </section>
+
+        <div class="col-9">
+            <div class="card rounded">
+                <div class="card-body">
+                    <div class="card-header">
+                        <h4>Visualisasi Data Riwayat Unduhan</h4>
+                        <canvas id="myChart" width="1000" height="420"></canvas>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
 </div>
 @endsection
 
@@ -60,7 +85,32 @@ Dashboard
 
 </script>
 <script>
-    // Ambil semua elemen dengan class "nav-link"
+   var chartData = @json($chartData);
+    var ctx = document.getElementById('myChart').getContext('2d');
+    var myChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: chartData.map(item => item.day),
+            datasets: [{
+                label: 'Jumlah Berkas per Hari',
+                backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                borderColor: 'rgba(75, 192, 192, 1)',
+                data: chartData.map(item => item.count),
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: false,
+                    ticks: {
+                        min: 1,
+                        max: 1000,
+                    }
+                }
+            }
+        }
+    });
     const navLinks = document.querySelectorAll('.dashboard');
     const currentPath = window.location.pathname; // Mendapatkan path dari URL saat ini
 

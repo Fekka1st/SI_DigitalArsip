@@ -16,9 +16,7 @@
     <link rel="stylesheet" href="{{ asset('plugins/daterangepicker/daterangepicker.css') }}">
     <link rel="stylesheet" href="{{ asset('plugins/summernote/summernote-bs4.min.css') }}">
     <script src="{{ asset('vendor/sweetalert/sweetalert.all.js') }}"></script>
-    {{-- <link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/jquery.dataTables.min.css"> --}}
 
-    {{-- <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.4.2/css/buttons.dataTables.min.css"> --}}
 
     <style>
         input[type="number"]::-webkit-inner-spin-button,
@@ -196,7 +194,7 @@
                             <a href="/aktifitas" class="nav-link aktifitas">
                                 <i class="nav-icon fa-solid fa-chart-line"></i>
                                 <p>
-                                    Aktifitas
+                                    Aktifitas USER
                                 </p>
                             </a>
                         </li>
@@ -204,7 +202,7 @@
                             <a href="/download" class="nav-link download">
                                 <i class="nav-icon fas fa-download"></i>
                                 <p>
-                                    Riwayat Unduh
+                                    Riwayat Unduh USER
                                 </p>
                             </a>
                         </li>

@@ -23,7 +23,7 @@
                      <div class="form-group">
                          <label for="keterangan">Keterangan</label>
                          <textarea class="form-control" name="keterangan" id="keterangan"
-                             placeholder="Masukkan Deskripsi" required></textarea>
+                             placeholder="Masukkan Deskripsi" ></textarea>
                      </div>
 
                      <button type="submit" class="btn btn-primary">Simpan</button>
@@ -92,8 +92,8 @@ aria-hidden="true">
                 </div>
                 <div class="form-group">
                     <label for="keterangan">Keterangan</label>
-                    <input type="text" class="form-control" name="keterangan" id="keterangan"
-                        placeholder="Masukkan Keterangan" required>
+                        <textarea class="form-control" name="keterangan" id="keterangan"
+                        placeholder="Masukkan Deskripsi"required ></textarea>
                 </div>
                 <button type="submit" class="btn btn-primary">Simpan</button>
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Kembali</button>

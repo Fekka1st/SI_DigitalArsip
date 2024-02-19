@@ -190,8 +190,6 @@ $(function () {
             $('#editForm').find('#id_standar').val(data.id_standarisasi);
             $('#editForm').find('#id_kategori').val(data.id_kategori);
             $('#editForm').find('#id_subkategori').val(data.id_subkategori);
-
-
                 },
                 error: function (xhr, status, error) {
                     console.error(xhr.responseText);
@@ -209,13 +207,13 @@ $(function () {
                 var data = response.berkas;
                 $('#detailmodal').find('.modal-body').html(`
                     <p><strong>Nama Berkas:</strong> ${data.NamaBerkas}</p>
+                    <p><strong>Standar Berkas:</strong> ${data.standarisasi.nama_standarisasi}</p>
                     <p><strong>Kategori Berkas:</strong> ${data.kategori.Nama_Kategori}</p>
                     <p><strong>Sub kategori Berkas:</strong> ${data.subkategori.Nama_SubKategori}</p>
-                    <p><strong>Standar Berkas:</strong> ${data.standarisasi.nama_standarisasi}</p>
                     <p><strong>Keterangan:</strong> ${data.keterangan}</p>
+                    <p><strong>Nama File:</strong> ${data.original_name}</p>
                     <p><strong>Nama Staff yang upload:</strong> ${data.user.name}</p>
                     <p><strong>Dari Departement:</strong> ${data.department.nama_departement}</p>
-                    <button class="btn btn-primary btn-preview" data-url="${data.url}">Preview Berkas</button>
                 `);
                 console.log(data);
             },
@@ -252,7 +250,7 @@ $(function () {
         link.classList.add('active');
     });
 </script>
-<!-- Tambahkan moment.js -->
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
 
 <script src="{{ asset('plugins/datatables/jquery.dataTables.min.js') }}"></script>
@@ -271,33 +269,29 @@ $(function () {
 <script>
     function validateFile() {
         const fileInput = document.getElementById('filename');
-        const fileSize = fileInput.files[0].size; // Mendapatkan ukuran file dalam bytes
-        const maxSize = 2 * 1024 * 1024; // 2 MB dalam bytes
-
+        const fileSize = fileInput.files[0].size;
+        const maxSize = 2 * 1024 * 1024;
         const allowedExtensions = ['pdf', 'doc', 'docx', 'xls', 'xlsx'];
         const fileName = fileInput.value.toLowerCase();
         const fileExtension = fileName.split('.').pop();
-
-        if (fileSize > maxSize) {
-            Swal.fire({
-                icon: 'error',
-                title: 'Oops...',
-                text: 'File terlalu besar. Maksimal 2 MB.',
-            });
-            fileInput.value = ''; // Membersihkan nilai input
-            return false;
-        }
-
         if (!allowedExtensions.includes(fileExtension)) {
             Swal.fire({
                 icon: 'error',
                 title: 'Oops...',
                 text: 'Jenis file tidak valid. Hanya diperbolehkan: PDF, DOC, DOCX, XLS, XLSX',
             });
-            fileInput.value = ''; // Membersihkan nilai input
+            fileInput.value = '';
             return false;
         }
-
+        if (fileSize > maxSize) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'File terlalu besar. Maksimal 2 MB.',
+            });
+            fileInput.value = '';
+            return false;
+        }
         return true;
     }
 </script>

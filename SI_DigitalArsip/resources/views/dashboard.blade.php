@@ -10,12 +10,8 @@ Dashboard
 
 @section('content')
 <div class="container-fluid">
-
-    <!-- Small boxes (Stat box) -->
-
     <div class="row">
         <div class="col-lg-3 col-6">
-            <!-- small box -->
             <div class="small-box bg-info">
                 <div class="inner">
                     <h3>{{ $berkas }}</h3>
@@ -28,9 +24,9 @@ Dashboard
                 <a href="/kelola_berkas" class="small-box-footer">Lebih Lanjut <i class="fas fa-arrow-circle-right"></i></a>
             </div>
         </div>
-        <!-- ./col -->
+
         <div class="col-lg-3 col-6">
-            <!-- small box -->
+
             <div class="small-box bg-success">
                 <div class="inner">
                     <h3>{{ $kategori }}</h3>
@@ -43,9 +39,9 @@ Dashboard
                 <a href="/kelola_kategori" class="small-box-footer">Lebih Lanjut <i class="fas fa-arrow-circle-right"></i></a>
             </div>
         </div>
-        <!-- ./col -->
+
         <div class="col-lg-3 col-6">
-            <!-- small box -->
+
             <div class="small-box bg-warning">
                 <div class="inner">
                     <h3>{{ $akun }}</h3>
@@ -58,9 +54,9 @@ Dashboard
                 <a href="/kelolauser" class="small-box-footer">Lebih Lanjut <i class="fas fa-arrow-circle-right"></i></a>
             </div>
         </div>
-        <!-- ./col -->
+
         <div class="col-lg-3 col-6">
-            <!-- small box -->
+
             <div class="small-box bg-danger">
                 <div class="inner">
                     <h3>{{ $aktifitas }}</h3>
@@ -73,12 +69,9 @@ Dashboard
                 <a href="/aktifitas" class="small-box-footer">Lebih Lanjut <i class="fas fa-arrow-circle-right"></i></a>
             </div>
         </div>
-        <!-- ./col -->
-
     </div>
-
-
 </div>
+
 <div class="row">
     <div class="col-6">
         <div class="card">
@@ -87,11 +80,12 @@ Dashboard
                     <h1 class="font-weight-Normal"> Selamat Datang {{ auth()->user()->name }}
                         <br> Sistem Informasi Digital Arsip </h1>
                     <img width="300" height="300" src="assets/img/jobs.png" alt="">
-                    <br><br><br><br>
+                    <br><br>
                 </div>
             </div>
         </div>
     </div>
+
     <div class="col-6">
         <div class="card">
             <div class="card-body">
@@ -102,6 +96,7 @@ Dashboard
             </div>
         </div>
     </div>
+
     <div class="col-6">
         <div class="card">
             <div class="card-body">
@@ -113,22 +108,15 @@ Dashboard
         </div>
     </div>
 </div>
-
-
-
 @endsection
 
 @section('plugin')
 
 <script>
-    // Ambil data dari controller
     var chartData = @json($chartData);
-
-
-    // Proses data dan buat grafik
     var ctx = document.getElementById('myChart').getContext('2d');
     var myChart = new Chart(ctx, {
-        type: 'line', // Ubah tipe grafik menjadi line
+        type: 'line',
         data: {
             labels: chartData.map(item => item.month),
             datasets: [{
@@ -144,8 +132,8 @@ Dashboard
                 y: {
                     beginAtZero: false,
                     ticks: {
-                        min: 1, // Nilai minimum
-                        max: 1000, // Nilai maksimum
+                        min: 1,
+                        max: 1000,
                     }
                 }
             }
@@ -153,11 +141,9 @@ Dashboard
     });
     var chartData = @json($aktifitasData);
 
-
-    // Proses data dan buat grafik
     var ctx = document.getElementById('myChart2').getContext('2d');
     var myChart = new Chart(ctx, {
-        type: 'line', // Ubah tipe grafik menjadi line
+        type: 'line',
         data: {
             labels: chartData.map(item => item.day),
             datasets: [{
@@ -173,8 +159,8 @@ Dashboard
                 y: {
                     beginAtZero: false,
                     ticks: {
-                        min: 1, // Nilai minimum
-                        max: 1000, // Nilai maksimum
+                        min: 1,
+                        max: 1000,
                     }
                 }
             }
@@ -184,12 +170,12 @@ Dashboard
 
 </script>
 <script>
-    // Ambil semua elemen dengan class "nav-link"
+
     const navLinks = document.querySelectorAll('.dashboard');
-    const currentPath = window.location.pathname; // Mendapatkan path dari URL saat ini
+    const currentPath = window.location.pathname;
 
     navLinks.forEach(link => {
-        link.classList.add('active'); // Tambahkan class "active" pada link yang sesuai dengan halaman aktif
+        link.classList.add('active');
     });
 
 </script>

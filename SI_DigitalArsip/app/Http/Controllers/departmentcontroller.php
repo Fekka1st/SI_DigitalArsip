@@ -51,7 +51,7 @@ class departmentcontroller extends Controller
         if ($validator->fails()) {
             abort(403, 'Data Tidak boleh kosong');
         }
-        $request->keterangan = $request->keterangan ?: "";
+        
 
         $departement = departement::create([
             'nama_departement' => $request->nama,
@@ -80,7 +80,7 @@ class departmentcontroller extends Controller
         //
 
         $departement = departement::find($id);
-        $request->Keterangan = $request->Keterangan ?: "";
+
         $aktifitas = aktifitas::create([
             'aktifitas' => 'Mengedit Data Departement'. ' - ' . $departement->nama_departement . ' Ke '. $request->nama,
             'Staff' => auth()->user()->name

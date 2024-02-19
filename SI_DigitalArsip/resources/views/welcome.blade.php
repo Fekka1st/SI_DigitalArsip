@@ -8,11 +8,7 @@
     <title>Sistem Digital Arsip</title>
     <meta content="" name="description">
     <meta content="" name="keywords">
-
-    <!-- Favicons -->
     <link rel="icon" type="image/x-icon" href="/img/iconfav.png">
-
-    <!-- Google Fonts -->
     <link
         href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Jost:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
         rel="stylesheet">
@@ -73,8 +69,6 @@
 
         </div>
     </header>
-
-    <!-- ======= Hero Section ======= -->
     <section id="hero" class="d-flex align-items-center">
 
         <div class="container">
@@ -85,7 +79,7 @@
                     <h2></h2>
                     <div class="d-flex justify-content-center justify-content-lg-start">
                         <a href="/login" class="btn-get-started scrollto">Mulai</a>
-                        {{-- <a href="https://www.youtube.com/watch?v=jDDaplaOz7Q" class="glightbox btn-watch-video"><i class="bi bi-play-circle"></i><span>Watch Video</span></a> --}}
+
                     </div>
                 </div>
                 <div class="col-lg-6 order-1 order-lg-2 hero-img" data-aos="zoom-in" data-aos-delay="200">
@@ -94,10 +88,10 @@
             </div>
         </div>
 
-    </section><!-- End Hero -->
+    </section>
 
     <main id="main">
-        <!-- ======= Skills Section ======= -->
+
         <section id="skills" class="skills">
             <div class="container" data-aos="fade-up">
 
@@ -117,9 +111,9 @@
                 </div>
 
             </div>
-        </section><!-- End Skills Section -->
+        </section>
 
-        <!-- ======= Services Section ======= -->
+
         <section id="services" class="services section-bg">
             <div class="container" data-aos="fade-up">
 
@@ -169,9 +163,8 @@
                 </div>
 
             </div>
-        </section><!-- End Services Section -->
+        </section>
 
-        <!-- ======= About Us Section ======= -->
         <section id="about" class="about">
             <div class="container" data-aos="fade-up">
 
@@ -201,9 +194,9 @@
                 </div>
 
             </div>
-        </section><!-- End About Us Section -->
+        </section>
 
-        <!-- ======= Footer ======= -->
+
         <footer id="footer">
             <div class="container footer-bottom clearfix">
                 <div class="row">

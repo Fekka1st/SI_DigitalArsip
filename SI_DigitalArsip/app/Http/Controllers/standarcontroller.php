@@ -54,14 +54,13 @@ class standarcontroller extends Controller
 
         $validator = Validator::make($request->all(), [
             'nama' => 'required',
+            'keterangan' => 'required'
         ]);
 
         // Cek apakah validasi gagal
         if ($validator->fails()) {
             abort(403, 'Data Tidak boleh kosong');
         }
-        $request->keterangan = $request->keterangan ?: "";
-
         $standar = standar::create([
             'nama_standarisasi' => $request->nama,
             'Keterangan' => $request->keterangan
@@ -95,12 +94,10 @@ class standarcontroller extends Controller
         //
 
         $standar = standar::find($id);
-        $request->Keterangan = $request->Keterangan ?: "";
         $aktifitas = aktifitas::create([
             'aktifitas' => 'Mengedit Data Standarisasi'. ' - ' . $standar->nama_standarisasi . ' Ke '. $request->nama,
             'Staff' => auth()->user()->name
         ]);
-
         $standar->nama_standarisasi = $request->nama;
         $standar->keterangan = $request->Keterangan;
         $standar->update();
@@ -111,10 +108,6 @@ class standarcontroller extends Controller
 
 
     }
-
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(string $id)
     {
         //

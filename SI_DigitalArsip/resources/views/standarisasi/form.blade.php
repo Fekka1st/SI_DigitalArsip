@@ -15,7 +15,7 @@
                      {{ csrf_field() }}
                      <!-- Isi form kedua di sini -->
                      <div class="form-group">
-                         <label for="nama">nama Standarisasi</label>
+                         <label for="nama">Nama Standar</label>
                          <input type="text" class="form-control" name="nama" id="nama"
                              aria-describedby="Kode Universitas" placeholder="Masukkan Nama" required>
                          <div id="kodeWarning" class="text-danger"></div>
@@ -23,7 +23,7 @@
                      <div class="form-group">
                          <label for="keterangan">Keterangan</label>
                          <textarea class="form-control" name="keterangan" id="keterangan"
-                             placeholder="Masukkan Deskripsi" ></textarea>
+                             placeholder="Masukkan Deskripsi"required ></textarea>
                      </div>
 
                      <button type="submit" class="btn btn-primary">Simpan</button>
@@ -45,7 +45,7 @@
          <div class="modal-content">
              <div class="modal-header">
                  <h5 class="modal-title" id="exampleModalLongTitle">Hapus Data
-                     Standarisasi
+                     Standar Berkas
                  </h5>
                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                      <span aria-hidden="true">&times;</span>
@@ -74,7 +74,7 @@ aria-hidden="true">
 <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
         <div class="modal-header">
-            <h5 class="modal-title" id="staticBackdropLabel">Edit Informasi</h5>
+            <h5 class="modal-title" id="staticBackdropLabel">Edit Standar Berkas</h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
             </button>
@@ -85,15 +85,15 @@ aria-hidden="true">
                 @method('PATCH')
                 <!-- Isi formulir update di sini -->
                 <div class="form-group">
-                    <label for="nama">Nama</label>
+                    <label for="nama">Nama Standar</label>
                     <input type="text" class="form-control " name="nama" id="nama" placeholder="Masukkan Nama"
                         required>
                     <div id="kodeWarning" class="text-danger"></div>
                 </div>
                 <div class="form-group">
                     <label for="Keterangan">Keterangan</label>
-                    <input type="text" class="form-control" name="Keterangan" id="Keterangan"
-                        placeholder="Masukkan Keterangan">
+                        <textarea class="form-control" name="Keterangan" id="Keterangan"
+                        placeholder="Masukkan Deskripsi"required ></textarea>
                 </div>
                 <button type="submit" class="btn btn-primary">Simpan</button>
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Kembali</button>

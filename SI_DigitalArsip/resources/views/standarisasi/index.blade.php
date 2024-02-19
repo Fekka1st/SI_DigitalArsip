@@ -24,7 +24,7 @@ Kelola Standar
             <div class="mb-2"></div>
             <div class="row">
                 <div class="col-sm-12">
-                    <table class="table table-bordered data-table" id="standarTable">
+                    <table class="table table-bordered data-table table-striped dataTable dtr-inline" id="standarTable">
                         <thead>
                             <tr>
                                 <th width="20px">No</th>
@@ -141,12 +141,10 @@ Kelola Standar
 
 </script>
 <!-- DataTables  & Plugins -->
-<script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
-{{-- <script src="{{ asset('plugins/datatables/jquery.dataTables.min.js') }}"></script> --}}
+<script src="{{ asset('plugins/datatables/jquery.dataTables.min.js') }}"></script>
 <script src="https://cdn.datatables.net/buttons/2.4.2/js/dataTables.buttons.min.js"></script>
 <script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.print.min.js"></script>
 <script src="https://cdn.datatables.net/select/1.7.0/js/dataTables.select.min.js"></script>
-
 <script src="{{ asset('plugins/datatables-bs4/js/dataTables.bootstrap4.min.js') }}"></script>
 <script src="{{ asset('plugins/datatables-responsive/js/dataTables.responsive.min.js') }}"></script>
 <script src="{{ asset('plugins/datatables-responsive/js/responsive.bootstrap4.min.js') }}"></script>
@@ -156,6 +154,4 @@ Kelola Standar
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
-
-{{-- <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.js"></script> --}}
 @endsection

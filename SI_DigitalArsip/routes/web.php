@@ -14,6 +14,8 @@ use App\Http\Controllers\standarcontroller;
 use App\Http\Controllers\Reportberkas;
 use App\Http\Controllers\departmentcontroller;
 use App\Http\Middleware\CheckRole;
+use Illuminate\Support\Facades\Storage;
+use Yaza\LaravelGoogleDriveStorage\Gdrive;
 
 /*
 |--------------------------------------------------------------------------
@@ -28,6 +30,9 @@ use App\Http\Middleware\CheckRole;
 
 Route::get('/', function () {
     return view('welcome');
+});
+Route::get('test', function() {
+    Storage::disk('google')->put('test.txt', 'Hello World');
 });
 
 Route::group(['middleware' => 'auth'], function () {
@@ -73,7 +78,7 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('/kelolaberkas/{id}/edit', 'KelolaberkasController@edit');
         Route::delete('/kelolaberkas/{id}', 'KelolaberkasController@destroy')->name('kelolaberkas.destroy');
         Route::patch('/kelolaberkas/update/{id}', [KelolaberkasController::class, 'update'])->name('kelolaberkas.update');
-        Route::get('/kelolaberkas/download/{id}', [KelolaberkasController::class, 'download']);
+        Route::get('/kelolaberkas/download/{id}', [KelolaberkasController::class, 'download']);  
         Route::get('/kelolaberkas/detail/{id}', [KelolaberkasController::class, 'show']);
 
         //Kelola Report Berkas
@@ -124,3 +129,6 @@ Route::group(['middleware' => 'auth'], function () {
 Route::get('/logout', [DashboardController::class, 'logout'])->middleware(['auth', 'verified'])->name('master');
 
 require __DIR__ . '/auth.php';
+
+
+
