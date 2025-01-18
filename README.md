@@ -16,6 +16,20 @@ _Berikut Beberapa Gambar Webnya :_
 - Mencetak Report Laporan
 - Ada Log Aktifitas dan juga Riwayat Unduh Berkas
 
+## FOTO Aplikasi
+
+<h3>Logo</h3>
+<p align="center"><a href="#" target="_blank"><img src="./IMG/Beranda.png" width="1000"></a></p>
+
+<h3>Tampilan Dashboard</h3>
+<p align="center"><a href="#" target="_blank"><img src="./IMG/dashboard admin.png" width="1000"></a></p>
+
+<h3>Tampilan Kelola Berkas</h3>
+<p align="center"><a href="#" target="_blank"><img src="./IMG/Kelola Berkas.png" width="1000"></a></p>
+
+<h3>Tampilan Activity</h3>
+<p align="center"><a href="#" target="_blank"><img src="./IMG/aktifitas.png" width="1000"></a></p>
+
 ## Requirements
 
 - PHP >= 8.2 (or higher)
